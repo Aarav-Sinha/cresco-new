@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#030816">
+<meta name="description" content="The fifteen events of Cresco Scientiam 5.0, arranged world by world — Mythology, Cosmos, Environment. Scroll through each arena.">
+<title>Events — Cresco Scientiam 5.0</title>
+<link rel="icon" type="image/png" href="event -logos/CRESCO_title_image.png">
+<link rel="apple-touch-icon" href="event -logos/CRESCO_title_image.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23030816'/%3E%3Ccircle cx='50' cy='50' r='34' fill='none' stroke='%231c39bb' stroke-width='3'/%3E%3Ccircle cx='50' cy='16' r='4' fill='%235ee0ff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  
+:root{
+  --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.5);--panel-solid:#0b1120;
+  
+  --line:rgba(140,170,255,.11);--line2:rgba(140,170,255,.26);--line3:rgba(140,170,255,.4);
+  --blue:#1c39bb;--electric:#5ee0ff;--amber:#ffb648;--alert:#ef4a5a;
+  --paper:#eef2fb;--dim:rgba(238,242,251,.62);--faint:rgba(238,242,251,.34);
+  --disp:'Poppins',sans-serif;--ui:'Space Grotesk',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --myth:#c9b8ff;--cosmos:#5ee0ff;--eco:#8de8b0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;overflow-x:hidden;width:100%;scroll-snap-type:y proximity;}
+body{background:var(--ink);color:var(--paper);font-family:var(--ui);font-size:17px;line-height:1.55;overflow-x:hidden;width:100%;-webkit-font-smoothing:antialiased;cursor:none;opacity:0;animation:pageIn .7s ease .05s forwards;}
+@keyframes pageIn{to{opacity:1;}}
+@media (hover:none),(pointer:coarse){body{cursor:auto;}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important;}html{scroll-snap-type:none;}}
+a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{list-style:none;}
+.scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:overlay;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.028) 0px,rgba(255,255,255,.028) 1px,transparent 1px,transparent 3px);}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px;}
+.reticle{position:fixed;top:0;left:0;width:26px;height:26px;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .2s,height .2s;}
+.reticle::before,.reticle::after{content:'';position:absolute;background:#fff;}
+.reticle::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-.5px);}
+.reticle::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-.5px);}
+.reticle.big{width:54px;height:54px;}
+@media (hover:none),(pointer:coarse){.reticle{display:none;}}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,72px);position:relative;z-index:3;}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;}
+.eyebrow::before{content:'';width:24px;height:1px;background:linear-gradient(90deg,transparent,currentColor);}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ---------- Fixed Section Theme Backgrounds ---------- */
+#bgStack{position:fixed;inset:0;z-index:0;}
+.stage-bg{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;overflow:hidden;background-size:cover;background-position:center;}
+.stage-bg.active{opacity:1;}
+.stage-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,22,.45),rgba(3,8,22,.8) 60%,var(--ink) 100%);z-index:1;}
+
+#bgMyth{background-image: url("eventBg/mythology-bg.jpg");}
+#bgCosmos{background-image: url("eventBg/cosmos-bg.jpg");}
+#bgEco{background-image: url("eventBg/eco-bg.jpg");}
+
+#eventHoverBg {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease, background-image 0.8s ease;
+  background-size: cover;
+  background-position: center;
+  filter: blur(15px) brightness(0.2);
+  transform: scale(1.05);
+  z-index: 2;
+}
+/* ---------- Dedicated Scrollbar for Modal Body ---------- */
+.modal-body-pad::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body-pad::-webkit-scrollbar-track {
+  background: rgba(9, 13, 26, 0.6);
+  border-radius: 0 0 16px 0;
+  margin: 12px 0;
+}
+
+.modal-body-pad::-webkit-scrollbar-thumb {
+  background: rgba(94, 224, 255, 0.25);
+  border-radius: 10px;
+}
+
+.modal-body-pad::-webkit-scrollbar-thumb:hover {
+  background: var(--electric);
+}
+#eventHoverBg.active { opacity: 0.55; }
+/* ---------- Aesthetic Custom Scrollbars ---------- */
+/* Global Webkit Scrollbar (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ink);
+  border-left: 1px solid var(--line);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 170, 255, 0.2);
+  border-radius: 4px;
+  border: 1px solid var(--line2);
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--electric);
+  box-shadow: 0 0 10px var(--electric);
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 170, 255, 0.3) var(--ink);
+}
+
+/* ---------- Dedicated Scrollbar for Modal Body ---------- */
+.modal-body-pad::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body-pad::-webkit-scrollbar-track {
+  background: rgba(9, 13, 26, 0.6);
+  border-radius: 0 0 16px 0;
+  margin: 12px 0;
+}
+
+.modal-body-pad::-webkit-scrollbar-thumb {
+  background: rgba(94, 224, 255, 0.25);
+  border-radius: 10px;
+}
+
+.modal-body-pad::-webkit-scrollbar-thumb:hover {
+  background: var(--electric);
+}
+.ticker-bar{position:fixed;top:0;left:0;right:0;z-index:90;height:32px;overflow:hidden;backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);background:rgba(3,8,22,.7);border-bottom:1px solid var(--line);display:flex;align-items:center;}
+.ticker-track{display:flex;white-space:nowrap;animation:tickerScroll 34s linear infinite;}
+.ticker-track span{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:0 24px;display:inline-flex;align-items:center;gap:10px;}
+.ticker-track span i{width:4px;height:4px;border-radius:50%;background:var(--electric);display:inline-block;}
+@keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+.topbar{position:fixed;top:44px;left:50%;transform:translateX(-50%);z-index:96;width:min(94vw,1220px);border-radius:24px;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);background:rgba(8,12,26,.72);border:1px solid var(--line2);box-shadow:0 14px 44px -16px rgba(0,0,0,.65);transition:background .3s;}
+.topbar.scrolled{background:rgba(6,9,20,.9);}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 10px 9px 14px;}
+.tb-brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.tb-words{display:none;font-family:var(--disp);font-weight:700;font-size:.7rem;letter-spacing:.01em;color:var(--dim);white-space:nowrap;}
+.tb-words b{color:var(--paper);}
+@media (min-width:460px){.tb-words{display:block;}}
+.tb-tabs{display:none;gap:2px;align-items:center;}
+.tb-tabs a{font-family:var(--ui);font-weight:600;font-size:12.5px;color:var(--dim);padding:9px 12px;border-radius:14px;transition:color .25s,background .25s;white-space:nowrap;}
+.tb-tabs a:hover{color:var(--paper);background:rgba(94,224,255,.08);}
+.tb-tabs a.active{color:var(--ink);background:var(--electric);}
+.tb-portal-btn{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.06em;color:var(--ink);background:linear-gradient(120deg,var(--amber),#ff9d4d);padding:9px 15px;border-radius:12px;white-space:nowrap;margin-left:4px;}
+.tb-bar-btn{display:flex;flex-direction:column;gap:4px;width:40px;height:40px;align-items:center;justify-content:center;border-radius:12px;border:1px solid var(--line2);background:transparent;cursor:pointer;flex-shrink:0;transition:border-color .3s,background .3s;}
+.tb-bar-btn:hover{border-color:var(--electric);background:rgba(94,224,255,.06);}
+.tb-bar-btn:active{transform:scale(.93);}
+.tb-bar-btn span{width:18px;height:2px;background:var(--paper);border-radius:2px;transition:transform .3s,opacity .3s;}
+.tb-bar-btn.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.tb-bar-btn.open span:nth-child(2){opacity:0;}
+.tb-bar-btn.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+@media (min-width:981px){.tb-tabs{display:flex;} .tb-bar-btn{display:none;}}
+@media (max-width:980px){.topbar{top:40px;border-radius:20px;}}
+@media (max-width:420px){.tb-words{display:none;}}
+
+.overlay-nav{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  background:rgba(3,6,14,.96);
+  clip-path:circle(2% at calc(100% - 46px) 60px);
+  transition:clip-path .7s cubic-bezier(.7,0,.2,1);
+  display: none; 
+}
+.overlay-nav.open{
+  clip-path:circle(150% at calc(100% - 46px) 60px);
+  display: flex; 
+}
+.overlay-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:.5;}
+.overlay-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;padding:110px clamp(24px,7vw,110px) 40px;max-width:1000px;margin:0 auto;overflow-y:auto;}
+.overlay-clock{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.14em;margin-bottom:30px;}
+.overlay-clock b{display:inline-block;margin-left:10px;font-size:15px;color:var(--electric);font-weight:500;}
+.overlay-links{display:flex;flex-direction:column;gap:0;}
+.overlay-links a{display:flex;align-items:baseline;gap:20px;font-family:var(--disp);font-weight:700;font-size:clamp(1.6rem,6.4vw,2.4rem);color:var(--faint);padding:11px 0;border-bottom:1px solid var(--line);transition:color .35s,padding .35s;}
+.overlay-links a small{font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:400;letter-spacing:.1em;}
+.overlay-links a:hover,.overlay-links a.active{color:var(--paper);padding-left:12px;}
+.overlay-links a:hover small,.overlay-links a.active small{color:var(--electric);}
+.overlay-links a.portal-link{color:var(--amber);}
+.overlay-bottom{display:flex;flex-direction:column;gap:16px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line);}
+.overlay-bottom .ob-col span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--faint);text-transform:uppercase;margin-bottom:6px;}
+.overlay-bottom .ob-col a,.overlay-bottom .ob-col p{color:var(--dim);font-size:.92rem;}
+
+.btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;padding:15px 28px;border:1px solid var(--line3);position:relative;display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--paper);cursor:pointer;transition:all .3s;}
+.btn:hover{border-color:var(--electric);color:var(--electric);background:rgba(94,224,255,.06);}
+.btn:active{transform:scale(.96);}
+.btn .arrow{transition:transform .3s;} .btn:hover .arrow{transform:translateX(4px);}
+
+.events-hero{min-height:72svh;display:flex;flex-direction:column;justify-content:center;position:relative;padding-top:150px;padding-bottom:50px;scroll-snap-align:start;}
+.events-hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,6vw,4rem);line-height:1.08;margin-top:16px;word-break:keep-all;max-width:900px;}
+.events-hero h1 em{font-style:normal;color:var(--electric);}
+.events-hero p{margin-top:20px;color:var(--dim);max-width:560px;font-size:1.03rem;}
+.events-hero .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--faint);text-transform:uppercase;}
+.hero-legend{display:flex;gap:22px;margin-top:38px;flex-wrap:wrap;}
+.hl-item{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--dim);}
+.hl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.scroll-cue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);animation:bob 2.4s ease-in-out infinite;z-index:2;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);}}
+
+.theme-stage{min-height:100svh;display:flex;flex-direction:column;justify-content:center;position:relative;padding:130px 0 100px;scroll-snap-align:start;}
+.stage-head{max-width:640px;margin-bottom:42px;}
+.stage-idx{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;}
+.stage-head h2{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,5.6vw,3.6rem);margin-top:14px;}
+.stage-head p{color:var(--dim);margin-top:16px;font-size:1.02rem;max-width:520px;}
+
+/* Uniform Grid System: All cards identical size, centered layout */
+.ev-grid{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.ev-card{
+  position:relative;
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  background:rgba(10,15,30,.42);
+  border:1px solid var(--line2);
+  border-radius:16px;
+  padding:0;
+  cursor:pointer;
+  overflow:hidden;
+  flex: 0 0 calc(33.333% - 12px);
+  max-width: calc(33.333% - 12px);
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition:transform .4s cubic-bezier(.22,1,.36,1),border-color .4s,background .4s,box-shadow .4s;
+}
+
+.ev-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.18;z-index:0;transition:opacity .4s,transform .6s;}
+.ev-card:hover .ev-card-bg{opacity:.45;transform:scale(1.06);}
+.ev-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--tc);opacity:0;transition:opacity .4s;z-index:2;}
+.ev-card:hover{transform:translateY(-6px) scale(1.01);border-color:var(--tc);box-shadow:0 24px 50px -22px rgba(0,0,0,.6);}
+.ev-card:hover::before{opacity:.9;}
+.ev-inner{position:relative;z-index:1;padding:24px 22px;height:100%;display:flex;flex-direction:column;justify-content:space-between;}
+.ev-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.ev-icon{width:48px;height:48px;border-radius:50%;border:1px solid var(--line2);background:rgba(255,255,255,.04);display:grid;place-items:center;flex-shrink:0;position:relative;overflow:hidden;transition:border-color .4s,transform .4s;}
+/* Hide icon wrapper completely if the logo fails to load */
+.ev-icon:has(img[style*="display: none"]) { display: none; }
+.ev-card:hover .ev-icon{border-color:var(--tc);transform:scale(1.08);}
+.ev-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;z-index:2;background:var(--panel-solid);padding:4px;}
+.ev-icon svg{position:relative;z-index:1;color:var(--tc);}
+.ev-num{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.1em;margin-left:auto;}
+.ev-name{font-family:var(--disp);font-weight:700;font-size:1.25rem;margin-top:16px;}
+.ev-type{color:var(--dim);font-size:.88rem;margin-top:5px;}
+.ev-hint{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--faint);display:flex;justify-content:space-between;align-items:center;}
+.ev-hint .go{color:var(--tc);transition:transform .3s;}
+.ev-card:hover .ev-hint .go{transform:translateX(4px);}
+.theme-stage[data-w="myth"]{--tc:var(--myth);}
+.theme-stage[data-w="cosmos"]{--tc:var(--cosmos);}
+.theme-stage[data-w="eco"]{--tc:var(--eco);}
+
+@media (max-width:980px){
+  .ev-card {
+    flex: 0 0 calc(50% - 9px);
+    max-width: calc(50% - 9px);
+  }
+}
+@media (max-width:640px){
+  .ev-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ---------- SCROLLABLE MODAL SETUP ---------- */
+#event-modal{
+    position: fixed;
+    inset: 0;
+    z-index: 250;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(3,6,14,.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+#event-modal.open{display:flex;}
+
+.modal-box{
+    width: min(760px, 100%);
+    max-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    background: rgba(9,13,26,.92);
+    border: 1px solid var(--line3);
+    border-radius: 20px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    animation: modalIn .4s cubic-bezier(.22,1,.36,1);
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+.modal-hero{
+    position: relative;
+    min-height: 160px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 28px;
+    flex-shrink: 0;
+}
+.modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,22,.2),rgba(9,13,26,.95));}
+.modal-close{position:absolute;top:18px;right:18px;z-index:3;background:rgba(0,0,0,.3);border:1px solid var(--line3);color:var(--dim);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;transition:color .3s,border-color .3s,transform .3s;}
+.modal-close:hover{color:var(--alert);border-color:var(--alert);transform:rotate(90deg);}
+.modal-head{position:relative;z-index:2;display:flex;gap:16px;align-items:center;}
+.modal-icon{width:60px;height:60px;border-radius:50%;border:1.5px solid var(--line3);display:grid;place-items:center;flex-shrink:0;position:relative;overflow:hidden;background:var(--panel-solid);}
+.modal-icon:has(img[style*="display: none"]) { display: none; }
+.modal-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;padding:6px;}
+.modal-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;}
+.modal-title{font-family:var(--disp);font-weight:800;font-size:1.9rem;}
+.modal-sub{color:var(--dim);margin-top:2px;}
+
+/* Scrollable Container for Modal Body */
+.modal-body-pad{
+    padding: 26px 28px 30px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+}
+.modal-meta{display:flex;gap:24px;flex-wrap:wrap;}
+.modal-meta div{font-family:var(--mono);font-size:10.5px;color:var(--faint);}
+.modal-meta b{display:block;color:var(--paper);font-family:var(--ui);font-size:1rem;margin-top:4px;}
+.modal-section{margin-top:26px;}
+.modal-section h4{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:12px;}
+.modal-desc{color:var(--dim);line-height:1.8;}
+/* ---------- Aesthetic Rules List Styling ---------- */
+.modal-rules {
+  list-style: none; /* Remove plain browser numbers */
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  counter-reset: rule-counter;
+}
+
+.modal-rules li {
+  position: relative;
+  counter-increment: rule-counter;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--electric);
+  border-radius: 10px;
+  padding: 12px 16px 12px 48px;
+  font-size: 0.93rem;
+  color: var(--dim);
+  line-height: 1.6;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s, background 0.3s, transform 0.2s;
+}
+
+/* Custom glowing index badge */
+.modal-rules li::before {
+  content: counter(rule-counter, decimal-leading-zero);
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--electric);
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+}
+
+/* Interactive subtle lift & accent on hover */
+.modal-rules li:hover {
+  background: rgba(94, 224, 255, 0.05);
+  border-color: var(--line2);
+  border-left-color: var(--amber);
+  color: var(--paper);
+  transform: translateX(4px);
+}
+
+.modal-rules li:hover::before {
+  color: var(--amber);
+  opacity: 1;
+}
+.modal-heads{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+.modal-head-pill{font-family:var(--mono);font-size:10.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line2);color:var(--dim);}
+
+footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-index:2;}
+.foot-top{display:grid;grid-template-columns:1.3fr repeat(3,1fr);gap:40px;padding-bottom:50px;max-width:1200px;margin:0 auto;padding-left:clamp(20px,5vw,72px);padding-right:clamp(20px,5vw,72px);}
+.foot-brand-word{font-family:var(--disp);font-weight:800;font-size:1.5rem;}
+.foot-brand p{color:var(--dim);margin-top:16px;font-size:.92rem;line-height:1.8;max-width:280px;}
+.foot-col span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;margin-bottom:18px;}
+.foot-col a{display:block;color:var(--dim);font-size:.92rem;padding:7px 0;transition:color .25s;}
+.foot-col a:hover{color:var(--electric);}
+.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:26px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.06em;max-width:1200px;margin:0 auto;padding-left:clamp(20px,5vw,72px);padding-right:clamp(20px,5vw,72px);}
+@media (max-width:900px){.foot-top{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.foot-top{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="bgStack">
+  <div class="stage-bg myth active" id="bgMyth"></div>
+  <div class="stage-bg cosmos" id="bgCosmos"></div>
+  <div class="stage-bg eco" id="bgEco"></div>
+  <div id="eventHoverBg"></div>
+</div>
+<div class="scanlines"></div><div class="grain"></div>
+<div class="reticle" id="reticle"></div>
+
+<div class="ticker-bar"><div class="ticker-track" id="tickerTrack"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="tb-brand">
+      <img src="event -logos/cresco_logo.png" alt="Cresco Logo" style="height: 32px; width: auto; object-fit: contain; flex-shrink: 0;">
+      <span class="tb-words"><b>Cresco</b> Scientiam 5.0</span>
+    </a>
+    <nav class="tb-tabs">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/team">Team</a>
+      <a href="/events" class="active">Events</a>
+      <a href="/schedule">Schedule</a>
+      <a href="/resources">Resources</a>
+      <a href="/sponsors">Sponsors</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <button class="tb-bar-btn" id="menuTrigger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<nav class="overlay-nav" id="overlayNav">
+  <div class="overlay-grid"></div>
+  <div class="overlay-inner">
+    <div class="overlay-clock">LOCAL TIME &middot; IST<b id="overlayClock">00:00:00</b></div>
+    <div class="overlay-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/team">Team</a>
+      <a href="/events" class="active">Events</a>
+      <a href="/schedule">Schedule</a>
+      <a href="/resources">Resources</a>
+      <a href="/sponsors">Sponsors</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div class="overlay-bottom">
+      <div class="ob-col"><span>Presented By</span><p>DPS Megacity, Kolkata</p></div>
+      <div class="ob-col"><span>Email</span><a href="mailto:crescoscientiam@dpsmegacity.in">crescoscientiam@dpsmegacity.in</a></div>
+      <div class="ob-col"><span>Social</span><a href="https://www.instagram.com/cresco_2026/" target="_blank" rel="noopener">@cresco_2026</a></div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section class="events-hero">
+    <div class="wrap">
+      <span class="kicker">Event Roster</span>
+      <h1>Fifteen arenas, <em>three worlds</em>.</h1>
+      <p>Scroll down to move through each theme-world in order — Mythology, then Cosmos, then Environment. Tap any card to open its full brief: team size, duration, venue, event heads and rulebook.</p>
+      <div class="hero-legend">
+        <div class="hl-item"><span class="hl-dot" style="background:var(--myth);"></span>01 &middot; Mythology</div>
+        <div class="hl-item"><span class="hl-dot" style="background:var(--cosmos);"></span>02 &middot; Cosmos</div>
+        <div class="hl-item"><span class="hl-dot" style="background:var(--eco);"></span>03 &middot; Environment</div>
+      </div>
+    </div>
+    <div class="scroll-cue">Scroll<svg width="14" height="20" viewBox="0 0 14 20" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="12" height="18" rx="6"/><circle cx="7" cy="6" r="1.4" fill="currentColor" stroke="none"/></svg></div>
+  </section>
+
+  <section class="theme-stage" data-w="myth" id="stageMyth">
+    <div class="wrap">
+      <div class="stage-head reveal">
+        <span class="stage-idx" style="color:var(--myth);">WORLD 01 / 03</span>
+        <h2>Mythology</h2>
+      </div>
+      <div class="ev-grid reveal" id="gridMyth"></div>
+    </div>
+  </section>
+
+  <section class="theme-stage" data-w="cosmos" id="stageCosmos">
+    <div class="wrap">
+      <div class="stage-head reveal">
+        <span class="stage-idx" style="color:var(--cosmos);">WORLD 02 / 03</span>
+        <h2>Cosmos</h2>
+      </div>
+      <div class="ev-grid reveal" id="gridCosmos"></div>
+    </div>
+  </section>
+
+  <section class="theme-stage" data-w="eco" id="stageEco">
+    <div class="wrap">
+      <div class="stage-head reveal">
+        <span class="stage-idx" style="color:var(--eco);">WORLD 03 / 03</span>
+        <h2>Environment</h2>
+      </div>
+      <div class="ev-grid reveal" id="gridEco"></div>
+    </div>
+  </section>
+</main>
+
+<div id="event-modal">
+  <div class="modal-box">
+    <div class="modal-hero" id="modalHero">
+      <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
+      <div class="modal-head">
+        <div class="modal-icon" id="modalIcon"></div>
+        <div>
+          <span class="modal-eyebrow" id="modalTag"></span>
+          <div class="modal-title" id="modalTitle"></div>
+          <p class="modal-sub" id="modalSub"></p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body-pad">
+      <div class="modal-meta">
+        <div>Team Size<b id="modalTeam"></b></div>
+        <div>Duration<b id="modalDur"></b></div>
+        <div>Venue<b id="modalVenue"></b></div>
+      </div>
+      <div class="modal-section"><h4>About This Event</h4><p class="modal-desc" id="modalDesc"></p></div>
+      <div class="modal-section" id="modalHeadsSection" style="display:none;"><h4>Event Heads</h4><div class="modal-heads" id="modalHeads"></div></div>
+      <div class="modal-section"><h4>Rules &amp; Regulations</h4><ol class="modal-rules" id="modalRules"></ol></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-bottom" style="border-top: none; padding-top: 0;">
+      <span>&copy; 2026 CRESCO SCIENTIAM &middot; DELHI PUBLIC SCHOOL MEGACITY, KOLKATA</span>
+      <span>DEVELOPED BY AARAV SINHA</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ================= SYSTEM CONTENT DATA (15 EVENTS) ================= */
+const DEFAULT_CONTENT = {
+  ticker: ["DPS MEGACITY PRESENTS","CRESCO SCIENTIAM 5.0","25\u201326 SEPTEMBER 2026","THREE THEME-WORLDS \u00b7 FIFTEEN EVENTS"],
+  events: [
+    /* ----- WORLD 1: MYTHOLOGY (5 Events) ----- */
+    {
+      id: "e1",
+      world: "myth",
+      num: "01",
+      slug: "mayavi-mandala",
+      title: "Mayavi Mandala",
+      team: "2 members",
+      dur: "3 hours",
+      venue: "Classroom 12A",
+      logo: "mayavi-mandala-logo.png",
+      box: "mayavi-mandala-box.jpg",
+      desc: "Mayavi Mandala Description",
+      rules: [
+        "Open to students of Classes VI-VIII.",
+        "Each school may register one team consisting of two participants.",
+        "Participation is limited to the first 8 schools to submit the registration form.",
+        "Participants will be divided into two groups of 8 players each, with one player from each school in each group.",
+        "The games will be in a (5+0) Blitz format for the first two group rounds and (10 + 0) for the group finals and finale.",
+        "Matches within each group will follow a single-elimination format.",
+        "In the event of a draw, players will compete in a Blitz tie-breaker with a time control of 3 minutes per player.",
+        "The top-performing player from each group will advance to the final round.",
+        "The final round will be played as a Rapid chess match with a time control of 10 minutes (+0) per player.",
+        "In the event of a draw in the final round, an Armageddon tie-breaker with a time control of 10 minutes will be conducted.",
+        "The winner of the final match will be declared the champion."
+      ]
+    },
+    {
+      id: "e2",
+      world: "myth",
+      num: "02",
+      slug: "chitrakatha",
+      title: "Chitrakatha",
+      team: "2 members",
+      dur: "2 hours",
+      venue: "12 A",
+      logo: "event -logos/chitrakatha-logo.png",
+      box: "event-box-bg/chitrakatha-box.jpg",
+      desc: "Chitrakatha is a fast-paced STEM Pictionary challenge where teams communicate using only scientific symbols, navigate chaotic drawing protocols like sabotage and rapid relays, and sculpt tactile 3D models to decode complex concepts before the clock runs out.",
+      rules: [
+        "Open to only the student representatives.",
+        "The event will consist of four rounds, each featuring unique objectives and varying levels of difficulty.",
+        "The objective is to accurately decode and identify the exact scientific name of a concept based solely on visual cues created by the drawing participant.",
+        "Drawers are strictly prohibited from using standard words, letters, numbers, arrows, motion lines, or any universal shorthand. Only universally recognized scientific variables, periodic table symbols, and mathematical operators may be used.",
+        "Decoding participants must provide the exact, formal scientific name of the concept to earn points.",
+        "The event will follow a Veto Rule, where opposing teams may challenge an illegal drawing. A valid veto will result in immediate forfeiture of the turn along with a point deduction for the drawing team.",
+        "All drawing materials required for the event will be provided by the host school.",
+        "The team with the highest cumulative score at the end of all four rounds will be declared the winner."
+      ]
+    },
+    {
+      id: "e3",
+      world: "myth",
+      num: "03",
+      slug: "dharmasangram",
+      title: "Dharmasangram",
+      team: "2 members",
+      dur: "3 hours",
+      venue: "Senior Library",
+      logo: "event -logos/dharmasangram-logo.png",
+      box: "event-box-bg/dharmasangram-box.jpg",
+      desc: "Dharmasangram is a science-themed Oxford-style debate that challenges participants to present logical arguments, defend their stance, and respond effectively to opposing viewpoints. The event emphasizes critical thinking, persuasive communication, and scientific reasoning.",
+      rules: [
+        "Open to students of Classes IX-XII.",
+        "Each school may register one team of two participants.",
+        "The debate will be conducted in the Oxford Debate format.",
+        "Debate topics will be science-themed and will be announced during the School Representatives' Meeting.",
+        "Each speaker will be allotted 3 minutes for their speech, followed by a 1-minute rebuttal.",
+        "Time limits will be strictly enforced. Exceeding the allotted time will result in a deduction of points.",
+        "The use of props, visual aids, or written notes during the speech is strictly prohibited.",
+        "Participants must be dressed in their respective school uniforms throughout the event.",
+        "Parliamentary language and decorum must be maintained at all times.",
+        "The decision of the judges shall be final and binding."
+      ]
+    },
+    {
+      id: "e4",
+      world: "myth",
+      num: "04",
+      slug: "swaranjali",
+      title: "Swaranjali",
+      team: "Up to 5 members",
+      dur: "3 hours",
+      venue: "Hall 2",
+      logo: "event -logos/swaranjali-logo.png",
+      box: "event-box-bg/swaranjali-box.jpg",
+      desc: "Swaranjali is a music-based competition where participants blend scientific concepts with Western music to create original and engaging performances. Teams will be judged on creativity, musicality, thematic integration and stage presence.",
+      rules: [
+        "Open to students of Classes VIII to XII.",
+        "Each school may register one team of up to five participants.",
+        "Participation is limited to the first 10 schools to submit the registration form.",
+        "Participants must perform in their respective school uniforms.",
+        "Each performance must be completed within 6 minutes, with an additional 2 minutes allotted for setup.",
+        "At the Representatives' Meet (7 days prior to the event), each school will be assigned a Western music genre and two scientific words/phrases through a lucky draw.",
+        "Teams must compose and perform an original song incorporating the allotted scientific word/phrase. Failure to do so will result in disqualification.",
+        "A surprise challenge will be revealed on the day of the event. Teams will be given 1 hour to incorporate it into their performance.",
+        "A drum kit, microphones, and power supply for electronic instruments will be provided. Any damage to the equipment must be compensated by the respective school.",
+        "Any form of unfair means will result in immediate disqualification."
+      ]
+    },
+    {
+      id: "e5",
+      world: "myth",
+      num: "05",
+      slug: "lakshya-pathik",
+      title: "Lakshya Pathik",
+      team: "1 (Individual)",
+      dur: "1.5 hours",
+      venue: "LAB 1",
+      logo: "lakshya-pathik-logo.png",
+      box: "event-box-bg/lakshya-pathik-box.jpg",
+      desc: "Robotic Event",
+      rules: [
+        "Individual participation.",
+        "Participants will be given a prompt 15 minutes before the session.",
+        "Time limit for recitation/presentation is 4 minutes.",
+        "Judged on vocabulary, narrative shift, and expressiveness."
+      ]
+    },
+
+    /* ----- WORLD 2: COSMOS (5 Events) ----- */
+    {
+      id: "e6",
+      world: "cosmos",
+      num: "06",
+      slug: "chromatica",
+      title: "Chromatica",
+      team: "2 members",
+      dur: "2 hours 30 minutes",
+      venue: "TBD",
+      logo: "event -logos/chromatica-logo.png",
+      box: "event-box-bg/chromatica-box.jpg",
+      desc: "Chromatica is an art-based event where participants will be given a topic on spot, where they have to use their creativity and chemistry-related insight to display paintings using the resources provided. The artworks will be judged on the basis of uniqueness, relevance to the topic and their expert use of the provided materials.",
+      rules: [
+        "Open to classes IX to XII.",
+        "Each team may consist of 2 participants from each school.",
+        "Participants will have to create paintings using pH indicators and reagents of varying pH levels instead of conventional paints.",
+        "They must creatively generate multiple shades using the reagents provided. It is mandatory to make at least 3 visibly distinct colours or shades.",
+        "Only the materials provided may be used. External paints, markers, or colours are strictly prohibited. Supplies like paintbrushes, stationary, SAFETY GEARS etc. should be brought by the participants themselves.",
+        "A basic demo will be provided regarding the procedure that are to be carried out in the course of the event before the event starts.",
+        "The theme/topic for artwork will be announced on the spot."
+      ]
+    },
+    {
+      id: "e7",
+      world: "cosmos",
+      num: "07",
+      slug: "corpus-vestigium",
+      title: "Corpus Vestigium",
+      team: "2 members",
+      dur: "3 hours",
+      venue: "12 C",
+      logo: "event -logos/corpus-vestigium-logo.png",
+      box: "event-box-bg/corpus-vestigium-box.jpg",
+      desc: "Corpus Vestigium is an investigative event. The participating teams will have to submit a report based on the investigation they do during the respective rounds. They will be judged on their analysis of the situation and their technique to solve the case.",
+      rules: [
+        "Open to students of Classes IX-XII.",
+        "Each school may register one team of two participants.",
+        "The event will consist of two rounds.",
+        "Each team may avail up to two hints during the event. Additional hints may be taken at the cost of a score penalty.",
+        "All teams will compete in the first round. The first five teams to solve the case and submit their investigative report within the allotted time will qualify for the final round.",
+        "In the final round, the first three teams to solve the case and submit their case files will secure the podium positions.",
+        "Participants are expected to possess basic knowledge of forensic science. A demonstration of the required experimental procedures will be conducted before the event, and all necessary equipment will be provided by the organizers.",
+        "The use of personal electronic devices or any unfair means is strictly prohibited and will result in immediate disqualification.",
+        "Any damage caused to the venue infrastructure or equipment during the event shall be the responsibility of the participating school, and the school will be required to reimburse the organizers for the damages incurred."
+      ]
+    },
+    {
+      id: "e8",
+      world: "cosmos",
+      num: "08",
+      slug: "pi-infinitum",
+      title: "π Infinitum",
+      team: "Up to 2 members",
+      dur: "3 hours",
+      venue: "Room 12C",
+      logo: "event -logos/pi-infinitum-logo.png",
+      box: "event-box-bg/pi-infinitum-box.jpg",
+      desc: "πInfinitium is a mathematics-based competition that combines logical reasoning, speed, strategy, and analytical thinking through a series of innovative and challenging rounds. Participants will solve mathematical puzzles, recognize patterns, interpret graphical concepts, and make strategic decisions to maximize their scores.",
+      rules: [
+        "Open to students of Classes IX-XII.",
+        "Each school may register one team of up to two participants.",
+        "The event comprises four rounds: Blitz, Riddlemania, Crescendo Curves, and the Auction Round.",
+        "All teams will begin with 100 points, and scores may go negative.",
+        "The bottom three teams will be eliminated after Riddlemania.",
+        "The Auction Round rewards strategic bidding by exchanging solving time for bonus points.",
+        "Electronic devices are strictly prohibited, and all rough work must be submitted.",
+        "The team with the highest cumulative score at the end of all rounds will be declared the winner. Ties will be resolved through a sudden-death tie-breaker."
+      ]
+    },
+    {
+      id: "e9",
+      world: "cosmos",
+      num: "09",
+      slug: "vox-futuri",
+      title: "Vox Futuri",
+      team: "2 members",
+      dur: "3 hours 30 minutes",
+      venue: "Aerobay Lab",
+      logo: "event -logos/vox-futura-logo.png",
+      box: "event-box-bg/vox-futura-box.jpg",
+      desc: "Vox Futura is a dynamic news reporting event that challenges participants to step into the shoes of news anchors and reporters. Teams will report on imaginative events set in the future, transforming innovative ideas into compelling news stories through creativity, confidence and effective communication. As the event progresses, participants must adapt to unexpected developments, showcasing their critical thinking, teamwork and ability to deliver engaging reports in a fast-paced environment.",
+      rules: [
+        "Open to students from classes VIII-XII.",
+        "Each School may register one team of two participants.",
+        "The event shall consist of two rounds. The first round may serve as an elimination round based on the number of teams participating.",
+        "In round one, students are to give their news report with the help of a presentation based on the topic which would be provided on the day of the rep meet. Time allotted for their presentation and speech will be 2 minutes.",
+        "Qualified teams shall proceed to round 2 where they would choose a topic from the topic bowl and would be given 30 minutes to prepare and then present their news report based on the topic that they have received. Time allotted for presentation would be 10 minutes in between which the event heads will introduce a breaking update which has to be incorporated into their report.",
+        "The decision of the judges shall be final and binding."
+      ]
+    },
+    {
+      id: "e10",
+      world: "cosmos",
+      num: "10",
+      slug: "astra-syntax",
+      title: "Astra Syntax",
+      team: "2-3 members",
+      dur: "2 hours",
+      venue: "Lab 2",
+      logo: "astra-syntax-logo.png",
+      box: "event-box-bg/astra-syntax-box.jpg",
+      desc: "Astra Syntax is a competitive programming event that challenges participants to solve algorithmic problems and implement efficient solutions within a limited time frame. Teams will be judged on their ability to write clean, optimized code and demonstrate problem-solving skills under pressure.",
+      rules: [
+        "Teams of 2-3 participants.",
+        "Internet access is strictly monitored; standard libraries are permitted.",
+        "Final code submission must include a live demo and README.",
+        "Judged on algorithmic accuracy, efficiency, and project polish."
+      ]
+    },
+
+    /* ----- WORLD 3: ENVIRONMENT (5 Events) ----- */
+    {
+      id: "e11",
+      world: "eco",
+      num: "11",
+      slug: "clamor-naturae",
+      title: "Clamor Naturae",
+      team: "1 team",
+      dur: "3 hours 30 minutes",
+      venue: "Hostel Building Lobby",
+      logo: "event -logos/clamor-naturae-logo.png",
+      box: "event-box-bg/clamor-naturae-box.jpg",
+      desc: "Clamor Naturae is a dynamic Nukkad Natak (Street Play) competition reviving the raw energy of open-air theatre. Teams must captivate a live audience using only their voices, bodies, and live acoustic rhythms to deliver impactful, theme-driven narratives. This event tests dramatic expression, vocal projection, and teamwork, providing a powerful platform for students to advocate for meaningful social change.",
+      rules: [
+        "Open to students of Classes VI-XII.",
+        "Each school may register one team.",
+        "Participation is limited to the first 7 schools to submit the registration form.",
+        "Performances must strictly align with the prescribed central theme. Entries may be presented in English, Hindi, Bengali, or a combination of these languages.",
+        "Original as well as adapted scripts are permitted. Plagiarized content, vulgarity, offensive language, or content targeting any political, religious, or social community is strictly prohibited and will attract severe penalties.",
+        "Each performance must be completed within 10-15 minutes, including a maximum of 2 minutes for setup and stage marking. Performances exceeding or falling short of the time limit will incur score deductions.",
+        "The performance must be entirely acoustic. The use of microphones, electronic amplification, or pre-recorded audio is not permitted. All music and sound effects must be performed live.",
+        "Any use of prohibited materials, hate speech, misconduct, or violation of the rules will result in immediate disqualification."
+      ]
+    },
+    {
+      id: "e12",
+      world: "eco",
+      num: "12",
+      slug: "terra-cognitio",
+      title: "Terra Cognitio",
+      team: "3 members",
+      dur: "2 hours 30 minutes",
+      venue: "Hall 1",
+      logo: "event -logos/terra-cognitio-logo.png",
+      box: "event-box-bg/terra-cognitio-box.jpg",
+      desc: "Terra Cognitio is a STEM-based quizzing competition that challenges participants' knowledge across diverse fields including Mathematics, Physics, Astrophysics, Astronomy, Chemistry, Biology, Computer Science, Artificial Intelligence, and General Knowledge. Teams will compete through multiple rounds, testing their conceptual understanding, analytical skills, and quick thinking.",
+      rules: [
+        "Open to students of Classes VI-X.",
+        "Each school may register one team of three participants.",
+        "The event will begin with a written preliminary round of 30-45 minutes.",
+        "The top 6 teams from the preliminary round will qualify for the final stage.",
+        "The final round will consist of 5 rounds of quizzing: two clockwise rounds, two anticlockwise rounds, and one buzzer round.",
+        "In the regular rounds, direct and bounce questions will carry +20 points. Pounce questions will carry +20 points for correct answers and a penalty of -10 points for incorrect answers. No part-pounce will be allowed, and part-bounce will carry half the allotted marks.",
+        "The final buzzer round will follow a scoring pattern of +20 points for correct answers and -20 points for incorrect answers.",
+        "The team securing the highest score at the end of the final round will be declared the winner."
+      ]
+    },
+    {
+      id: "e13",
+      world: "eco",
+      num: "13",
+      slug: "genesis-nova",
+      title: "Genesis Nova",
+      team: "2 members",
+      dur: "3 hours 30 minutes",
+      venue: "12 B",
+      logo: "event -logos/genesis-nova-logo.png",
+      box: "event-box-bg/genesis-nova-box.jpg",
+      desc: "Genesis Nova is a strategy-based evolution challenge where teams design their own species, compete in a trait auction, and prove that their creation can survive and thrive in a randomly assigned habitat.",
+      rules: [
+        "Open to students of Classes IX-XII.",
+        "Each school may register one team of two participants.",
+        "Participation is limited to the first 10 schools to submit the registration form.",
+        "The event begins with a 60-second Rapid Fire Round featuring questions based on general biological knowledge. Teams start with 5,000 Evolution Points, and each correct answer earns 500 additional points.",
+        "A lucky draw will determine the habitat.",
+        "Points earned will serve as the currency for the trait auction, where teams will bid for evolutionary traits.",
+        "Using the auctioned traits, teams will have 45 minutes to design a species specifically adapted to their assigned habitat and present a pitch explaining its evolutionary adaptations."
+      ]
+    },
+    {
+      id: "e14",
+      world: "eco",
+      num: "14",
+      slug: "ventus-lapidum",
+      title: "Ventus Lapidum",
+      team: "2 members",
+      dur: "3 hours",
+      venue: "Senior Physics Lab",
+      logo: "event -logos/ventus-lapidum-logo.png",
+      box: "event-box-bg/ventus-lapidum-box.jpg",
+      desc: "Ventus Lapidum is a structural engineering competition where teams design and construct towers using limited resources and test their stability under simulated seismic activity and increasing mechanical loads. Participants will be evaluated on their tower's durability, load-bearing capacity, and structural efficiency.",
+      rules: [
+        "Open to students of Classes VIII-XII.",
+        "Each school may register one team of two participants.",
+        "The event will consist of two rounds: the Tectonic Plate Earthquake Test and the Vertical Load-Bearing Weight Test.",
+        "In the first round, teams will construct their towers using the provided materials (Skewers, ice cream sticks, tape, rubber bands, thermocol balls etc.). The structures will undergo a 3-minute earthquake simulation using a shake table. Only towers that remain completely intact will qualify for the second round.",
+        "The second round will involve placing increasing masses on each team's tower until the structure collapses. The tower that withstands the maximum load will emerge as the winner.",
+        "In case of a tie, the Structural Efficiency Ratio will be calculated by comparing the maximum load sustained by the tower with the total weight of materials used in its construction.",
+        "Before the competition begins, each team must measure the total weight of their completed tower, including all construction materials and adhesives used.",
+        "The exact failure load (maximum weight held before collapse) will be recorded during the second round for calculating the efficiency score.",
+        "The team achieving the highest Structural Efficiency Ratio will be declared the winner."
+      ]
+    },
+    {
+      id: "e15",
+      world: "eco",
+      num: "15",
+      slug: "green-grid",
+      title: "Green Grid",
+      team: "2 members",
+      dur: "2 hours",
+      venue: "Lab 2",
+      logo: "green-grid-logo.png",
+      box: "event-box-bg/green-grid-box.jpg",
+      desc: "Web Development Event",
+      rules: [
+        "Teams of two participants.",
+        "Case study data will be handed out at the start of the event.",
+        "10-minute presentation followed by a 3-minute Q&A session.",
+        "Evaluated on data interpretation, feasibility, and ecological impact."
+      ]
+    }
+  ]
+};
+
+/* ================= THE SITE ENGINE ================= */
+document.addEventListener('DOMContentLoaded', () => {
+  setupTicker();
+  setupNav();
+  setupReticle();
+  renderEvents();
+  setupScrollInteractions();
+  setupModal();
+});
+
+function setupTicker() {
+  const track = document.getElementById('tickerTrack');
+  const items = DEFAULT_CONTENT.ticker;
+  const doubleList = [...items, ...items, ...items];
+  track.innerHTML = doubleList.map(text => `<span>${text} <i></i></span>`).join('');
+}
+
+function setupNav() {
+  const trigger = document.getElementById('menuTrigger');
+  const overlay = document.getElementById('overlayNav');
+  const links = document.querySelectorAll('.overlay-links a');
+  
+  trigger.addEventListener('click', () => {
+    const open = overlay.classList.toggle('open');
+    trigger.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', open);
+  });
+
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      overlay.classList.remove('open');
+      trigger.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  setInterval(() => {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    document.getElementById('overlayClock').innerText = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  }, 1000);
+}
+
+function setupReticle() {
+  const reticle = document.getElementById('reticle');
+  document.addEventListener('mousemove', e => {
+    reticle.style.left = `${e.clientX}px`;
+    reticle.style.top = `${e.clientY}px`;
+  });
+  document.addEventListener('mousedown', () => reticle.classList.add('big'));
+  document.addEventListener('mouseup', () => reticle.classList.remove('big'));
+}
+
+function renderEvents() {
+  const grids = {
+    myth: document.getElementById('gridMyth'),
+    cosmos: document.getElementById('gridCosmos'),
+    eco: document.getElementById('gridEco')
+  };
+
+  DEFAULT_CONTENT.events.forEach(ev => {
+    const card = document.createElement('div');
+    card.className = 'ev-card';
+    card.setAttribute('data-id', ev.id);
+    
+    card.innerHTML = `
+      <div class="ev-card-bg" style="background-image: url('${ev.box}')"></div>
+      <div class="ev-inner">
+        <div class="ev-top">
+          <div class="ev-icon">
+            <img src="${ev.logo}" alt="${ev.title} Logo" onerror="this.style.display='none'">
+          </div>
+          <span class="ev-num">${ev.num}</span>
+        </div>
+        <h3 class="ev-name">${ev.title}</h3>
+        <div class="ev-hint">
+          <span>TAP FOR BRIEF</span>
+          <span class="go">→</span>
+        </div>
+      </div>
+    `;
+
+    card.addEventListener('mouseenter', () => {
+      const hoverBg = document.getElementById('eventHoverBg');
+      hoverBg.style.backgroundImage = `url('${ev.box}')`;
+      hoverBg.classList.add('active');
+    });
+
+    card.addEventListener('mouseleave', () => {
+      const hoverBg = document.getElementById('eventHoverBg');
+      hoverBg.classList.remove('active');
+    });
+
+    card.addEventListener('click', () => openModal(ev));
+    
+    if (grids[ev.world]) {
+      grids[ev.world].appendChild(card);
+    }
+  });
+}
+
+function setupScrollInteractions() {
+  const bgs = {
+    myth: document.getElementById('bgMyth'),
+    cosmos: document.getElementById('bgCosmos'),
+    eco: document.getElementById('bgEco')
+  };
+  
+  const stages = document.querySelectorAll('.theme-stage');
+  const navTabs = document.querySelectorAll('.tb-tabs a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const world = entry.target.getAttribute('data-w');
+        
+        Object.keys(bgs).forEach(key => {
+          bgs[key].classList.toggle('active', key === world);
+        });
+
+        navTabs.forEach(tab => {
+          const isEvents = tab.getAttribute('href') === 'events.html';
+          tab.classList.toggle('active', isEvents);
+        });
+
+        entry.target.querySelectorAll('.reveal').forEach(el => {
+          el.classList.add('in');
+        });
+      }
+    });
+  }, { threshold: 0.25 });
+
+  stages.forEach(stage => observer.observe(stage));
+  
+  window.addEventListener('scroll', () => {
+    document.getElementById('topbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+}
+
+const modal = document.getElementById('event-modal');
+const modalClose = document.getElementById('modalClose');
+
+function openModal(ev) {
+  document.getElementById('modalHero').style.backgroundImage = `url('${ev.box}')`;
+  document.getElementById('modalIcon').innerHTML = `<img src="${ev.logo}" alt="${ev.title} logo" onerror="this.style.display='none'">`;
+  document.getElementById('modalTag').innerText = `WORLD — ${ev.world.toUpperCase()}`;
+  document.getElementById('modalTitle').innerText = ev.title;
+  document.getElementById('modalSub').innerText = ev.sub || '';
+  document.getElementById('modalTeam').innerText = ev.team;
+  document.getElementById('modalDur').innerText = ev.dur;
+  document.getElementById('modalVenue').innerText = ev.venue;
+  document.getElementById('modalDesc').innerText = ev.desc;
+
+  // Dynamically set accent color based on world
+  const accentColor = ev.world === 'myth' ? 'var(--myth)' : (ev.world === 'cosmos' ? 'var(--cosmos)' : 'var(--eco)');
+
+  const rulesList = document.getElementById('modalRules');
+  rulesList.innerHTML = ev.rules.map(rule => `
+    <li style="border-left-color: ${accentColor};">
+      ${rule}
+    </li>
+  `).join('');
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function setupModal() {
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+}
+</script>
+</body>
+</html>

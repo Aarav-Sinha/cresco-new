@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Vercel
+.vercel
+
+# Env vars / secrets
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.idea/

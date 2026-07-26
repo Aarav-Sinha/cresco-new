@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#030816">
+<meta name="robots" content="noindex, nofollow">
+<title>Mission Control — CrescoScientiam 5.0</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23030816'/%3E%3Ccircle cx='50' cy='50' r='34' fill='none' stroke='%231c39bb' stroke-width='3'/%3E%3Ccircle cx='50' cy='16' r='4' fill='%235ee0ff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.55);--panel-solid:#0b1120;
+  --line:rgba(140,170,255,.11);--line2:rgba(140,170,255,.26);--line3:rgba(140,170,255,.4);
+  --blue:#1c39bb;--electric:#5ee0ff;--amber:#ffb648;--alert:#ef4a5a;--good:#2ecc71;
+  --paper:#eef2fb;--dim:rgba(238,242,251,.62);--faint:rgba(238,242,251,.34);
+  --disp:'Poppins',sans-serif;--ui:'Space Grotesk',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-x:hidden;}
+body{background:var(--ink);color:var(--paper);font-family:var(--ui);font-size:16px;line-height:1.5;min-height:100svh;-webkit-font-smoothing:antialiased;}
+a{color:inherit;} img{max-width:100%;display:block;} ul,ol{list-style:none;} button,input,select,textarea{font:inherit;color:inherit;}
+::selection{background:rgba(28,57,187,.4);color:#fff;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 55% 40% at 82% -6%, rgba(28,57,187,.18), transparent 60%);}
+.glass{backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);background:rgba(16,23,45,.5);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 50px -20px rgba(0,0,0,.6);}
+.hidden{display:none !important;}
+
+.btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:12px 20px;border-radius:10px;border:1px solid var(--line3);background:transparent;color:var(--paper);cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+.btn:hover{border-color:var(--electric);color:var(--electric);background:rgba(94,224,255,.06);}
+.btn:active{transform:scale(.96);}
+.btn-solid{background:linear-gradient(120deg,#3f5cf0,var(--blue));border-color:var(--blue);color:#fff;}
+.btn-solid:hover{box-shadow:0 10px 28px -10px rgba(28,57,187,.6);color:#fff;}
+.btn-alert{background:rgba(239,74,90,.12);border-color:rgba(239,74,90,.4);color:var(--alert);}
+.btn-alert:hover{background:rgba(239,74,90,.2);color:var(--alert);}
+.btn-full{width:100%;}
+input[type=text],input[type=tel],select{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:8px;padding:11px 13px;font-size:14px;outline:none;transition:border-color .2s;}
+input:focus,select:focus{border-color:var(--electric);}
+label{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:5px;}
+
+/* ============ AUTH GATE ============ */
+#authGate,#deniedGate,#loadingGate{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--ink);}
+.gate-card{width:min(420px,100%);border-radius:22px;padding:44px 36px;text-align:center;position:relative;z-index:2;}
+.gate-logo{display:flex;justify-content:center;gap:6px;margin-bottom:18px;}
+.gate-cell{width:34px;height:24px;border-radius:6px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:11px;}
+.gate-cell:nth-child(1){background:linear-gradient(140deg,#6f9bff,var(--blue));color:#fff;}
+.gate-cell:nth-child(2){background:linear-gradient(140deg,var(--electric),var(--blue));color:#031;}
+.gate-cell:nth-child(3){background:linear-gradient(140deg,var(--blue),#0d1f6e);color:#fff;}
+.gate-card h1{font-family:var(--disp);font-weight:800;font-size:1.4rem;}
+.gate-card p{color:var(--dim);margin-top:8px;font-size:.88rem;}
+.denied-icon{width:56px;height:56px;border-radius:50%;background:rgba(239,74,90,.15);border:1px solid rgba(239,74,90,.4);display:grid;place-items:center;margin:0 auto 18px;color:var(--alert);}
+.spinner-lg{width:34px;height:34px;border:3px solid rgba(94,224,255,.15);border-top-color:var(--electric);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ============ APP SHELL (reuse Mission Control layout) ============ */
+#app{display:none;}
+.admin-shell{display:flex;height:100svh;}
+.admin-sidebar{width:240px;flex-shrink:0;border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;overflow-y:auto;background:rgba(8,12,26,.4);}
+.admin-brand{display:flex;align-items:center;gap:9px;padding:0 4px 16px;border-bottom:1px solid var(--line);margin-bottom:14px;}
+.admin-brand b{font-family:var(--disp);font-weight:800;font-size:.92rem;display:block;}
+.admin-brand span{display:block;font-family:var(--mono);font-size:8px;color:var(--faint);letter-spacing:.14em;margin-top:2px;}
+.admin-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+.admin-nav-btn{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:9px;background:none;border:none;color:var(--dim);text-align:left;cursor:pointer;font-size:12.5px;font-weight:500;transition:background .2s,color .2s;}
+.admin-nav-btn:hover{background:rgba(94,224,255,.06);color:var(--paper);}
+.admin-nav-btn.active{background:linear-gradient(120deg,rgba(28,57,187,.35),rgba(94,224,255,.12));color:var(--paper);}
+.admin-user{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);}
+.admin-user-email{font-family:var(--mono);font-size:9.5px;color:var(--electric);word-break:break-all;margin-bottom:10px;}
+.admin-links{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
+.admin-links a{font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;padding:8px;border:1px solid var(--line2);border-radius:8px;transition:all .2s;}
+.admin-links a:hover{border-color:var(--electric);color:var(--electric);}
+
+.admin-main{flex:1;overflow-y:auto;padding:28px clamp(16px,3vw,40px);}
+.admin-view{display:none;max-width:1100px;}
+.admin-view.active{display:block;}
+.admin-view h2{font-family:var(--disp);font-weight:800;font-size:1.4rem;margin-bottom:6px;}
+.admin-view .sub{color:var(--dim);font-size:.88rem;margin-bottom:22px;}
+
+.admin-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:26px;}
+.admin-stat{border-radius:14px;padding:18px 16px;}
+.admin-stat b{display:block;font-family:var(--disp);font-weight:800;font-size:1.7rem;color:var(--electric);}
+.admin-stat span{display:block;font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;}
+
+.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+.p-table-wrap{border-radius:16px;overflow-x:auto;}
+.p-table{width:100%;border-collapse:collapse;min-width:800px;}
+.p-table th{text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:11px 12px;border-bottom:1px solid var(--line2);white-space:nowrap;}
+.p-table td{padding:10px 12px;border-bottom:1px solid var(--line);font-size:.82rem;white-space:nowrap;}
+.p-table tr:hover td{background:rgba(94,224,255,.03);}
+.tbl-actions{display:flex;gap:4px;}
+.tbl-actions button{width:28px;height:28px;border-radius:7px;border:1px solid var(--line2);background:transparent;color:var(--dim);cursor:pointer;transition:all .2s;}
+.tbl-actions button:hover{border-color:var(--electric);color:var(--electric);}
+.pill-sm{font-family:var(--mono);font-size:8.5px;padding:3px 8px;border-radius:999px;text-transform:uppercase;}
+.pill-sm.enabled{background:rgba(46,204,113,.12);color:var(--good);}
+.pill-sm.disabled{background:rgba(239,74,90,.12);color:var(--alert);}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.form-grid.single{grid-template-columns:1fr;}
+@media (max-width:560px){.form-grid{grid-template-columns:1fr;}}
+.settings-block{border-radius:16px;padding:22px;margin-bottom:18px;}
+.settings-block h4{font-family:var(--disp);font-weight:700;font-size:1rem;margin-bottom:14px;}
+.log-item{padding:11px 14px;border-radius:10px;border:1px solid var(--line);margin-bottom:8px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.82rem;}
+.log-item span{font-family:var(--mono);font-size:9.5px;color:var(--faint);}
+
+/* ============ MODALS ============ */
+.modal-overlay{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,6,14,.85);backdrop-filter:blur(8px);}
+.modal-overlay.open{display:flex;}
+.modal-box{width:min(600px,100%);max-height:90vh;overflow-y:auto;border-radius:20px;padding:28px;position:relative;animation:modalIn .35s cubic-bezier(.22,1,.36,1);}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(14px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--dim);cursor:pointer;transition:transform .3s,color .3s;}
+.modal-close:hover{transform:rotate(90deg);color:var(--alert);}
+.modal-title{font-family:var(--disp);font-weight:800;font-size:1.25rem;padding-right:30px;}
+
+#toastWrap{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:600;display:flex;flex-direction:column;gap:8px;align-items:center;width:min(400px,92vw);}
+.toast{width:100%;padding:13px 18px;border-radius:12px;font-family:var(--ui);font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.toast.success{background:rgba(46,204,113,.95);color:#04371c;}
+.toast.error{background:rgba(239,74,90,.95);color:#3a0207;}
+.toast.info{background:rgba(94,224,255,.95);color:#031e2b;}
+
+@media (max-width:840px){
+  .admin-shell{flex-direction:column;}
+  .admin-sidebar{width:100%;height:auto;flex-direction:row;overflow-x:auto;position:sticky;top:0;z-index:5;border-right:none;border-bottom:1px solid var(--line);}
+  .admin-brand,.admin-user{display:none;}
+  .admin-nav{flex-direction:row;flex:none;}
+  .admin-nav-btn{white-space:nowrap;}
+  .admin-main{padding:18px 14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOADING ============ -->
+<div id="loadingGate"><div class="spinner-lg"></div></div>
+
+<!-- ============ DENIED ============ -->
+<div id="deniedGate" style="display:none;">
+  <div class="gate-card glass">
+    <div class="denied-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg></div>
+    <h1>Access Denied</h1>
+    <p id="deniedEmail" style="margin-top:6px;font-family:var(--mono);font-size:12px;"></p>
+    <p style="margin-top:14px;">This Google account isn't on the admin allow-list.</p>
+    <button class="btn btn-full" id="deniedSignOut" style="margin-top:18px;">Sign Out &amp; Try Another Account</button>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <span class="gate-cell" style="width:28px;height:20px;">Cs</span>
+        <div><b>Mission Control</b><span>CRESCO SCIENTIAM 5.0</span></div>
+      </div>
+      <nav class="admin-nav" id="adminNav">
+        <button class="admin-nav-btn active" data-view="av-dashboard">Live Dashboard</button>
+        <button class="admin-nav-btn" data-view="av-participants">Participants</button>
+        <button class="admin-nav-btn" data-view="av-schools">School Stats</button>
+        <button class="admin-nav-btn" data-view="av-logs">Live Logs</button>
+        <button class="admin-nav-btn" data-view="av-export">Export &amp; Backup</button>
+        <button class="admin-nav-btn" data-view="av-settings">Event Settings</button>
+      </nav>
+      <div class="admin-user">
+        <div class="admin-user-email" id="adminUserEmail"></div>
+        <div class="admin-links"><a href="/security">Open Security Console &rarr;</a></div>
+        <button class="btn btn-alert btn-full" id="signOutBtn">Sign Out</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+
+      <div class="admin-view active" id="av-dashboard">
+        <h2>Live Dashboard</h2>
+        <p class="sub">Real-time counts across the currently selected event day.</p>
+        <div class="admin-stat-grid" id="adminStatGrid"></div>
+        <div class="panel-head"><h3>Firebase Status</h3></div>
+        <div class="glass" style="border-radius:14px;padding:16px 18px;font-family:var(--mono);font-size:12px;" id="firebaseStatusBox">Connecting...</div>
+      </div>
+
+      <div class="admin-view" id="av-participants">
+        <h2>Participants</h2>
+        <p class="sub">Add, edit, disable, or generate QR codes for participants.</p>
+        <div class="panel-head">
+          <input type="text" id="adminSearchInput" placeholder="Search participants..." style="max-width:280px;">
+          <button class="btn btn-solid" id="addParticipantBtn">+ Add Participant</button>
+        </div>
+        <div class="p-table-wrap glass">
+          <table class="p-table">
+            <thead><tr><th>Name</th><th>School</th><th>Category</th><th>Day</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="adminParticipantsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-view" id="av-schools">
+        <h2>School-wise Statistics</h2>
+        <p class="sub">Registered, present, food-collected and checked-out counts per school.</p>
+        <div class="p-table-wrap glass">
+          <table class="p-table">
+            <thead><tr><th>School</th><th>Registered</th><th>Expected Today</th><th>Checked In</th><th>Yet To Arrive</th><th>Food</th><th>Checked Out</th></tr></thead>
+            <tbody id="adminSchoolsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-view" id="av-logs">
+        <h2>Live Logs</h2>
+        <p class="sub">Every scan and manual verification, most recent first.</p>
+        <div id="adminLogsList"></div>
+      </div>
+
+      <div class="admin-view" id="av-export">
+        <h2>Export &amp; Backup</h2>
+        <p class="sub">Download data as CSV or JSON for offline records.</p>
+        <div class="settings-block glass">
+          <h4>Exports</h4>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn" id="exportParticipantsBtn">Export Participants CSV</button>
+            <button class="btn" id="exportAttendanceBtn">Export Attendance CSV</button>
+            <button class="btn" id="exportLogsBtn">Export Logs CSV</button>
+          </div>
+        </div>
+        <div class="settings-block glass">
+          <h4>Backup &amp; Restore</h4>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn" id="backupBtn">Download Full Backup (JSON)</button>
+            <label class="btn" for="restoreFileInput" style="cursor:pointer;">Restore From Backup<input type="file" id="restoreFileInput" accept=".json" style="display:none;"></label>
+          </div>
+          <p style="font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:10px;">Restoring merges participant records from a backup file — it does not delete existing data.</p>
+        </div>
+        <div class="settings-block glass">
+          <h4>Danger Zone</h4>
+          <button class="btn btn-alert" id="resetAttendanceBtn">Reset All Attendance (Keep Participants)</button>
+        </div>
+      </div>
+
+      <div class="admin-view" id="av-settings">
+        <h2>Event Settings</h2>
+        <p class="sub">These sync live to the Security Console.</p>
+        <div class="settings-block glass">
+          <h4>Event Name</h4>
+          <div class="form-grid single"><div><input type="text" id="settingEventName"></div></div>
+          <button class="btn btn-solid" id="saveEventNameBtn">Save</button>
+        </div>
+        <div class="settings-block glass">
+          <h4>Active Event Day</h4>
+          <div class="form-grid single"><div>
+            <select id="settingCurrentDay"><option value="day1">Day 1</option><option value="day2">Day 2</option></select>
+          </div></div>
+          <button class="btn btn-solid" id="saveCurrentDayBtn">Save</button>
+        </div>
+        <div class="settings-block glass">
+          <h4>Admin Allow-List</h4>
+          <p style="font-family:var(--mono);font-size:10px;color:var(--faint);">Add or remove admin/security-console access by creating or deleting a document in Firestore's <code>admins</code> collection, with the document ID set to the Google account email. Default access: <b style="color:var(--electric);">aaravhfs@gmail.com</b>. This can only be managed directly in the Firebase Console, never from this panel, for security.</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============ ADD/EDIT PARTICIPANT MODAL ============ -->
+<div class="modal-overlay" id="participantModal">
+  <div class="modal-box glass">
+    <button class="modal-close" id="participantModalClose">&#10005;</button>
+    <div class="modal-title" id="participantModalTitle">Add Participant</div>
+    <div style="margin-top:18px;">
+      <div class="form-grid">
+        <div><label>Full Name</label><input type="text" id="pfName"></div>
+        <div><label>School</label><input type="text" id="pfSchool"></div>
+      </div>
+      <div class="form-grid">
+        <div><label>Category</label><input type="text" id="pfCategory" placeholder="e.g. Participant, Judge, Volunteer"></div>
+        <div><label>Phone Number</label><input type="tel" id="pfPhone"></div>
+      </div>
+      <div class="form-grid">
+        <div><label>Emergency Contact</label><input type="tel" id="pfEmergency"></div>
+        <div><label>Expected Attendance</label>
+          <select id="pfExpectedDay"><option value="both">Both Days</option><option value="day1">Day 1 Only</option><option value="day2">Day 2 Only</option></select>
+        </div>
+      </div>
+      <div style="margin-top:8px;"><button class="btn btn-solid btn-full" id="participantSaveBtn">Save Participant</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QR DISPLAY / PRINT MODAL ============ -->
+<div class="modal-overlay" id="qrDisplayModal">
+  <div class="modal-box glass" style="text-align:center;">
+    <button class="modal-close" id="qrDisplayClose">&#10005;</button>
+    <div class="modal-title" id="qrDisplayName">Participant QR</div>
+    <div id="qrDisplayCode" style="display:flex;justify-content:center;margin:18px 0;"></div>
+    <p style="font-family:var(--mono);font-size:11px;color:var(--faint);" id="qrDisplayId"></p>
+    <div style="display:flex;gap:10px;margin-top:18px;">
+      <button class="btn" id="qrRegenBtn" style="flex:1;">Regenerate</button>
+      <button class="btn btn-solid" id="qrPrintBtn" style="flex:1;">Print</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastWrap"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, collection,
+  onSnapshot, query, serverTimestamp, Timestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCr7RU1pUOyxV88VEAgJZwEHNupTHCnv98",
+  authDomain: "cresco-scientiam.firebaseapp.com",
+  projectId: "cresco-scientiam",
+  storageBucket: "cresco-scientiam.firebasestorage.app",
+  messagingSenderId: "102065794685",
+  appId: "1:102065794685:web:bf1bb3506d77a722368b14",
+  measurementId: "G-QLQSFRB8ZW"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const CHECKPOINTS = ["checkin","bagcheck","food","checkout"];
+const CP_LABELS = {checkin:"Check-In", bagcheck:"Bag Check", food:"Food Distribution", checkout:"Checkout"};
+const SETTINGS_REF = doc(db, "settings", "main");
+const PARTICIPANTS_COL = collection(db, "participants");
+const LOGS_COL = collection(db, "logs");
+
+let SETTINGS = { scanningPasscode:"", eventName:"CrescoScientiam 5.0", currentDay:"day1" };
+let PARTICIPANTS = [];
+let recentLogsCache = [];
+let CURRENT_USER = null;
+
+/* ================= AUTH GATE — step 1 for this page ================= */
+onAuthStateChanged(auth, async (user) => {
+  document.getElementById('loadingGate').style.display = 'none';
+  if (!user) { window.location.href = '/login'; return; }
+  try {
+    const snap = await getDoc(doc(db, "admins", user.email));
+    if (!snap.exists()) {
+      document.getElementById('deniedGate').style.display = 'flex';
+      document.getElementById('deniedEmail').textContent = user.email;
+      return;
+    }
+  } catch (err) {
+    document.getElementById('deniedGate').style.display = 'flex';
+    document.getElementById('deniedEmail').textContent = user.email + ' — could not verify access.';
+    return;
+  }
+  CURRENT_USER = user;
+  document.getElementById('adminUserEmail').textContent = user.email;
+  document.getElementById('app').style.display = 'block';
+  initData();
+});
+document.getElementById('deniedSignOut').addEventListener('click', () => signOut(auth).then(()=>window.location.href='/login'));
+document.getElementById('signOutBtn').addEventListener('click', () => signOut(auth).then(()=>window.location.href='/login'));
+
+/* ================= NAV ================= */
+document.querySelectorAll('.admin-nav-btn[data-view]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.admin-nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.admin-view').forEach(v=>v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.view).classList.add('active');
+  });
+});
+
+/* ================= HELPERS ================= */
+function toast(msg, type="info"){
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type; el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, 3200);
+}
+function genQrId(){ return Math.random().toString(36).slice(2,7).toUpperCase() + Date.now().toString(36).slice(-3).toUpperCase(); }
+function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+function emptyCP(){ return {done:false, timestamp:null, volunteer:null}; }
+function emptyDay(){ return {checkin:emptyCP(), bagcheck:emptyCP(), food:emptyCP(), checkout:emptyCP()}; }
+function matchesQuery(p, q){
+  q = q.toLowerCase();
+  return (p.name||'').toLowerCase().includes(q) || (p.school||'').toLowerCase().includes(q) ||
+         (p.qrId||'').toLowerCase().includes(q) || (p.phone||'').toLowerCase().includes(q);
+}
+
+function initData(){
+  onSnapshot(SETTINGS_REF, snap=>{
+    if(snap.exists()) SETTINGS = Object.assign(SETTINGS, snap.data());
+    else setDoc(SETTINGS_REF, SETTINGS).catch(()=>{});
+    document.getElementById('settingEventName').value = SETTINGS.eventName || '';
+    document.getElementById('settingCurrentDay').value = SETTINGS.currentDay || 'day1';
+    document.getElementById('firebaseStatusBox').innerHTML = '<span style="color:var(--good);">&#9679;</span> Connected — settings synced live';
+    renderAdminStats();
+  }, err=>{ document.getElementById('firebaseStatusBox').innerHTML = '<span style="color:var(--alert);">&#9679;</span> Connection error: '+err.message; });
+
+  onSnapshot(PARTICIPANTS_COL, snap=>{
+    PARTICIPANTS = []; snap.forEach(d=>PARTICIPANTS.push({id:d.id, ...d.data()}));
+    renderAdminParticipants(); renderAdminSchools(); renderAdminStats();
+  }, err=>{ console.warn(err); });
+
+  onSnapshot(query(LOGS_COL), snap=>{
+    recentLogsCache = []; snap.forEach(d=>recentLogsCache.push({id:d.id, ...d.data()}));
+    recentLogsCache.sort((a,b)=>(b.timestamp?.seconds||0)-(a.timestamp?.seconds||0));
+    renderAdminLogs();
+  }, err=>{ console.warn(err); });
+}
+
+/* ================= STATS ================= */
+function computeStats(){
+  const day = SETTINGS.currentDay;
+  let registered=0, expected=0, checkedIn=0, food=0, checkedOut=0, bagChecked=0, pending=0;
+  PARTICIPANTS.forEach(p=>{
+    if(p.enabled===false) return;
+    registered++;
+    const isExpected = p.expectedDay==='both' || p.expectedDay===day;
+    if(isExpected) expected++;
+    const d = p[day] || emptyDay();
+    if(d.checkin?.done) checkedIn++;
+    if(d.bagcheck?.done) bagChecked++;
+    if(d.food?.done) food++;
+    if(d.checkout?.done) checkedOut++;
+  });
+  pending = Math.max(0, expected - checkedOut);
+  return {registered, expected, checkedIn, bagChecked, food, checkedOut, pending};
+}
+function renderAdminStats(){
+  const s = computeStats();
+  const cards = [
+    {label:'Registered', value:s.registered}, {label:'Expected Today', value:s.expected},
+    {label:'Checked In', value:s.checkedIn}, {label:'Bag Checked', value:s.bagChecked},
+    {label:'Food Distributed', value:s.food}, {label:'Checked Out', value:s.checkedOut},
+    {label:'Pending Checkout', value:s.pending},
+    {label:'% Attendance', value: s.expected ? Math.round((s.checkedIn/s.expected)*100)+'%' : '0%'}
+  ];
+  document.getElementById('adminStatGrid').innerHTML = cards.map(c=>`<div class="admin-stat glass"><b>${c.value}</b><span>${c.label}</span></div>`).join('');
+}
+function renderAdminSchools(){
+  const day = SETTINGS.currentDay;
+  const schools = {};
+  PARTICIPANTS.forEach(p=>{
+    if(p.enabled===false) return;
+    const sc = p.school || 'Unspecified';
+    if(!schools[sc]) schools[sc] = {registered:0, expected:0, checkedIn:0, food:0, checkout:0};
+    schools[sc].registered++;
+    const isExpected = p.expectedDay==='both' || p.expectedDay===day;
+    if(isExpected) schools[sc].expected++;
+    const d = p[day] || emptyDay();
+    if(d.checkin?.done) schools[sc].checkedIn++;
+    if(d.food?.done) schools[sc].food++;
+    if(d.checkout?.done) schools[sc].checkout++;
+  });
+  const rows = Object.entries(schools).sort((a,b)=>b[1].registered-a[1].registered);
+  document.getElementById('adminSchoolsBody').innerHTML = rows.length
+    ? rows.map(([name,st])=>`<tr><td>${name}</td><td>${st.registered}</td><td>${st.expected}</td><td>${st.checkedIn}</td><td>${Math.max(0,st.expected-st.checkedIn)}</td><td>${st.food}</td><td>${st.checkout}</td></tr>`).join('')
+    : `<tr><td colspan="7" style="text-align:center;color:var(--faint);">No participants yet</td></tr>`;
+}
+function renderAdminLogs(){
+  document.getElementById('adminLogsList').innerHTML = recentLogsCache.slice(0,100).map(l=>`
+    <div class="log-item glass">
+      <div><b>${l.participantName||'Unknown'}</b> &mdash; ${CP_LABELS[l.checkpoint]||l.checkpoint} (${l.day||''})<br><span>${l.method} &middot; ${l.result} &middot; by ${l.volunteer||'?'}</span></div>
+      <span>${l.timestamp?.toDate ? l.timestamp.toDate().toLocaleString() : ''}</span>
+    </div>`).join('') || '<p style="color:var(--faint);font-family:var(--mono);font-size:11px;">No logs yet</p>';
+}
+
+/* ================= PARTICIPANTS ================= */
+let editingParticipantId = null;
+function renderAdminParticipants(){
+  const q = (document.getElementById('adminSearchInput')?.value || '').toLowerCase();
+  const rows = PARTICIPANTS.filter(p=> !q || matchesQuery(p,q));
+  document.getElementById('adminParticipantsBody').innerHTML = rows.map(p=>`
+    <tr>
+      <td>${p.name}</td><td>${p.school||''}</td><td>${p.category||''}</td>
+      <td>${p.expectedDay==='day1'?'Day 1':p.expectedDay==='day2'?'Day 2':'Both'}</td>
+      <td><span class="pill-sm ${p.enabled===false?'disabled':'enabled'}">${p.enabled===false?'Disabled':'Active'}</span></td>
+      <td><div class="tbl-actions">
+        <button title="Edit" data-act="edit" data-id="${p.id}">&#9998;</button>
+        <button title="QR" data-act="qr" data-id="${p.id}">&#8862;</button>
+        <button title="Toggle" data-act="toggle" data-id="${p.id}">${p.enabled===false?'&#9679;':'&#9711;'}</button>
+        <button title="Delete" data-act="delete" data-id="${p.id}">&#128465;</button>
+      </div></td>
+    </tr>`).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--faint);">No participants</td></tr>`;
+  document.querySelectorAll('#adminParticipantsBody [data-act]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const p = PARTICIPANTS.find(x=>x.id===btn.dataset.id);
+      const act = btn.dataset.act;
+      if(act==='edit') openParticipantForm(p);
+      if(act==='qr') openQrDisplay(p);
+      if(act==='toggle') toggleParticipant(p);
+      if(act==='delete') deleteParticipant(p);
+    });
+  });
+}
+document.getElementById('adminSearchInput').addEventListener('input', ()=> renderAdminParticipants());
+document.getElementById('addParticipantBtn').addEventListener('click', ()=> openParticipantForm(null));
+document.getElementById('participantModalClose').addEventListener('click', ()=> closeModal('participantModal'));
+function openParticipantForm(p){
+  editingParticipantId = p ? p.id : null;
+  document.getElementById('participantModalTitle').textContent = p ? 'Edit Participant' : 'Add Participant';
+  document.getElementById('pfName').value = p?.name || '';
+  document.getElementById('pfSchool').value = p?.school || '';
+  document.getElementById('pfCategory').value = p?.category || '';
+  document.getElementById('pfPhone').value = p?.phone || '';
+  document.getElementById('pfEmergency').value = p?.emergency || '';
+  document.getElementById('pfExpectedDay').value = p?.expectedDay || 'both';
+  openModal('participantModal');
+}
+document.getElementById('participantSaveBtn').addEventListener('click', async ()=>{
+  const name = document.getElementById('pfName').value.trim();
+  if(!name){ toast('Name is required', 'error'); return; }
+  const data = {
+    name, school: document.getElementById('pfSchool').value.trim(),
+    category: document.getElementById('pfCategory').value.trim(),
+    phone: document.getElementById('pfPhone').value.trim(),
+    emergency: document.getElementById('pfEmergency').value.trim(),
+    expectedDay: document.getElementById('pfExpectedDay').value
+  };
+  try{
+    if(editingParticipantId){ await updateDoc(doc(db,'participants',editingParticipantId), data); toast('Participant updated', 'success'); }
+    else {
+      data.qrId = genQrId(); data.enabled = true; data.day1 = emptyDay(); data.day2 = emptyDay();
+      await addDoc(PARTICIPANTS_COL, data); toast('Participant added', 'success');
+    }
+    closeModal('participantModal');
+  }catch(e){ toast('Save failed: '+e.message, 'error'); }
+});
+async function toggleParticipant(p){
+  try{ await updateDoc(doc(db,'participants',p.id), { enabled: !(p.enabled!==false) ? false : true }); toast('Status updated','success'); }
+  catch(e){ toast('Failed: '+e.message,'error'); }
+}
+async function deleteParticipant(p){
+  if(!confirm(`Delete ${p.name}? This cannot be undone.`)) return;
+  try{ await deleteDoc(doc(db,'participants',p.id)); toast('Participant deleted','success'); }
+  catch(e){ toast('Failed: '+e.message,'error'); }
+}
+
+/* ================= QR ================= */
+let qrDisplayTarget = null;
+function openQrDisplay(p){
+  qrDisplayTarget = p;
+  document.getElementById('qrDisplayName').textContent = p.name;
+  document.getElementById('qrDisplayId').textContent = 'QR ID: ' + p.qrId;
+  const codeWrap = document.getElementById('qrDisplayCode'); codeWrap.innerHTML = '';
+  new QRCode(codeWrap, { text: p.qrId, width: 200, height: 200, colorDark:"#030816", colorLight:"#ffffff" });
+  openModal('qrDisplayModal');
+}
+document.getElementById('qrDisplayClose').addEventListener('click', ()=> closeModal('qrDisplayModal'));
+document.getElementById('qrRegenBtn').addEventListener('click', async ()=>{
+  if(!qrDisplayTarget) return;
+  const newId = genQrId();
+  try{ await updateDoc(doc(db,'participants',qrDisplayTarget.id), { qrId:newId }); qrDisplayTarget.qrId=newId; openQrDisplay(qrDisplayTarget); toast('QR code regenerated','success'); }
+  catch(e){ toast('Failed: '+e.message, 'error'); }
+});
+document.getElementById('qrPrintBtn').addEventListener('click', ()=>{
+  const win = window.open('', '_blank');
+  const name = qrDisplayTarget?.name || '', qrId = qrDisplayTarget?.qrId || '';
+  const imgHtml = document.getElementById('qrDisplayCode').innerHTML;
+  win.document.write(`<html><head><title>QR - ${name}</title><style>body{font-family:sans-serif;text-align:center;padding:40px;}h2{margin-bottom:4px;}p{color:#666;font-family:monospace;margin-top:0;}</style></head><body><h2>${name}</h2><p>${qrId}</p>${imgHtml}</body></html>`);
+  win.document.close(); setTimeout(()=>win.print(), 400);
+});
+
+/* ================= SETTINGS ================= */
+document.getElementById('saveEventNameBtn').addEventListener('click', async ()=>{
+  await setDoc(SETTINGS_REF, { eventName: document.getElementById('settingEventName').value.trim() }, { merge:true });
+  toast('Event name updated', 'success');
+});
+document.getElementById('saveCurrentDayBtn').addEventListener('click', async ()=>{
+  await setDoc(SETTINGS_REF, { currentDay: document.getElementById('settingCurrentDay').value }, { merge:true });
+  toast('Active event day updated', 'success');
+});
+
+/* ================= EXPORTS ================= */
+function downloadCSV(filename, rows){
+  const csv = rows.map(r=> r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+}
+document.getElementById('exportParticipantsBtn').addEventListener('click', ()=>{
+  const rows = [['Name','School','Category','Phone','Emergency','Expected Day','QR ID','Status']];
+  PARTICIPANTS.forEach(p=> rows.push([p.name,p.school,p.category,p.phone,p.emergency,p.expectedDay,p.qrId, p.enabled===false?'Disabled':'Active']));
+  downloadCSV('participants.csv', rows);
+});
+document.getElementById('exportAttendanceBtn').addEventListener('click', ()=>{
+  const rows = [['Name','School','Day1 CheckIn','Day1 BagCheck','Day1 Food','Day1 Checkout','Day2 CheckIn','Day2 BagCheck','Day2 Food','Day2 Checkout']];
+  PARTICIPANTS.forEach(p=>{
+    const d1=p.day1||emptyDay(), d2=p.day2||emptyDay();
+    rows.push([p.name,p.school, d1.checkin?.done?'Y':'N', d1.bagcheck?.done?'Y':'N', d1.food?.done?'Y':'N', d1.checkout?.done?'Y':'N',
+               d2.checkin?.done?'Y':'N', d2.bagcheck?.done?'Y':'N', d2.food?.done?'Y':'N', d2.checkout?.done?'Y':'N']);
+  });
+  downloadCSV('attendance.csv', rows);
+});
+document.getElementById('exportLogsBtn').addEventListener('click', ()=>{
+  const rows = [['Participant','Checkpoint','Day','Method','Volunteer','Result','Timestamp']];
+  recentLogsCache.forEach(l=> rows.push([l.participantName, l.checkpoint, l.day, l.method, l.volunteer, l.result, l.timestamp?.toDate?l.timestamp.toDate().toISOString():'']));
+  downloadCSV('logs.csv', rows);
+});
+document.getElementById('backupBtn').addEventListener('click', ()=>{
+  const data = { exportedAt: new Date().toISOString(), participants: PARTICIPANTS, settings: SETTINGS };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cresco-security-backup.json'; a.click();
+});
+document.getElementById('restoreFileInput').addEventListener('change', async (e)=>{
+  const file = e.target.files[0]; if(!file) return;
+  try{
+    const data = JSON.parse(await file.text());
+    if(!data.participants) throw new Error('Invalid backup file');
+    if(!confirm(`Restore ${data.participants.length} participant records? This merges into existing data.`)) return;
+    for(const p of data.participants){ const {id, ...rest} = p; await setDoc(doc(db,'participants', id || genQrId()), rest, {merge:true}); }
+    toast('Backup restored', 'success');
+  }catch(err){ toast('Restore failed: '+err.message, 'error'); }
+});
+document.getElementById('resetAttendanceBtn').addEventListener('click', async ()=>{
+  if(!confirm('Reset ALL attendance for ALL participants? Participant profiles are kept.')) return;
+  try{ for(const p of PARTICIPANTS){ await updateDoc(doc(db,'participants',p.id), { day1: emptyDay(), day2: emptyDay() }); } toast('All attendance reset', 'success'); }
+  catch(e){ toast('Failed: '+e.message, 'error'); }
+});
+</script>
+</body>
+</html>

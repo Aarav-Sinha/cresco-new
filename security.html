@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#030816">
+<meta name="robots" content="noindex, nofollow">
+<title>Security Console — CrescoScientiam 5.0</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23030816'/%3E%3Ccircle cx='50' cy='50' r='34' fill='none' stroke='%231c39bb' stroke-width='3'/%3E%3Ccircle cx='50' cy='16' r='4' fill='%235ee0ff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<style>
+:root{
+  --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.55);--panel-solid:#0b1120;
+  --line:rgba(140,170,255,.11);--line2:rgba(140,170,255,.26);--line3:rgba(140,170,255,.4);
+  --blue:#1c39bb;--electric:#5ee0ff;--amber:#ffb648;--alert:#ef4a5a;--good:#2ecc71;
+  --paper:#eef2fb;--dim:rgba(238,242,251,.62);--faint:rgba(238,242,251,.34);
+  --disp:'Poppins',sans-serif;--ui:'Space Grotesk',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-x:hidden;}
+body{background:var(--ink);color:var(--paper);font-family:var(--ui);font-size:16px;line-height:1.5;min-height:100svh;-webkit-font-smoothing:antialiased;}
+a{color:inherit;} img{max-width:100%;display:block;} ul,ol{list-style:none;} button,input,select,textarea{font:inherit;color:inherit;}
+::selection{background:rgba(28,57,187,.4);color:#fff;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 45% at 15% -8%, rgba(28,57,187,.2), transparent 60%),radial-gradient(ellipse 50% 40% at 100% 100%, rgba(94,224,255,.08), transparent 60%);}
+.glass{backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);background:rgba(16,23,45,.5);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 50px -20px rgba(0,0,0,.6);}
+.hidden{display:none !important;}
+
+.btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:13px 22px;border-radius:10px;border:1px solid var(--line3);background:transparent;color:var(--paper);cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+.btn:hover{border-color:var(--electric);color:var(--electric);background:rgba(94,224,255,.06);}
+.btn:active{transform:scale(.96);}
+.btn-solid{background:linear-gradient(120deg,#3f5cf0,var(--blue));border-color:var(--blue);color:#fff;}
+.btn-solid:hover{box-shadow:0 10px 28px -10px rgba(28,57,187,.6);color:#fff;}
+.btn-good{background:rgba(46,204,113,.14);border-color:rgba(46,204,113,.4);color:var(--good);}
+.btn-good:hover{background:rgba(46,204,113,.22);color:var(--good);}
+.btn-alert{background:rgba(239,74,90,.12);border-color:rgba(239,74,90,.4);color:var(--alert);}
+.btn-alert:hover{background:rgba(239,74,90,.2);color:var(--alert);}
+.btn-full{width:100%;}
+.btn-icon{width:38px;height:38px;padding:0;border-radius:10px;}
+input[type=text],select{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:8px;padding:11px 13px;font-size:14px;outline:none;transition:border-color .2s;}
+input:focus,select:focus{border-color:var(--electric);}
+
+/* ============ GATES ============ */
+#loadingGate,#authGate,#deniedGate{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--ink);}
+.gate-card{width:min(420px,100%);border-radius:22px;padding:40px 34px;text-align:center;position:relative;z-index:2;}
+.gate-logo-img{height:44px;margin:0 auto 18px;object-fit:contain;}
+.gate-logo{display:none;justify-content:center;gap:6px;margin-bottom:18px;}
+.gate-cell{width:34px;height:24px;border-radius:6px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:11px;}
+.gate-cell:nth-child(1){background:linear-gradient(140deg,#6f9bff,var(--blue));color:#fff;}
+.gate-cell:nth-child(2){background:linear-gradient(140deg,var(--electric),var(--blue));color:#031;}
+.gate-cell:nth-child(3){background:linear-gradient(140deg,var(--blue),#0d1f6e);color:#fff;}
+.gate-card h1{font-family:var(--disp);font-weight:800;font-size:1.4rem;}
+.gate-card p{color:var(--dim);margin-top:8px;font-size:.88rem;}
+.spinner-lg{width:34px;height:34px;border:3px solid rgba(94,224,255,.15);border-top-color:var(--electric);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.gate-timeout-msg{display:none;margin-top:18px;text-align:left;background:rgba(255,182,72,.08);border:1px solid rgba(255,182,72,.3);border-radius:12px;padding:14px 16px;font-family:var(--mono);font-size:11px;color:var(--amber);line-height:1.7;}
+.gate-timeout-msg.show{display:block;}
+.google-btn{margin-top:24px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:12px;background:#fff;color:#1f1f1f;font-weight:600;font-size:.95rem;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;}
+.google-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px rgba(0,0,0,.5);}
+.google-btn:active{transform:scale(.98);}
+.gate-msg{margin-top:14px;font-family:var(--mono);font-size:11.5px;color:var(--alert);min-height:16px;}
+.denied-icon{width:56px;height:56px;border-radius:50%;background:rgba(239,74,90,.15);border:1px solid rgba(239,74,90,.4);display:grid;place-items:center;margin:0 auto 18px;color:var(--alert);}
+
+/* ============ APP SHELL ============ */
+#app{display:none;position:relative;z-index:1;min-height:100svh;padding-bottom:40px;}
+.app-topbar{position:sticky;top:0;z-index:60;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);background:rgba(6,9,20,.85);border-bottom:1px solid var(--line);padding:14px clamp(14px,3vw,28px);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.tb-logo-img{height:26px;width:auto;object-fit:contain;}
+.tb-mark{display:none;gap:2px;}
+.tb-mark span{width:20px;height:15px;border-radius:4px;font-family:var(--mono);font-size:7.5px;display:grid;place-items:center;font-weight:700;color:#fff;}
+.tb-mark span:nth-child(1){background:var(--blue);} .tb-mark span:nth-child(2){background:#3f5cf0;} .tb-mark span:nth-child(3){background:#0d1f6e;}
+.tb-title{font-family:var(--disp);font-weight:800;font-size:1rem;}
+.tb-title span{display:block;font-family:var(--mono);font-size:8.5px;color:var(--faint);letter-spacing:.14em;font-weight:400;margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.day-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;padding:8px 14px;border-radius:999px;background:rgba(94,224,255,.1);border:1px solid rgba(94,224,255,.3);color:var(--electric);text-transform:uppercase;font-weight:700;}
+.online-dot{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;color:var(--faint);}
+.online-dot i{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);}
+.online-dot.offline i{background:var(--alert);box-shadow:0 0 8px var(--alert);animation:blinkDot 1s infinite;}
+@keyframes blinkDot{50%{opacity:.3;}}
+.volunteer-chip{font-family:var(--mono);font-size:10px;color:var(--dim);padding:8px 12px;border-radius:999px;border:1px solid var(--line2);}
+.admin-link-chip{font-family:var(--mono);font-size:10px;color:var(--electric);padding:8px 12px;border-radius:999px;border:1px solid rgba(94,224,255,.3);}
+.signout-chip{font-family:var(--mono);font-size:10px;color:var(--alert);padding:8px 12px;border-radius:999px;border:1px solid rgba(239,74,90,.3);cursor:pointer;background:none;}
+
+.app-main{max-width:1200px;margin:0 auto;padding:24px clamp(14px,3vw,28px);}
+
+.checkpoint-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
+.cp-btn{border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .25s;}
+.cp-btn .cp-icon{width:30px;height:30px;margin:0 auto 8px;display:grid;place-items:center;border-radius:8px;background:rgba(255,255,255,.05);}
+.cp-btn span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);}
+.cp-btn.active{border-color:var(--electric);background:rgba(94,224,255,.1);box-shadow:0 0 0 1px rgba(94,224,255,.3) inset;}
+.cp-btn.active span{color:var(--electric);}
+.cp-btn.active .cp-icon{background:rgba(94,224,255,.18);color:var(--electric);}
+@media (max-width:600px){.checkpoint-row{grid-template-columns:1fr 1fr;}}
+
+.scan-panel{border-radius:22px;padding:clamp(24px,5vw,40px);text-align:center;margin-bottom:22px;}
+.scan-btn{width:clamp(110px,20vw,140px);height:clamp(110px,20vw,140px);border-radius:50%;background:linear-gradient(150deg,#3f5cf0,var(--blue));border:none;cursor:pointer;display:grid;place-items:center;color:#fff;margin:0 auto;box-shadow:0 20px 50px -14px rgba(28,57,187,.6);transition:transform .25s;position:relative;}
+.scan-btn:hover{transform:scale(1.04);}
+.scan-btn:active{transform:scale(.95);}
+.scan-btn::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(94,224,255,.3);animation:scanPulse 2.4s ease-out infinite;}
+@keyframes scanPulse{0%{transform:scale(1);opacity:.8;}100%{transform:scale(1.3);opacity:0;}}
+.scan-panel p.scan-hint{margin-top:18px;color:var(--dim);font-size:.9rem;}
+.scan-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+
+.search-panel{border-radius:18px;padding:20px 22px;margin-bottom:22px;}
+.search-row{display:flex;gap:10px;}
+.search-results{margin-top:14px;display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;}
+.search-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;border:1px solid var(--line2);cursor:pointer;transition:border-color .2s,background .2s;gap:10px;flex-wrap:wrap;}
+.search-item:hover{border-color:var(--electric);background:rgba(94,224,255,.04);}
+.search-item b{font-family:var(--ui);font-weight:700;font-size:.92rem;}
+.search-item span{display:block;font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:2px;}
+.si-status{font-family:var(--mono);font-size:9px;padding:4px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;}
+.si-status.enabled{background:rgba(46,204,113,.12);color:var(--good);}
+.si-status.disabled{background:rgba(239,74,90,.12);color:var(--alert);}
+
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:22px;}
+.dash-card{border-radius:16px;padding:18px 16px;text-align:center;}
+.dash-card b{display:block;font-family:var(--disp);font-weight:800;font-size:1.8rem;color:var(--electric);}
+.dash-card span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-top:5px;}
+
+.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+.panel-head h3{font-family:var(--disp);font-weight:800;font-size:1.05rem;}
+
+.school-table{border-radius:16px;overflow:hidden;margin-bottom:22px;}
+.school-table table{width:100%;border-collapse:collapse;}
+.school-table th{text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:12px 14px;border-bottom:1px solid var(--line2);}
+.school-table td{padding:11px 14px;border-bottom:1px solid var(--line);font-size:.85rem;}
+.school-table tr:last-child td{border-bottom:none;}
+
+.recent-list{display:flex;flex-direction:column;gap:8px;}
+.recent-item{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-radius:10px;border:1px solid var(--line);gap:8px;flex-wrap:wrap;}
+.recent-item b{font-size:.85rem;}
+.recent-item span{font-family:var(--mono);font-size:9.5px;color:var(--faint);}
+
+/* ============ MODALS ============ */
+.modal-overlay{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,6,14,.85);backdrop-filter:blur(8px);}
+.modal-overlay.open{display:flex;}
+.modal-box{width:min(520px,100%);max-height:90vh;overflow-y:auto;border-radius:20px;padding:28px;position:relative;animation:modalIn .35s cubic-bezier(.22,1,.36,1);}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(14px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--dim);cursor:pointer;transition:transform .3s,color .3s;}
+.modal-close:hover{transform:rotate(90deg);color:var(--alert);}
+.modal-title{font-family:var(--disp);font-weight:800;font-size:1.25rem;padding-right:30px;}
+
+#qrReader{width:100%;border-radius:14px;overflow:hidden;background:#000;min-height:260px;}
+.scanner-controls{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+.manual-entry-row{display:flex;gap:8px;margin-top:16px;}
+
+.verify-header{display:flex;gap:14px;align-items:center;margin-bottom:20px;}
+.verify-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#3f5cf0,var(--blue));display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:1.2rem;color:#fff;flex-shrink:0;}
+.verify-name{font-family:var(--disp);font-weight:800;font-size:1.2rem;}
+.verify-sub{color:var(--dim);font-size:.85rem;margin-top:2px;}
+.verify-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.vm-item{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
+.vm-item span{display:block;font-family:var(--mono);font-size:8.5px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;}
+.vm-item b{display:block;font-size:.85rem;margin-top:3px;}
+.checkpoint-status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.cs-item{text-align:center;padding:10px 4px;border-radius:10px;border:1px solid var(--line);}
+.cs-item.done{border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.08);}
+.cs-item span{display:block;font-family:var(--mono);font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);}
+.cs-item b{display:block;margin-top:4px;font-size:.7rem;}
+.cs-item.done b{color:var(--good);}
+.warn-banner{background:rgba(255,182,72,.1);border:1px solid rgba(255,182,72,.35);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:.85rem;color:var(--amber);display:flex;gap:10px;align-items:flex-start;}
+.verify-actions{display:flex;gap:12px;margin-top:8px;}
+.verify-actions .btn{flex:1;}
+
+#duplicateModal .modal-box{border:2px solid var(--alert);text-align:center;}
+.dup-icon{width:70px;height:70px;border-radius:50%;background:rgba(239,74,90,.15);border:2px solid var(--alert);display:grid;place-items:center;margin:0 auto 18px;color:var(--alert);animation:dupPulse 1s ease-in-out infinite;}
+@keyframes dupPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+.dup-title{font-family:var(--disp);font-weight:800;font-size:1.5rem;color:var(--alert);}
+.dup-detail{margin-top:16px;text-align:left;background:rgba(255,255,255,.02);border-radius:10px;padding:14px 16px;}
+.dup-detail div{display:flex;justify-content:space-between;padding:6px 0;font-size:.85rem;border-top:1px solid var(--line);}
+.dup-detail div:first-child{border-top:none;}
+.dup-detail span:first-child{color:var(--faint);font-family:var(--mono);font-size:10px;text-transform:uppercase;}
+
+#toastWrap{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:600;display:flex;flex-direction:column;gap:8px;align-items:center;width:min(400px,92vw);}
+.toast{width:100%;padding:13px 18px;border-radius:12px;font-family:var(--ui);font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.toast.success{background:rgba(46,204,113,.95);color:#04371c;}
+.toast.error{background:rgba(239,74,90,.95);color:#3a0207;}
+.toast.info{background:rgba(94,224,255,.95);color:#031e2b;}
+</style>
+</head>
+<body>
+
+<!-- ============ LOADING ============ -->
+<div id="loadingGate">
+  <div class="gate-card glass">
+    <div class="spinner-lg"></div>
+    <p style="color:var(--dim);font-family:var(--mono);font-size:11px;">Checking access...</p>
+    <div class="gate-timeout-msg" id="gateTimeoutMsg">
+      Still loading? This usually means one of:<br>
+      1. This file must be served over http(s) — opening it directly as a local file (file://) blocks Firebase.<br>
+      2. No internet connection.<br>
+      3. Google Sign-In isn't enabled yet in the Firebase Console (Authentication &rarr; Sign-in method).<br><br>
+      Open the browser console (F12) for the exact error.
+    </div>
+  </div>
+</div>
+
+<!-- ============ AUTH GATE ============ -->
+<div id="authGate" style="display:none;">
+  <div class="gate-card glass">
+    <img src="event -logos/cresco_logo.png" alt="Cresco" class="gate-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="gate-logo"><span class="gate-cell">Cr</span><span class="gate-cell">Es</span><span class="gate-cell">Co</span></div>
+    <h1>Security Console</h1>
+    <p>Sign in with your authorised Google account to access checkpoint scanning.</p>
+    <button class="google-btn" id="googleSignIn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.8 32.3 29.3 35 24 35c-6.1 0-11-4.9-11-11s4.9-11 11-11c2.8 0 5.3 1 7.3 2.7l5.7-5.7C33.6 6.5 29 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5Z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.6 15.9 18.9 13 24 13c2.8 0 5.3 1 7.3 2.7l5.7-5.7C33.6 6.5 29 4.5 24 4.5c-7.6 0-14.2 4.3-17.7 10.2Z"/><path fill="#4CAF50" d="M24 43.5c4.9 0 9.4-1.9 12.7-4.9l-6-5.1C28.9 35 26.6 35.8 24 35.8c-5.3 0-9.8-3.4-11.4-8.1l-6.5 5C9 39 16 43.5 24 43.5Z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2.1-2.1 4-3.9 5.4l6 5.1C40.5 35.6 43.5 30.2 43.5 24c0-1.2-.1-2.4-.4-3.5Z"/></svg>
+      Sign in with Google
+    </button>
+    <div class="gate-msg" id="gateMsg"></div>
+  </div>
+</div>
+
+<!-- ============ DENIED ============ -->
+<div id="deniedGate" style="display:none;">
+  <div class="gate-card glass">
+    <div class="denied-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg></div>
+    <h1>Access Denied</h1>
+    <p id="deniedEmail" style="margin-top:6px;font-family:var(--mono);font-size:12px;"></p>
+    <p style="margin-top:14px;">This Google account isn't on the security console allow-list.</p>
+    <button class="btn btn-full" id="deniedSignOut" style="margin-top:18px;">Sign Out &amp; Try Another Account</button>
+  </div>
+</div>
+
+<!-- ============ VOLUNTEER APP SHELL ============ -->
+<div id="app">
+  <div class="app-topbar">
+    <div class="topbar-left">
+      <img src="event -logos/cresco_logo.png" alt="Cresco" class="tb-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <span class="tb-mark"><span>Cr</span><span>Es</span><span>Co</span></span>
+      <div class="tb-title" id="eventNameDisplay">CrescoScientiam 5.0<span id="volunteerNameDisplay">Volunteer</span></div>
+    </div>
+    <div class="topbar-right">
+      <span class="day-badge" id="dayBadge">DAY 1</span>
+      <span class="online-dot" id="onlineIndicator"><i></i><span id="onlineText">Online</span></span>
+      <a href="/admin" class="admin-link-chip">Mission Control</a>
+      <button class="signout-chip" id="signOutBtn">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="app-main">
+
+    <div class="checkpoint-row" id="checkpointRow">
+      <div class="cp-btn glass active" data-cp="checkin"><div class="cp-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div><span>Check-In</span></div>
+      <div class="cp-btn glass" data-cp="bagcheck"><div class="cp-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></div><span>Bag Check</span></div>
+      <div class="cp-btn glass" data-cp="food"><div class="cp-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3v6a2 2 0 0 0 2 2h1v10M7 3v6M9 3v6M17 3c-2 2-2 5-2 8h2v9"/></svg></div><span>Food</span></div>
+      <div class="cp-btn glass" data-cp="checkout"><div class="cp-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></div><span>Checkout</span></div>
+    </div>
+
+    <div class="scan-panel glass">
+      <button class="scan-btn" id="openScanBtn"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 14h2M14 19h2M19 19h2"/></svg></button>
+      <p class="scan-hint">Tap to scan a participant's QR code for <b id="scanHintCp" style="color:var(--electric);">Check-In</b></p>
+      <div class="scan-actions"><button class="btn" id="manualEntryBtn">Manual QR Entry</button></div>
+    </div>
+
+    <div class="search-panel glass">
+      <div class="panel-head"><h3>Manual Search / Verification</h3></div>
+      <div class="search-row">
+        <input type="text" id="searchInput" placeholder="Search by name, school, QR ID, or phone...">
+        <button class="btn btn-icon" id="searchClearBtn">&#10005;</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <div class="dash-grid" id="dashGrid"></div>
+
+    <div class="panel-head"><h3>School-wise Attendance</h3></div>
+    <div class="school-table glass" id="schoolTableWrap">
+      <table><thead><tr><th>School</th><th>Registered</th><th>Present</th><th>Food</th><th>Checkout</th></tr></thead><tbody id="schoolTableBody"></tbody></table>
+    </div>
+
+    <div class="panel-head"><h3>Recently Scanned</h3></div>
+    <div class="recent-list glass" id="recentList" style="padding:10px;border-radius:16px;"></div>
+
+  </div>
+</div>
+
+<!-- ============ SCAN MODAL ============ -->
+<div class="modal-overlay" id="scanModal">
+  <div class="modal-box glass">
+    <button class="modal-close" id="scanModalClose">&#10005;</button>
+    <div class="modal-title">Scan QR Code</div>
+    <div id="qrReader" style="margin-top:16px;"></div>
+    <div class="scanner-controls">
+      <button class="btn btn-icon" id="switchCameraBtn" title="Switch Camera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 2l4 4-4 4M3 6h18M7 22l-4-4 4-4M21 18H3"/></svg></button>
+      <button class="btn btn-icon" id="torchBtn" title="Flashlight"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.5.4.9 1 .9 1.6V17h6.2v-.7c0-.6.4-1.2.9-1.6A7 7 0 0 0 12 2Z"/></svg></button>
+      <button class="btn" id="stopScanBtn">Stop Camera</button>
+    </div>
+    <div class="manual-entry-row">
+      <input type="text" id="manualQrInput" placeholder="Or type QR ID manually...">
+      <button class="btn btn-solid" id="manualQrSubmit">Go</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VERIFY MODAL ============ -->
+<div class="modal-overlay" id="verifyModal">
+  <div class="modal-box glass"><button class="modal-close" id="verifyModalClose">&#10005;</button><div id="verifyBody"></div></div>
+</div>
+
+<!-- ============ DUPLICATE MODAL ============ -->
+<div class="modal-overlay" id="duplicateModal">
+  <div class="modal-box glass">
+    <button class="modal-close" id="duplicateModalClose">&#10005;</button>
+    <div class="dup-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg></div>
+    <div class="dup-title">Already Completed</div>
+    <div class="dup-detail" id="dupDetail"></div>
+    <div style="margin-top:18px;"><button class="btn btn-full" id="dupCloseBtn">Close</button></div>
+  </div>
+</div>
+
+<div id="toastWrap"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, updateDoc, collection,
+  onSnapshot, query, addDoc, serverTimestamp, Timestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCr7RU1pUOyxV88VEAgJZwEHNupTHCnv98",
+  authDomain: "cresco-scientiam.firebaseapp.com",
+  projectId: "cresco-scientiam",
+  storageBucket: "cresco-scientiam.firebasestorage.app",
+  messagingSenderId: "102065794685",
+  appId: "1:102065794685:web:bf1bb3506d77a722368b14",
+  measurementId: "G-QLQSFRB8ZW"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+const CHECKPOINTS = ["checkin","bagcheck","food","checkout"];
+const CP_LABELS = {checkin:"Check-In", bagcheck:"Bag Check", food:"Food Distribution", checkout:"Checkout"};
+const SETTINGS_REF = doc(db, "settings", "main");
+const PARTICIPANTS_COL = collection(db, "participants");
+const LOGS_COL = collection(db, "logs");
+
+let SETTINGS = { scanningPasscode:"", eventName:"CrescoScientiam 5.0", currentDay:"day1" };
+let PARTICIPANTS = [];
+let recentLogsCache = [];
+let currentCheckpoint = "checkin";
+let volunteerName = "";
+let CURRENT_USER = null;
+let html5QrCode = null;
+let currentCamId = null;
+let torchOn = false;
+
+/* ================= TIMEOUT FALLBACK ================= */
+let authResolved = false;
+setTimeout(()=>{ if(!authResolved) document.getElementById('gateTimeoutMsg').classList.add('show'); }, 6000);
+
+/* ================= AUTH GATE — step 1 for this page ================= */
+onAuthStateChanged(auth, async (user) => {
+  authResolved = true;
+  document.getElementById('loadingGate').style.display = 'none';
+  document.getElementById('authGate').style.display = 'none';
+  document.getElementById('deniedGate').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+
+  if (!user) { document.getElementById('authGate').style.display = 'flex'; return; }
+
+  try {
+    const snap = await getDoc(doc(db, "admins", user.email));
+    if (!snap.exists()) {
+      document.getElementById('deniedGate').style.display = 'flex';
+      document.getElementById('deniedEmail').textContent = user.email;
+      return;
+    }
+  } catch (err) {
+    document.getElementById('deniedGate').style.display = 'flex';
+    document.getElementById('deniedEmail').textContent = user.email + ' — could not verify access.';
+    return;
+  }
+
+  CURRENT_USER = user;
+  volunteerName = user.displayName || user.email;
+  document.getElementById('volunteerNameDisplay').textContent = volunteerName;
+  document.getElementById('app').style.display = 'block';
+  initData();
+});
+
+document.getElementById('googleSignIn').addEventListener('click', () => {
+  const msg = document.getElementById('gateMsg'); msg.textContent = '';
+  signInWithPopup(auth, provider).catch(err => { msg.textContent = 'Sign-in failed: ' + err.message; });
+});
+document.getElementById('deniedSignOut').addEventListener('click', () => signOut(auth));
+document.getElementById('signOutBtn').addEventListener('click', () => signOut(auth));
+
+/* ================= HELPERS ================= */
+function toast(msg, type="info"){
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type; el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, 3200);
+}
+function initials(name){ return (name||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase(); }
+function beep(){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination); o.frequency.value = 880; g.gain.value = 0.08;
+    o.start(); setTimeout(()=>{o.stop();ctx.close();}, 140);
+  }catch(e){}
+}
+function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+function emptyCP(){ return {done:false, timestamp:null, volunteer:null}; }
+function emptyDay(){ return {checkin:emptyCP(), bagcheck:emptyCP(), food:emptyCP(), checkout:emptyCP()}; }
+function matchesQuery(p, q){
+  q = q.toLowerCase();
+  return (p.name||'').toLowerCase().includes(q) || (p.school||'').toLowerCase().includes(q) ||
+         (p.qrId||'').toLowerCase().includes(q) || (p.phone||'').toLowerCase().includes(q);
+}
+async function writeLog(p, checkpoint, method, result){
+  try{
+    await addDoc(LOGS_COL, {
+      participantId: p ? p.id : null, participantName: p ? p.name : null,
+      volunteer: volunteerName || "Unknown", checkpoint, day: SETTINGS.currentDay, method,
+      timestamp: serverTimestamp(), device: navigator.userAgent.slice(0,120), result
+    });
+  }catch(e){ console.warn("Log write failed:", e); }
+}
+
+/* ================= ONLINE STATUS ================= */
+function updateOnlineStatus(){
+  const ind = document.getElementById('onlineIndicator'); const txt = document.getElementById('onlineText');
+  if(navigator.onLine){ ind.classList.remove('offline'); txt.textContent='Online'; }
+  else { ind.classList.add('offline'); txt.textContent='Offline'; }
+}
+addEventListener('online', updateOnlineStatus); addEventListener('offline', updateOnlineStatus); updateOnlineStatus();
+
+/* ================= DATA (starts only after auth passes) ================= */
+function initData(){
+  onSnapshot(SETTINGS_REF, snap=>{
+    if(snap.exists()) SETTINGS = Object.assign(SETTINGS, snap.data());
+    document.getElementById('eventNameDisplay').childNodes[0].textContent = SETTINGS.eventName || 'CrescoScientiam 5.0';
+    document.getElementById('dayBadge').textContent = SETTINGS.currentDay === 'day2' ? 'DAY 2' : 'DAY 1';
+    renderDashboard();
+  });
+  onSnapshot(PARTICIPANTS_COL, snap=>{
+    PARTICIPANTS = []; snap.forEach(d=>PARTICIPANTS.push({id:d.id, ...d.data()}));
+    renderDashboard(); renderSchoolTable();
+  });
+  onSnapshot(query(LOGS_COL), snap=>{
+    recentLogsCache = []; snap.forEach(d=>recentLogsCache.push({id:d.id, ...d.data()}));
+    recentLogsCache.sort((a,b)=>(b.timestamp?.seconds||0)-(a.timestamp?.seconds||0));
+    renderRecentList();
+  });
+}
+
+/* ================= CHECKPOINT SELECTOR ================= */
+document.querySelectorAll('.cp-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.cp-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); currentCheckpoint = btn.dataset.cp;
+    document.getElementById('scanHintCp').textContent = CP_LABELS[currentCheckpoint];
+  });
+});
+
+/* ================= DASHBOARD ================= */
+function computeStats(){
+  const day = SETTINGS.currentDay;
+  let registered=0, expected=0, checkedIn=0, food=0, checkedOut=0, bagChecked=0, pending=0;
+  PARTICIPANTS.forEach(p=>{
+    if(p.enabled===false) return;
+    registered++;
+    const isExpected = p.expectedDay==='both' || p.expectedDay===day;
+    if(isExpected) expected++;
+    const d = p[day] || emptyDay();
+    if(d.checkin?.done) checkedIn++;
+    if(d.bagcheck?.done) bagChecked++;
+    if(d.food?.done) food++;
+    if(d.checkout?.done) checkedOut++;
+  });
+  pending = Math.max(0, expected - checkedOut);
+  return {registered, expected, checkedIn, bagChecked, food, checkedOut, pending};
+}
+function renderDashboard(){
+  const s = computeStats();
+  const cards = [
+    {label:'Registered', value:s.registered}, {label:'Expected Today', value:s.expected},
+    {label:'Checked In', value:s.checkedIn}, {label:'Bag Checked', value:s.bagChecked},
+    {label:'Food Distributed', value:s.food}, {label:'Checked Out', value:s.checkedOut}, {label:'Pending', value:s.pending}
+  ];
+  document.getElementById('dashGrid').innerHTML = cards.map(c=>`<div class="dash-card glass"><b>${c.value}</b><span>${c.label}</span></div>`).join('');
+}
+function renderSchoolTable(){
+  const day = SETTINGS.currentDay; const schools = {};
+  PARTICIPANTS.forEach(p=>{
+    if(p.enabled===false) return;
+    const sc = p.school || 'Unspecified';
+    if(!schools[sc]) schools[sc] = {registered:0, present:0, food:0, checkout:0};
+    schools[sc].registered++;
+    const d = p[day] || emptyDay();
+    if(d.checkin?.done) schools[sc].present++;
+    if(d.food?.done) schools[sc].food++;
+    if(d.checkout?.done) schools[sc].checkout++;
+  });
+  const rows = Object.entries(schools).sort((a,b)=>b[1].registered-a[1].registered);
+  document.getElementById('schoolTableBody').innerHTML = rows.length
+    ? rows.map(([name,st])=>`<tr><td>${name}</td><td>${st.registered}</td><td>${st.present}</td><td>${st.food}</td><td>${st.checkout}</td></tr>`).join('')
+    : `<tr><td colspan="5" style="text-align:center;color:var(--faint);">No participants yet</td></tr>`;
+}
+function renderRecentList(){
+  const wrap = document.getElementById('recentList');
+  const recent = recentLogsCache.slice(0,12);
+  wrap.innerHTML = recent.length ? recent.map(l=>`
+    <div class="recent-item"><b>${l.participantName||'Unknown'}</b><span>${CP_LABELS[l.checkpoint]||l.checkpoint} &middot; ${l.result} &middot; ${l.volunteer||''}</span></div>`).join('')
+    : '<p style="color:var(--faint);font-family:var(--mono);font-size:11px;padding:10px;">No scans yet</p>';
+}
+
+/* ================= SEARCH ================= */
+document.getElementById('searchInput').addEventListener('input', e=>{
+  const q = e.target.value.trim();
+  const wrap = document.getElementById('searchResults');
+  if(!q){ wrap.innerHTML=''; return; }
+  const results = PARTICIPANTS.filter(p=>matchesQuery(p,q)).slice(0,20);
+  wrap.innerHTML = results.length ? results.map(p=>`
+    <div class="search-item" data-id="${p.id}">
+      <div><b>${p.name}</b><span>${p.school||''} &middot; ${p.category||''}</span></div>
+      <span class="si-status ${p.enabled===false?'disabled':'enabled'}">${p.enabled===false?'Disabled':'Active'}</span>
+    </div>`).join('') : '<p style="color:var(--faint);font-family:var(--mono);font-size:11px;">No matches</p>';
+  wrap.querySelectorAll('.search-item').forEach(el=>{
+    el.addEventListener('click', ()=>{ const p = PARTICIPANTS.find(x=>x.id===el.dataset.id); if(p) openVerify(p, 'Manual Verification'); });
+  });
+});
+document.getElementById('searchClearBtn').addEventListener('click', ()=>{ document.getElementById('searchInput').value=''; document.getElementById('searchResults').innerHTML=''; });
+
+/* ================= QR SCANNER ================= */
+document.getElementById('openScanBtn').addEventListener('click', startScanner);
+document.getElementById('manualEntryBtn').addEventListener('click', startScanner);
+document.getElementById('scanModalClose').addEventListener('click', stopScanner);
+document.getElementById('stopScanBtn').addEventListener('click', stopScanner);
+
+function startScanner(){
+  openModal('scanModal');
+  if(typeof Html5Qrcode === 'undefined'){ toast('QR scanner library failed to load — use manual entry.', 'error'); return; }
+  html5QrCode = new Html5Qrcode("qrReader");
+  Html5Qrcode.getCameras().then(cams=>{
+    if(!cams || !cams.length){ toast('No camera found — use manual entry.', 'error'); return; }
+    currentCamId = cams[cams.length-1].id;
+    runCamera(currentCamId);
+  }).catch(()=>{ toast('Camera permission denied — use manual entry.', 'error'); });
+}
+function runCamera(camId) {
+  html5QrCode.start(
+    camId,
+    {
+      fps: 100,
+      qrbox: (vw, vh) => {
+    const size = Math.floor(Math.min(vw, vh) * 0.9);
+    return {
+        width: size,
+        height: size
+    };
+},
+      aspectRatio: 1,
+      experimentalFeatures: {
+    useBarCodeDetectorIfSupported: true
+},
+formatsToSupport: [
+    Html5QrcodeSupportedFormats.QR_CODE
+],
+      videoConstraints: {
+    facingMode: { ideal: "environment" },
+    width: { ideal: 1920 },
+    height: { ideal: 1080 }
+}
+    },
+    (decodedText) => {
+      console.log("QR DETECTED:", decodedText);
+      alert(decodedText);   // Temporary test
+      handleScanResult(decodedText);
+    },
+    (errorMessage) => {
+      // Uncomment this if you want to see continuous scan attempts:
+      // console.log(errorMessage);
+    }
+  ).catch(err => {
+    console.error(err);
+    toast("Camera start failed: " + err, "error");
+  });
+}
+function stopScanner(){
+  if(html5QrCode){ html5QrCode.stop().then(()=>html5QrCode.clear()).catch(()=>{}); html5QrCode=null; }
+  closeModal('scanModal');
+}
+document.getElementById('switchCameraBtn').addEventListener('click', async ()=>{
+  try{
+    const cams = await Html5Qrcode.getCameras();
+    if(cams.length < 2){ toast('Only one camera available', 'info'); return; }
+    const idx = cams.findIndex(c=>c.id===currentCamId);
+    const next = cams[(idx+1) % cams.length];
+    if(html5QrCode){ await html5QrCode.stop(); }
+    currentCamId = next.id; runCamera(currentCamId);
+  }catch(e){ toast('Could not switch camera', 'error'); }
+});
+document.getElementById('torchBtn').addEventListener('click', async ()=>{
+  if(!html5QrCode) return;
+  try{ torchOn = !torchOn; await html5QrCode.applyVideoConstraints({ advanced: [{ torch: torchOn }] }); }
+  catch(e){ toast('Flashlight not supported on this device', 'info'); torchOn=!torchOn; }
+});
+document.getElementById('manualQrSubmit').addEventListener('click', ()=>{
+  const v = document.getElementById('manualQrInput').value.trim(); if(v) handleScanResult(v, true);
+});
+document.getElementById('manualQrInput').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('manualQrSubmit').click(); });
+
+function handleScanResult(text, manual=false){
+  const p = PARTICIPANTS.find(x=>x.qrId === text.trim());
+  stopScanner(); document.getElementById('manualQrInput').value='';
+  if(!p){ toast('No participant found for this QR code', 'error'); writeLog(null, currentCheckpoint, manual?'Manual':'QR', 'Not Found'); return; }
+  if(!manual) beep();
+  openVerify(p, manual?'Manual QR Entry':'QR Scan');
+}
+
+/* ================= VERIFY MODAL ================= */
+function openVerify(p, method){
+  p._method = method;
+  const day = SETTINGS.currentDay;
+  const d = p[day] || emptyDay();
+  const alreadyDone = d[currentCheckpoint]?.done;
+
+  if(alreadyDone){
+    document.getElementById('dupDetail').innerHTML = `
+      <div><span>Participant</span><span>${p.name}</span></div>
+      <div><span>Checkpoint</span><span>${CP_LABELS[currentCheckpoint]}</span></div>
+      <div><span>Volunteer</span><span>${d[currentCheckpoint].volunteer||'-'}</span></div>
+      <div><span>Time</span><span>${d[currentCheckpoint].timestamp?.toDate ? d[currentCheckpoint].timestamp.toDate().toLocaleString() : '-'}</span></div>`;
+    writeLog(p, currentCheckpoint, method, 'Duplicate');
+    openModal('duplicateModal');
+    return;
+  }
+
+  const isExpected = p.expectedDay==='both' || p.expectedDay===day;
+  const dayLabel = day==='day2'?'Day 2':'Day 1';
+
+  document.getElementById('verifyBody').innerHTML = `
+    <div class="verify-header">
+      <div class="verify-avatar">${initials(p.name)}</div>
+      <div><div class="verify-name">${p.name}</div><div class="verify-sub">${p.school||'—'} &middot; ${p.category||'—'}</div></div>
+    </div>
+    ${p.enabled===false?'<div class="warn-banner">This participant is DISABLED. Proceed only if you have admin approval.</div>':''}
+    ${!isExpected?`<div class="warn-banner">Participant is not registered for today's event (${dayLabel}). Expected: ${p.expectedDay==='day1'?'Day 1 Only':p.expectedDay==='day2'?'Day 2 Only':'Both Days'}.</div>`:''}
+    <div class="verify-meta">
+      <div class="vm-item"><span>QR ID</span><b>${p.qrId}</b></div>
+      <div class="vm-item"><span>Phone</span><b>${p.phone||'—'}</b></div>
+      <div class="vm-item"><span>Emergency</span><b>${p.emergency||'—'}</b></div>
+      <div class="vm-item"><span>Expected</span><b>${p.expectedDay==='day1'?'Day 1':p.expectedDay==='day2'?'Day 2':'Both Days'}</b></div>
+    </div>
+    <div class="checkpoint-status-grid">
+      ${CHECKPOINTS.map(cp=>`<div class="cs-item ${d[cp]?.done?'done':''}"><span>${CP_LABELS[cp]}</span><b>${d[cp]?.done?'&#10003; Done':'Pending'}</b></div>`).join('')}
+    </div>
+    <div class="verify-actions">
+      <button class="btn" id="verifyCancelBtn">Cancel</button>
+      <button class="btn btn-good" id="verifyConfirmBtn">Confirm ${CP_LABELS[currentCheckpoint]}</button>
+    </div>`;
+  openModal('verifyModal');
+  document.getElementById('verifyCancelBtn').addEventListener('click', ()=> closeModal('verifyModal'));
+  document.getElementById('verifyConfirmBtn').addEventListener('click', ()=> confirmCheckpoint(p, !isExpected));
+}
+document.getElementById('verifyModalClose').addEventListener('click', ()=> closeModal('verifyModal'));
+document.getElementById('duplicateModalClose').addEventListener('click', ()=> closeModal('duplicateModal'));
+document.getElementById('dupCloseBtn').addEventListener('click', ()=> closeModal('duplicateModal'));
+
+async function confirmCheckpoint(p, wasOverride){
+  const day = SETTINGS.currentDay;
+  try{
+    await updateDoc(doc(db,'participants',p.id), {
+      [`${day}.${currentCheckpoint}`]: { done:true, timestamp: Timestamp.now(), volunteer: volunteerName||'Unknown' }
+    });
+    await writeLog(p, currentCheckpoint, p._method||'QR Scan', wasOverride?'Override':'Success');
+    toast(`${CP_LABELS[currentCheckpoint]} confirmed for ${p.name}`, 'success');
+    closeModal('verifyModal');
+  }catch(e){ toast('Failed to update: '+e.message, 'error'); }
+}
+</script>
+</body>
+</html>

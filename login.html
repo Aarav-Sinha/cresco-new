@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#030816">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Login — CrescoScientiam 5.0</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23030816'/%3E%3Ccircle cx='50' cy='50' r='34' fill='none' stroke='%231c39bb' stroke-width='3'/%3E%3Ccircle cx='50' cy='16' r='4' fill='%235ee0ff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.55);
+  --line:rgba(140,170,255,.11);--line2:rgba(140,170,255,.26);--line3:rgba(140,170,255,.4);
+  --blue:#1c39bb;--electric:#5ee0ff;--amber:#ffb648;--alert:#ef4a5a;--good:#2ecc71;
+  --paper:#eef2fb;--dim:rgba(238,242,251,.62);--faint:rgba(238,242,251,.34);
+  --disp:'Poppins',sans-serif;--ui:'Space Grotesk',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--ink);color:var(--paper);font-family:var(--ui);min-height:100svh;display:flex;align-items:center;justify-content:center;padding:20px;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 45% at 50% 0%, rgba(28,57,187,.22), transparent 60%);}
+a{color:inherit;} button{font:inherit;color:inherit;}
+.glass{backdrop-filter:blur(20px) saturate(170%);-webkit-backdrop-filter:blur(20px) saturate(170%);background:rgba(16,23,45,.5);border:1px solid rgba(255,255,255,.08);box-shadow:0 24px 60px -20px rgba(0,0,0,.6);}
+.card{position:relative;z-index:2;width:min(420px,100%);border-radius:22px;padding:44px 36px;text-align:center;}
+.mark{display:flex;justify-content:center;gap:6px;margin-bottom:22px;}
+.mark span{width:36px;height:26px;border-radius:6px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:12px;}
+.mark span:nth-child(1){background:linear-gradient(140deg,#6f9bff,var(--blue));color:#fff;}
+.mark span:nth-child(2){background:linear-gradient(140deg,var(--electric),var(--blue));color:#031;}
+.mark span:nth-child(3){background:linear-gradient(140deg,var(--blue),#0d1f6e);color:#fff;}
+h1{font-family:var(--disp);font-weight:800;font-size:1.5rem;}
+p{color:var(--dim);margin-top:10px;font-size:.9rem;}
+.google-btn{margin-top:28px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:12px;background:#fff;color:#1f1f1f;font-weight:600;font-size:.95rem;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;}
+.google-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px rgba(0,0,0,.5);}
+.google-btn:active{transform:scale(.98);}
+.google-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.status-msg{margin-top:18px;font-family:var(--mono);font-size:11.5px;min-height:16px;}
+.status-msg.error{color:var(--alert);}
+.status-msg.info{color:var(--dim);}
+.denied-box{display:none;margin-top:22px;text-align:left;background:rgba(239,74,90,.08);border:1px solid rgba(239,74,90,.3);border-radius:12px;padding:16px 18px;}
+.denied-box.show{display:block;}
+.denied-box b{color:var(--alert);font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:block;}
+.denied-box span{display:block;margin-top:6px;font-family:var(--mono);font-size:11.5px;color:var(--dim);word-break:break-all;}
+.denied-box p{margin-top:10px;font-size:.82rem;color:var(--dim);}
+.try-again{margin-top:14px;display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--electric);text-transform:uppercase;cursor:pointer;}
+.spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.15);border-top-color:#1c39bb;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.footer-note{margin-top:28px;font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.06em;}
+</style>
+</head>
+<body>
+<div class="card glass" id="card">
+  <div class="mark"><span>Cr</span><span>Es</span><span>Co</span></div>
+  <h1>Admin Login</h1>
+  <p>Sign in with your authorised Google account to access Mission Control.</p>
+  <button class="google-btn" id="googleSignIn">
+    <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.8 32.3 29.3 35 24 35c-6.1 0-11-4.9-11-11s4.9-11 11-11c2.8 0 5.3 1 7.3 2.7l5.7-5.7C33.6 6.5 29 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5Z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.6 15.9 18.9 13 24 13c2.8 0 5.3 1 7.3 2.7l5.7-5.7C33.6 6.5 29 4.5 24 4.5c-7.6 0-14.2 4.3-17.7 10.2Z"/><path fill="#4CAF50" d="M24 43.5c4.9 0 9.4-1.9 12.7-4.9l-6-5.1C28.9 35 26.6 35.8 24 35.8c-5.3 0-9.8-3.4-11.4-8.1l-6.5 5C9 39 16 43.5 24 43.5Z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2.1-2.1 4-3.9 5.4l6 5.1C40.5 35.6 43.5 30.2 43.5 24c0-1.2-.1-2.4-.4-3.5Z"/></svg>
+    <span id="googleBtnLabel">Sign in with Google</span>
+  </button>
+  <div class="status-msg" id="statusMsg"></div>
+  <div class="denied-box" id="deniedBox">
+    <b>Access Denied</b>
+    <span id="deniedEmail"></span>
+    <p>This Google account isn't on the admin allow-list. Ask an existing admin to add your email to the <code>admins</code> collection in Firestore, or sign in with a different account.</p>
+    <span class="try-again" id="tryAgainBtn">Sign In With Another Account</span>
+  </div>
+  <p class="footer-note">CRESCO SCIENTIAM 5.0 &middot; MISSION CONTROL</p>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCr7RU1pUOyxV88VEAgJZwEHNupTHCnv98",
+    authDomain: "cresco-scientiam.firebaseapp.com",
+    projectId: "cresco-scientiam",
+    storageBucket: "cresco-scientiam.firebasestorage.app",
+    messagingSenderId: "102065794685",
+    appId: "1:102065794685:web:bf1bb3506d77a722368b14",
+    measurementId: "G-QLQSFRB8ZW"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  const statusMsg = document.getElementById('statusMsg');
+  const deniedBox = document.getElementById('deniedBox');
+  const signInBtn = document.getElementById('googleSignIn');
+  const btnLabel = document.getElementById('googleBtnLabel');
+
+  function setLoading(loading){
+    signInBtn.disabled = loading;
+    btnLabel.innerHTML = loading ? '<span class="spinner"></span> Checking access...' : 'Sign in with Google';
+  }
+
+  signInBtn.addEventListener('click', () => {
+    deniedBox.classList.remove('show');
+    statusMsg.textContent = ''; statusMsg.className = 'status-msg';
+    signInWithPopup(auth, provider).catch(err => {
+      statusMsg.textContent = 'Sign-in failed: ' + err.message;
+      statusMsg.classList.add('error');
+    });
+  });
+
+  document.getElementById('tryAgainBtn').addEventListener('click', async () => {
+    deniedBox.classList.remove('show');
+    await signOut(auth);
+  });
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      const snap = await getDoc(doc(db, "admins", user.email));
+      if (snap.exists()) {
+        statusMsg.textContent = 'Access granted — redirecting...';
+        statusMsg.classList.add('info');
+        setTimeout(() => { window.location.href = '/admin'; }, 500);
+      } else {
+        setLoading(false);
+        deniedBox.classList.add('show');
+        document.getElementById('deniedEmail').textContent = user.email;
+      }
+    } catch (err) {
+      setLoading(false);
+      statusMsg.textContent = 'Could not verify access: ' + err.message;
+      statusMsg.classList.add('error');
+    }
+  });
+</script>
+</body>
+</html>
