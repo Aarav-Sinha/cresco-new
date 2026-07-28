@@ -50,7 +50,7 @@ section{position:relative;z-index:2;padding:50px 0;}
 .ticker-bar{position:fixed;top:0;left:0;right:0;z-index:90;height:32px;overflow:hidden;backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);background:rgba(3,8,22,.7);border-bottom:1px solid var(--line);display:flex;align-items:center;}
 .ticker-track{display:flex;white-space:nowrap;overflow:hidden;animation:tickerScroll 34s linear infinite;}
 .ticker-track span{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:0 24px;display:inline-flex;align-items:center;gap:10px;}
-.ticker-track span i{width:4px;height:4px;border-radius:50%;background:var(--electric);display:inline-block;}
+.ticker-track span i{width:4px;height:4px;min-width:4px;min-height:4px;border-radius:50%;background:var(--electric);display:inline-block;flex-shrink:0;}
 @keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
 /* ---------- Dedicated Scrollbar for Modal Body ---------- */
@@ -257,24 +257,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;position:relative;z-index
           </div>
         </div>
 
-        <!-- Item 2: General Guidelines -->
-        <div class="res-card glass" data-category="guidelines">
-          <div>
-            <div class="res-header">
-              <span class="res-badge">Rulebook</span>
-              <span class="res-type">PDF &middot; 3.4 MB</span>
-            </div>
-            <div class="res-body" style="margin-top:14px;">
-              <h3>General Event Guidelines 5.0</h3>
-              <p>Comprehensive rulebook covering conduct, scoring criteria, eligibility, dress code, and venue instructions.</p>
-            </div>
-          </div>
-          <div class="res-footer">
-            <span class="res-meta">Version 1.0</span>
-            <a href="#" class="btn">Download <span class="arrow">&darr;</span></a>
-          </div>
-        </div>
-
+        
         
 
       </div>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#030816">
-<meta name="description" content="The fifteen events of Cresco Scientiam 5.0, arranged world by world — Mythology, Cosmos, Environment. Scroll through each arena.">
+<meta name="description" content="The sixteen events of Cresco Scientiam 5.0, arranged world by world — Mythology, Cosmos, Environment. Scroll through each arena.">
 <title>Events — Cresco Scientiam 5.0</title>
 <link rel="icon" type="image/png" href="event -logos/CRESCO_title_image.png">
 <link rel="apple-touch-icon" href="event -logos/CRESCO_title_image.png">
@@ -471,7 +471,7 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
   <section class="events-hero">
     <div class="wrap">
       <span class="kicker">Event Roster</span>
-      <h1>Fifteen arenas, <em>three worlds</em>.</h1>
+      <h1>Sixteen arenas, <em>three worlds</em>.</h1>
       <p>Scroll down to move through each theme-world in order — Mythology, then Cosmos, then Environment. Tap any card to open its full brief: team size, duration, venue, event heads and rulebook.</p>
       <div class="hero-legend">
         <div class="hl-item"><span class="hl-dot" style="background:var(--myth);"></span>01 &middot; Mythology</div>
@@ -550,8 +550,9 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
 
 <script>
 /* ================= SYSTEM CONTENT DATA (15 EVENTS) ================= */
+/* ================= SYSTEM CONTENT DATA (16 EVENTS) ================= */
 const DEFAULT_CONTENT = {
-  ticker: ["DPS MEGACITY PRESENTS","CRESCO SCIENTIAM 5.0","25\u201326 SEPTEMBER 2026","THREE THEME-WORLDS \u00b7 FIFTEEN EVENTS"],
+  ticker: ["DPS MEGACITY PRESENTS","CRESCO SCIENTIAM 5.0","25–26 SEPTEMBER 2026","THREE THEME-WORLDS · SIXTEEN EVENTS"],
   events: [
     /* ----- WORLD 1: MYTHOLOGY (5 Events) ----- */
     {
@@ -563,8 +564,8 @@ const DEFAULT_CONTENT = {
       team: "2 members",
       dur: "3 hours",
       venue: "Classroom 12A",
-      logo: "mayavi-mandala-logo.png",
-      box: "mayavi-mandala-box.jpg",
+      logo: "event -logos/mayavi-mandala-logo.png",
+      box: "event-box-bg/mayavi-mandala-box.jpg",
       desc: "Mayavi Mandala Description",
       rules: [
         "Open to students of Classes VI-VIII.",
@@ -673,7 +674,7 @@ const DEFAULT_CONTENT = {
       ]
     },
 
-    /* ----- WORLD 2: COSMOS (5 Events) ----- */
+    /* ----- WORLD 2: COSMOS (6 Events) ----- */
     {
       id: "e6",
       world: "cosmos",
@@ -783,12 +784,33 @@ const DEFAULT_CONTENT = {
         "Judged on algorithmic accuracy, efficiency, and project polish."
       ]
     },
+    {
+      id: "e11",
+      world: "cosmos",
+      num: "11",
+      slug: "sylva-machina",
+      title: "Sylva Machina",
+      team: "2 members",
+      dur: "2 hours 30 minutes",
+      venue: "Robotics Lab",
+      logo: "event -logos/sylva-machina-logo.png",
+      box: "event-box-bg/sylva-machina-box.jpg",
+      desc: "Sylva Machina is an advanced biomimicry and robotics challenge where teams construct and program autonomous mechanisms inspired by natural ecosystems and cosmic biological structures. Participants will engineer kinetic systems that adapt to dynamic, simulated extra-terrestrial terrain constraints.",
+      rules: [
+        "Open to students of Classes IX-XII.",
+        "Each school may register one team of two participants.",
+        "Robots/mechanisms must operate within specified dimensions and voltage constraints.",
+        "Participants must bring their own microcontrollers, sensors, and basic toolkit; the host school will provide the testing arena and obstacles.",
+        "The event consists of two rounds: an autonomous navigation track followed by an adaptive bio-mechanical task challenge.",
+        "Judged on mechanical innovation, algorithmic efficiency, real-time obstacle resolution, and structural durability."
+      ]
+    },
 
     /* ----- WORLD 3: ENVIRONMENT (5 Events) ----- */
     {
-      id: "e11",
+      id: "e12",
       world: "eco",
-      num: "11",
+      num: "12",
       slug: "clamor-naturae",
       title: "Clamor Naturae",
       team: "1 team",
@@ -809,9 +831,9 @@ const DEFAULT_CONTENT = {
       ]
     },
     {
-      id: "e12",
+      id: "e13",
       world: "eco",
-      num: "12",
+      num: "13",
       slug: "terra-cognitio",
       title: "Terra Cognitio",
       team: "3 members",
@@ -832,9 +854,9 @@ const DEFAULT_CONTENT = {
       ]
     },
     {
-      id: "e13",
+      id: "e14",
       world: "eco",
-      num: "13",
+      num: "14",
       slug: "genesis-nova",
       title: "Genesis Nova",
       team: "2 members",
@@ -854,9 +876,9 @@ const DEFAULT_CONTENT = {
       ]
     },
     {
-      id: "e14",
+      id: "e15",
       world: "eco",
-      num: "14",
+      num: "15",
       slug: "ventus-lapidum",
       title: "Ventus Lapidum",
       team: "2 members",
@@ -878,16 +900,16 @@ const DEFAULT_CONTENT = {
       ]
     },
     {
-      id: "e15",
+      id: "e16",
       world: "eco",
-      num: "15",
-      slug: "green-grid",
-      title: "Green Grid",
+      num: "16",
+      slug: "aurora-interface",
+      title: "Aurora Interface",
       team: "2 members",
       dur: "2 hours",
       venue: "Lab 2",
-      logo: "green-grid-logo.png",
-      box: "event-box-bg/green-grid-box.jpg",
+      logo: "aurora-interface-logo.png",
+      box: "event-box-bg/aurora-interface-box.jpg",
       desc: "Web Development Event",
       rules: [
         "Teams of two participants.",
@@ -1020,7 +1042,8 @@ function setupScrollInteractions() {
         });
 
         navTabs.forEach(tab => {
-          const isEvents = tab.getAttribute('href') === 'events.html';
+          const href = tab.getAttribute('href');
+          const isEvents = href === '/events' || href === 'events' || href === 'events.html';
           tab.classList.toggle('active', isEvents);
         });
 

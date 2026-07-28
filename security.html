@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <style>
 :root{
   --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.55);--panel-solid:#0b1120;
@@ -39,6 +39,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .btn-alert:hover{background:rgba(239,74,90,.2);color:var(--alert);}
 .btn-full{width:100%;}
 .btn-icon{width:38px;height:38px;padding:0;border-radius:10px;}
+.btn-icon.torch-on{border-color:var(--amber);color:var(--amber);background:rgba(255,182,72,.1);}
 input[type=text],select{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:8px;padding:11px 13px;font-size:14px;outline:none;transition:border-color .2s;}
 input:focus,select:focus{border-color:var(--electric);}
 
@@ -79,7 +80,6 @@ input:focus,select:focus{border-color:var(--electric);}
 .online-dot i{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);}
 .online-dot.offline i{background:var(--alert);box-shadow:0 0 8px var(--alert);animation:blinkDot 1s infinite;}
 @keyframes blinkDot{50%{opacity:.3;}}
-.volunteer-chip{font-family:var(--mono);font-size:10px;color:var(--dim);padding:8px 12px;border-radius:999px;border:1px solid var(--line2);}
 .admin-link-chip{font-family:var(--mono);font-size:10px;color:var(--electric);padding:8px 12px;border-radius:999px;border:1px solid rgba(94,224,255,.3);}
 .signout-chip{font-family:var(--mono);font-size:10px;color:var(--alert);padding:8px 12px;border-radius:999px;border:1px solid rgba(239,74,90,.3);cursor:pointer;background:none;}
 
@@ -134,15 +134,34 @@ input:focus,select:focus{border-color:var(--electric);}
 .recent-item span{font-family:var(--mono);font-size:9.5px;color:var(--faint);}
 
 /* ============ MODALS ============ */
-.modal-overlay{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,6,14,.85);backdrop-filter:blur(8px);}
+.modal-overlay{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,6,14,.88);backdrop-filter:blur(8px);}
 .modal-overlay.open{display:flex;}
 .modal-box{width:min(520px,100%);max-height:90vh;overflow-y:auto;border-radius:20px;padding:28px;position:relative;animation:modalIn .35s cubic-bezier(.22,1,.36,1);}
 @keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(14px);}to{opacity:1;transform:scale(1) translateY(0);}}
-.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--dim);cursor:pointer;transition:transform .3s,color .3s;}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);color:var(--dim);cursor:pointer;transition:transform .3s,color .3s;z-index:8;}
 .modal-close:hover{transform:rotate(90deg);color:var(--alert);}
 .modal-title{font-family:var(--disp);font-weight:800;font-size:1.25rem;padding-right:30px;}
 
-#qrReader{width:100%;border-radius:14px;overflow:hidden;background:#000;min-height:260px;}
+/* scanner visuals */
+#qrReaderWrap{position:relative;width:100%;border-radius:16px;overflow:hidden;background:#000;min-height:300px;margin-top:16px;}
+#qrReader{width:100%;}
+#qrReader video{width:100% !important;height:auto !important;display:block;border-radius:16px;}
+#qrReader img{display:none !important;} /* hide the default html5-qrcode camera-permission image prompt, we show our own status */
+.scan-overlay{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:3;}
+.scan-frame{position:relative;width:64%;aspect-ratio:1;}
+.scan-corner{position:absolute;width:26px;height:26px;border-color:var(--electric);border-style:solid;border-width:0;filter:drop-shadow(0 0 4px rgba(94,224,255,.6));}
+.scan-corner.tl{top:0;left:0;border-top-width:3px;border-left-width:3px;border-radius:8px 0 0 0;}
+.scan-corner.tr{top:0;right:0;border-top-width:3px;border-right-width:3px;border-radius:0 8px 0 0;}
+.scan-corner.bl{bottom:0;left:0;border-bottom-width:3px;border-left-width:3px;border-radius:0 0 0 8px;}
+.scan-corner.br{bottom:0;right:0;border-bottom-width:3px;border-right-width:3px;border-radius:0 0 8px 0;}
+.scan-line{position:absolute;left:2%;right:2%;height:2px;background:linear-gradient(90deg,transparent,var(--electric) 20%,var(--electric) 80%,transparent);box-shadow:0 0 8px var(--electric);animation:scanLineMove 1.8s ease-in-out infinite;}
+@keyframes scanLineMove{0%,100%{top:4%;}50%{top:94%;}}
+.scan-status{position:absolute;bottom:14px;left:0;right:0;text-align:center;z-index:3;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--electric);text-shadow:0 0 8px rgba(0,0,0,.8);}
+.scan-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:rgba(0,0,0,.5);z-index:4;}
+.scan-loading.hide{display:none;}
+.scan-flash{position:absolute;inset:0;background:var(--good);opacity:0;z-index:5;pointer-events:none;}
+.scan-flash.hit{animation:flashHit .35s ease;}
+@keyframes flashHit{0%{opacity:.55;}100%{opacity:0;}}
 .scanner-controls{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
 .manual-entry-row{display:flex;gap:8px;margin-top:16px;}
 
@@ -183,25 +202,23 @@ input:focus,select:focus{border-color:var(--electric);}
 </head>
 <body>
 
-<!-- ============ LOADING ============ -->
 <div id="loadingGate">
   <div class="gate-card glass">
     <div class="spinner-lg"></div>
     <p style="color:var(--dim);font-family:var(--mono);font-size:11px;">Checking access...</p>
     <div class="gate-timeout-msg" id="gateTimeoutMsg">
-      Still loading? This usually means one of:<br>
-      1. This file must be served over http(s) — opening it directly as a local file (file://) blocks Firebase.<br>
-      2. No internet connection.<br>
-      3. Google Sign-In isn't enabled yet in the Firebase Console (Authentication &rarr; Sign-in method).<br><br>
+      Still loading? Check:<br>
+      1. This file must be served over http(s), not opened directly as a local file.<br>
+      2. Internet connection.<br>
+      3. Google Sign-In is enabled in the Firebase Console (Authentication &rarr; Sign-in method).<br><br>
       Open the browser console (F12) for the exact error.
     </div>
   </div>
 </div>
 
-<!-- ============ AUTH GATE ============ -->
 <div id="authGate" style="display:none;">
   <div class="gate-card glass">
-    <img src="event -logos/cresco_logo.png" alt="Cresco" class="gate-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <img src="cresco_logo.png" alt="Cresco" class="gate-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
     <div class="gate-logo"><span class="gate-cell">Cr</span><span class="gate-cell">Es</span><span class="gate-cell">Co</span></div>
     <h1>Security Console</h1>
     <p>Sign in with your authorised Google account to access checkpoint scanning.</p>
@@ -213,7 +230,6 @@ input:focus,select:focus{border-color:var(--electric);}
   </div>
 </div>
 
-<!-- ============ DENIED ============ -->
 <div id="deniedGate" style="display:none;">
   <div class="gate-card glass">
     <div class="denied-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg></div>
@@ -224,18 +240,17 @@ input:focus,select:focus{border-color:var(--electric);}
   </div>
 </div>
 
-<!-- ============ VOLUNTEER APP SHELL ============ -->
 <div id="app">
   <div class="app-topbar">
     <div class="topbar-left">
-      <img src="event -logos/cresco_logo.png" alt="Cresco" class="tb-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <img src="cresco_logo.png" alt="Cresco" class="tb-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
       <span class="tb-mark"><span>Cr</span><span>Es</span><span>Co</span></span>
       <div class="tb-title" id="eventNameDisplay">CrescoScientiam 5.0<span id="volunteerNameDisplay">Volunteer</span></div>
     </div>
     <div class="topbar-right">
       <span class="day-badge" id="dayBadge">DAY 1</span>
       <span class="online-dot" id="onlineIndicator"><i></i><span id="onlineText">Online</span></span>
-      <a href="/admin" class="admin-link-chip">Mission Control</a>
+      <a href="admin.html" class="admin-link-chip">Mission Control</a>
       <button class="signout-chip" id="signOutBtn">Sign Out</button>
     </div>
   </div>
@@ -277,12 +292,23 @@ input:focus,select:focus{border-color:var(--electric);}
   </div>
 </div>
 
-<!-- ============ SCAN MODAL ============ -->
 <div class="modal-overlay" id="scanModal">
   <div class="modal-box glass">
     <button class="modal-close" id="scanModalClose">&#10005;</button>
     <div class="modal-title">Scan QR Code</div>
-    <div id="qrReader" style="margin-top:16px;"></div>
+    <div id="qrReaderWrap">
+      <video id="scanVideo" playsinline muted autoplay></video>
+      <canvas id="scanCanvas" style="display:none;"></canvas>
+      <div class="scan-loading" id="scanLoading"><div class="spinner-lg" style="margin:0;"></div><span style="font-family:var(--mono);font-size:10.5px;color:var(--dim);">Starting camera&hellip;</span></div>
+      <div class="scan-overlay" id="scanOverlay" style="display:none;">
+        <div class="scan-frame">
+          <div class="scan-corner tl"></div><div class="scan-corner tr"></div><div class="scan-corner bl"></div><div class="scan-corner br"></div>
+          <div class="scan-line"></div>
+        </div>
+      </div>
+      <div class="scan-status" id="scanStatus" style="display:none;">Point camera at QR code</div>
+      <div class="scan-flash" id="scanFlash"></div>
+    </div>
     <div class="scanner-controls">
       <button class="btn btn-icon" id="switchCameraBtn" title="Switch Camera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 2l4 4-4 4M3 6h18M7 22l-4-4 4-4M21 18H3"/></svg></button>
       <button class="btn btn-icon" id="torchBtn" title="Flashlight"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.5.4.9 1 .9 1.6V17h6.2v-.7c0-.6.4-1.2.9-1.6A7 7 0 0 0 12 2Z"/></svg></button>
@@ -295,12 +321,10 @@ input:focus,select:focus{border-color:var(--electric);}
   </div>
 </div>
 
-<!-- ============ VERIFY MODAL ============ -->
 <div class="modal-overlay" id="verifyModal">
   <div class="modal-box glass"><button class="modal-close" id="verifyModalClose">&#10005;</button><div id="verifyBody"></div></div>
 </div>
 
-<!-- ============ DUPLICATE MODAL ============ -->
 <div class="modal-overlay" id="duplicateModal">
   <div class="modal-box glass">
     <button class="modal-close" id="duplicateModalClose">&#10005;</button>
@@ -347,15 +371,12 @@ let recentLogsCache = [];
 let currentCheckpoint = "checkin";
 let volunteerName = "";
 let CURRENT_USER = null;
-let html5QrCode = null;
-let currentCamId = null;
-let torchOn = false;
 
 /* ================= TIMEOUT FALLBACK ================= */
 let authResolved = false;
 setTimeout(()=>{ if(!authResolved) document.getElementById('gateTimeoutMsg').classList.add('show'); }, 6000);
 
-/* ================= AUTH GATE — step 1 for this page ================= */
+/* ================= AUTH GATE ================= */
 onAuthStateChanged(auth, async (user) => {
   authResolved = true;
   document.getElementById('loadingGate').style.display = 'none';
@@ -436,7 +457,7 @@ function updateOnlineStatus(){
 }
 addEventListener('online', updateOnlineStatus); addEventListener('offline', updateOnlineStatus); updateOnlineStatus();
 
-/* ================= DATA (starts only after auth passes) ================= */
+/* ================= DATA ================= */
 function initData(){
   onSnapshot(SETTINGS_REF, snap=>{
     if(snap.exists()) SETTINGS = Object.assign(SETTINGS, snap.data());
@@ -464,7 +485,7 @@ document.querySelectorAll('.cp-btn').forEach(btn=>{
   });
 });
 
-/* ================= DASHBOARD ================= */
+/* ================= DASHBOARD / SCHOOLS / RECENT ================= */
 function computeStats(){
   const day = SETTINGS.currentDay;
   let registered=0, expected=0, checkedIn=0, food=0, checkedOut=0, bagChecked=0, pending=0;
@@ -533,79 +554,107 @@ document.getElementById('searchInput').addEventListener('input', e=>{
 });
 document.getElementById('searchClearBtn').addEventListener('click', ()=>{ document.getElementById('searchInput').value=''; document.getElementById('searchResults').innerHTML=''; });
 
-/* ================= QR SCANNER ================= */
+/* =====================================================================
+   QR SCANNER — single, reliable path using html5-qrcode with the
+   library's own native-BarcodeDetector acceleration switched on
+   (useBarCodeDetectorIfSupported), so it's as fast as the browser
+   allows and always falls back safely when that API isn't available.
+   facingMode is used instead of enumerating camera IDs — this is the
+   most broadly reliable way to grab the back camera on phones.
+===================================================================== */
+let html5QrCode = null;
+let usingFacingMode = 'environment';
+let torchOn = false;
+let scanLocked = false; // prevents double-fires while we're closing/handling a result
+
+function scannerConfig(){
+  return {
+    fps: 12,
+    qrbox: (viewfinderWidth, viewfinderHeight) => {
+      const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+      const size = Math.floor(minEdge * 0.72); // large box: tolerant of distance
+      return { width: size, height: size };
+    },
+    aspectRatio: 1.0,
+    disableFlip: false
+  };
+}
+
 document.getElementById('openScanBtn').addEventListener('click', startScanner);
 document.getElementById('manualEntryBtn').addEventListener('click', startScanner);
 document.getElementById('scanModalClose').addEventListener('click', stopScanner);
 document.getElementById('stopScanBtn').addEventListener('click', stopScanner);
 
 function startScanner(){
+  scanLocked = false;
   openModal('scanModal');
-  if(typeof Html5Qrcode === 'undefined'){ toast('QR scanner library failed to load — use manual entry.', 'error'); return; }
-  html5QrCode = new Html5Qrcode("qrReader");
-  Html5Qrcode.getCameras().then(cams=>{
-    if(!cams || !cams.length){ toast('No camera found — use manual entry.', 'error'); return; }
-    currentCamId = cams[cams.length-1].id;
-    runCamera(currentCamId);
-  }).catch(()=>{ toast('Camera permission denied — use manual entry.', 'error'); });
-}
-function runCamera(camId) {
+  document.getElementById('scanLoading').classList.remove('hide');
+  document.getElementById('scanOverlay').style.display = 'none';
+  document.getElementById('scanStatus').style.display = 'none';
+
+  if(typeof Html5Qrcode === 'undefined'){
+    toast('QR scanner library failed to load — check your internet connection or use manual entry.', 'error');
+    return;
+  }
+  html5QrCode = new Html5Qrcode("qrReader", {
+    formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ],
+    experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+    verbose: false
+  });
+
   html5QrCode.start(
-    camId,
-    {
-      fps: 100,
-      qrbox: (vw, vh) => {
-    const size = Math.floor(Math.min(vw, vh) * 0.9);
-    return {
-        width: size,
-        height: size
-    };
-},
-      aspectRatio: 1,
-      experimentalFeatures: {
-    useBarCodeDetectorIfSupported: true
-},
-formatsToSupport: [
-    Html5QrcodeSupportedFormats.QR_CODE
-],
-      videoConstraints: {
-    facingMode: { ideal: "environment" },
-    width: { ideal: 1920 },
-    height: { ideal: 1080 }
-}
-    },
-    (decodedText) => {
-      console.log("QR DETECTED:", decodedText);
-      alert(decodedText);   // Temporary test
-      handleScanResult(decodedText);
-    },
-    (errorMessage) => {
-      // Uncomment this if you want to see continuous scan attempts:
-      // console.log(errorMessage);
-    }
-  ).catch(err => {
-    console.error(err);
-    toast("Camera start failed: " + err, "error");
+    { facingMode: usingFacingMode },
+    scannerConfig(),
+    onScanSuccess,
+    onScanFailure
+  ).then(()=>{
+    document.getElementById('scanLoading').classList.add('hide');
+    document.getElementById('scanOverlay').style.display = 'flex';
+    document.getElementById('scanStatus').style.display = 'block';
+  }).catch(err=>{
+    document.getElementById('scanLoading').classList.add('hide');
+    toast('Could not start camera: ' + err + ' — try Manual QR Entry below.', 'error');
   });
 }
+
+function onScanSuccess(decodedText){
+  if(scanLocked) return; // ignore rapid duplicate callbacks from the same frame burst
+  scanLocked = true;
+  document.getElementById('scanFlash').classList.add('hit');
+  handleScanResult(decodedText);
+}
+function onScanFailure(){ /* fires continuously while no QR is in frame — expected, ignore */ }
+
 function stopScanner(){
-  if(html5QrCode){ html5QrCode.stop().then(()=>html5QrCode.clear()).catch(()=>{}); html5QrCode=null; }
+  if(html5QrCode){
+    const instance = html5QrCode;
+    html5QrCode = null;
+    instance.stop().then(()=>instance.clear()).catch(()=>{});
+  }
   closeModal('scanModal');
 }
+
 document.getElementById('switchCameraBtn').addEventListener('click', async ()=>{
-  try{
-    const cams = await Html5Qrcode.getCameras();
-    if(cams.length < 2){ toast('Only one camera available', 'info'); return; }
-    const idx = cams.findIndex(c=>c.id===currentCamId);
-    const next = cams[(idx+1) % cams.length];
-    if(html5QrCode){ await html5QrCode.stop(); }
-    currentCamId = next.id; runCamera(currentCamId);
-  }catch(e){ toast('Could not switch camera', 'error'); }
+  usingFacingMode = (usingFacingMode === 'environment') ? 'user' : 'environment';
+  toast('Switching camera...', 'info');
+  if(html5QrCode){
+    try{ await html5QrCode.stop(); await html5QrCode.clear(); }catch(e){}
+  }
+  html5QrCode = new Html5Qrcode("qrReader", {
+    formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ],
+    experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+    verbose: false
+  });
+  html5QrCode.start({ facingMode: usingFacingMode }, scannerConfig(), onScanSuccess, onScanFailure)
+    .catch(err=> toast('Could not switch camera: '+err, 'error'));
 });
 document.getElementById('torchBtn').addEventListener('click', async ()=>{
-  if(!html5QrCode) return;
-  try{ torchOn = !torchOn; await html5QrCode.applyVideoConstraints({ advanced: [{ torch: torchOn }] }); }
-  catch(e){ toast('Flashlight not supported on this device', 'info'); torchOn=!torchOn; }
+  if(!html5QrCode){ toast('Start the camera first', 'info'); return; }
+  try{
+    torchOn = !torchOn;
+    await html5QrCode.applyVideoConstraints({ advanced: [{ torch: torchOn }] });
+    document.getElementById('torchBtn').classList.toggle('torch-on', torchOn);
+  }catch(e){ toast('Flashlight not supported on this device/camera', 'info'); torchOn = !torchOn; }
 });
 document.getElementById('manualQrSubmit').addEventListener('click', ()=>{
   const v = document.getElementById('manualQrInput').value.trim(); if(v) handleScanResult(v, true);
@@ -613,14 +662,15 @@ document.getElementById('manualQrSubmit').addEventListener('click', ()=>{
 document.getElementById('manualQrInput').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('manualQrSubmit').click(); });
 
 function handleScanResult(text, manual=false){
-  const p = PARTICIPANTS.find(x=>x.qrId === text.trim());
-  stopScanner(); document.getElementById('manualQrInput').value='';
+  const p = PARTICIPANTS.find(x=>x.qrId === String(text).trim());
+  setTimeout(()=>{ stopScanner(); }, manual?0:180); // tiny delay so the success flash is visible on real scans
+  document.getElementById('manualQrInput').value='';
   if(!p){ toast('No participant found for this QR code', 'error'); writeLog(null, currentCheckpoint, manual?'Manual':'QR', 'Not Found'); return; }
   if(!manual) beep();
   openVerify(p, manual?'Manual QR Entry':'QR Scan');
 }
 
-/* ================= VERIFY MODAL ================= */
+/* ================= VERIFY / DUPLICATE MODALS ================= */
 function openVerify(p, method){
   p._method = method;
   const day = SETTINGS.currentDay;
