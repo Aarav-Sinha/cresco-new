@@ -36,10 +36,21 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .reveal.in{opacity:1;transform:translateY(0);}
 
+/* TICKER STYLES */
 .ticker-bar{position:fixed;top:0;left:0;right:0;z-index:90;height:32px;overflow:hidden;backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);background:rgba(3,8,22,.7);border-bottom:1px solid var(--line);display:flex;align-items:center;}
 .ticker-track{display:flex;white-space:nowrap;animation:tickerScroll 34s linear infinite;}
-.ticker-track span{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:0 24px;display:inline-flex;align-items:center;gap:10px;}
-.ticker-track span .dot{width:4px;height:4px;border-radius:50%;background:var(--electric);display:inline-block;}
+.ticker-track > span{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:0 24px;display:inline-flex;align-items:center;gap:10px;}
+.ticker-track .dot{
+  width: 4px;
+  height: 4px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--electric);
+  display: inline-block;
+  flex: 0 0 4px;
+  box-shadow: 0 0 6px var(--electric);
+}
 @keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
 .topbar{position:fixed;top:44px;left:50%;transform:translateX(-50%);z-index:96;width:min(94vw,1220px);border-radius:24px;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);background:rgba(8,12,26,.72);border:1px solid var(--line2);box-shadow:0 14px 44px -16px rgba(0,0,0,.65);transition:background .3s;}
@@ -133,12 +144,12 @@ footer{border-top:1px solid var(--line);padding:50px 0 30px;position:relative;z-
 
 <div class="ticker-bar">
   <div class="ticker-track" id="tickerTrack">
-    <span><span class="dot"></span>DPS MEGACITY PRESENTS</span>
-    <span><span class="dot"></span>CRESCOSCIENTIAM 5.0</span>
-    <span><span class="dot"></span>25&ndash;26 SEPTEMBER 2026</span>
-    <span><span class="dot"></span>DPS MEGACITY PRESENTS</span>
-    <span><span class="dot"></span>CRESCOSCIENTIAM 5.0</span>
-    <span><span class="dot"></span>25&ndash;26 SEPTEMBER 2026</span>
+    <span><i class="dot"></i>DPS MEGACITY PRESENTS</span>
+    <span><i class="dot"></i>CRESCOSCIENTIAM 5.0</span>
+    <span><i class="dot"></i>25&ndash;26 SEPTEMBER 2026</span>
+    <span><i class="dot"></i>DPS MEGACITY PRESENTS</span>
+    <span><i class="dot"></i>CRESCOSCIENTIAM 5.0</span>
+    <span><i class="dot"></i>25&ndash;26 SEPTEMBER 2026</span>
   </div>
 </div>
 
