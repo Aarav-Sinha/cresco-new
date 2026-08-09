@@ -590,7 +590,8 @@ const TEAM_SECTIONS = [
   {
     key: "teachers", title: "Teachers", cssClass: "section-teachers", gridClass: "",
     boxes: [
-      { title: "Teacher In-Charges", names: ["Rajarshi Dasgupta", "Sanchita Nandy"], img: "" }
+      { title: "Teacher In-Charges", names: ["Rajarshi Dasgupta"], img: "rajarshi.jpg" },
+      { title: "Teacher In-Charges", names: ["Sanchita Nandy"], img: "sanchita.jpg" }
     ]
   }
 ];
@@ -618,25 +619,6 @@ function renderBox(box){
 }
 
 function renderSection(sec){
-  if (sec.key === 'teachers') {
-    const teacherData = sec.boxes[0];
-    return `
-      <section class="section-block ${sec.cssClass} reveal">
-        <div class="wrap">
-          <div class="section-heading-wrap"><h2 class="section-heading">${sec.title}</h2></div>
-          <div class="teachers-spotlight-card">
-            <div class="teachers-badge">${teacherData.title}</div>
-            <div class="teachers-names-row">
-              <span class="teacher-item">${teacherData.names[0]}</span>
-              <span class="teacher-divider-dot">&bull;</span>
-              <span class="teacher-item">${teacherData.names[1]}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div class="wrap"><div class="section-divider"></div></div>`;
-  }
-
   return `
     <section class="section-block ${sec.cssClass} reveal">
       <div class="wrap">
