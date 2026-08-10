@@ -119,10 +119,11 @@ section{position:relative;z-index:2;padding:50px 0;}
 .overlay-bottom .ob-col a,.overlay-bottom .ob-col p{color:var(--dim);font-size:.92rem;}
 
 .btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;padding:12px 20px;border:1px solid var(--line3);position:relative;display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--paper);cursor:pointer;transition:all .3s;border-radius:8px;white-space:nowrap;}
-.btn:hover{border-color:var(--electric);color:var(--electric);background:rgba(94,224,255,.06);}
-.btn:active{transform:scale(.96);}
+.btn:hover:not(:disabled){border-color:var(--electric);color:var(--electric);background:rgba(94,224,255,.06);}
+.btn:active:not(:disabled){transform:scale(.96);}
 .btn-amber{background:linear-gradient(120deg,var(--amber),#ff9d4d);border-color:var(--amber);color:var(--ink);}
-.btn-amber:hover{box-shadow:0 0 25px rgba(255,182,72,.4);color:var(--ink);}
+.btn-amber:hover:not(:disabled){box-shadow:0 0 25px rgba(255,182,72,.4);color:var(--ink);}
+.btn:disabled{opacity:0.65;cursor:not-allowed;box-shadow:none;}
 .btn .arrow{transition:transform .3s;} .btn:hover .arrow{transform:translateY(2px);}
 
 .page-hero{padding:160px 0 30px;text-align:center;}
@@ -256,9 +257,9 @@ footer{border-top:1px solid var(--line);padding:40px 0;position:relative;z-index
     </div>
     <div class="res-footer" style="margin-top: 22px; padding-top: 16px;">
       <span class="res-meta">Updated: July 2026</span>
-      <a href="school-registration-form.pdf" id="resPdfBtn" class="btn btn-amber" download>
-        Download <span class="arrow">&darr;</span>
-      </a>
+      <button id="resPdfBtn" class="btn btn-amber" disabled>
+        Coming Soon
+      </button>
     </div>
   </div>
 
@@ -308,10 +309,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;position:relative;z-index
     try{
       const snap = await getDoc(doc(db,"siteContent","main"));
       const data = snap.exists() ? snap.data() : {};
-      const pdf = data.registrationPdf || 'school-registration-form.pdf';
       const emailAddr = data.registrationEmail || 'crescoscientiam@dpsmegacity.in';
-      const btn = document.getElementById('resPdfBtn');
-      if(btn) btn.href = pdf;
       document.getElementById('emailValue').textContent = emailAddr;
     }catch(err){ console.warn('Could not load settings from Firestore:', err); }
   })();
