@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  
+ 
 :root{
   --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.5);--panel-solid:#0b1120;
   
@@ -117,25 +117,6 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
   scrollbar-color: rgba(140, 170, 255, 0.3) var(--ink);
 }
 
-/* ---------- Dedicated Scrollbar for Modal Body ---------- */
-.modal-body-pad::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-body-pad::-webkit-scrollbar-track {
-  background: rgba(9, 13, 26, 0.6);
-  border-radius: 0 0 16px 0;
-  margin: 12px 0;
-}
-
-.modal-body-pad::-webkit-scrollbar-thumb {
-  background: rgba(94, 224, 255, 0.25);
-  border-radius: 10px;
-}
-
-.modal-body-pad::-webkit-scrollbar-thumb:hover {
-  background: var(--electric);
-}
 .ticker-bar{position:fixed;top:0;left:0;right:0;z-index:90;height:32px;overflow:hidden;backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);background:rgba(3,8,22,.7);border-bottom:1px solid var(--line);display:flex;align-items:center;}
 .ticker-track{display:flex;white-space:nowrap;animation:tickerScroll 34s linear infinite;}
 .ticker-track span{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:0 24px;display:inline-flex;align-items:center;gap:10px;}
@@ -237,7 +218,7 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
   overflow:hidden;
   flex: 0 0 calc(33.333% - 12px);
   max-width: calc(33.333% - 12px);
-  min-height: 180px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -251,11 +232,39 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
 .ev-card:hover::before{opacity:.9;}
 .ev-inner{position:relative;z-index:1;padding:24px 22px;height:100%;display:flex;flex-direction:column;justify-content:space-between;}
 .ev-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
-.ev-icon{width:48px;height:48px;border-radius:50%;border:1px solid var(--line2);background:rgba(255,255,255,.04);display:grid;place-items:center;flex-shrink:0;position:relative;overflow:hidden;transition:border-color .4s,transform .4s;}
-/* Hide icon wrapper completely if the logo fails to load */
+
+/* Enhanced Aesthetic Logo Sizing & Styling */
+.ev-icon{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  border:1px solid var(--line3);
+  background:rgba(255,255,255,.05);
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+  transition:border-color .4s,transform .4s,box-shadow .4s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
 .ev-icon:has(img[style*="display: none"]) { display: none; }
-.ev-card:hover .ev-icon{border-color:var(--tc);transform:scale(1.08);}
-.ev-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;z-index:2;background:var(--panel-solid);padding:4px;}
+.ev-card:hover .ev-icon{
+  border-color:var(--tc);
+  transform:scale(1.12) rotate(2deg);
+  box-shadow: 0 0 20px var(--tc);
+}
+.ev-icon img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+  z-index:2;
+  background:var(--panel-solid);
+  padding:3px;
+}
 .ev-icon svg{position:relative;z-index:1;color:var(--tc);}
 .ev-num{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.1em;margin-left:auto;}
 .ev-name{font-family:var(--disp);font-weight:700;font-size:1.25rem;margin-top:16px;}
@@ -314,7 +323,7 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
 
 .modal-hero{
     position: relative;
-    min-height: 160px;
+    min-height: 170px;
     background-size: cover;
     background-position: center;
     display: flex;
@@ -325,10 +334,24 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
 .modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,22,.2),rgba(9,13,26,.95));}
 .modal-close{position:absolute;top:18px;right:18px;z-index:3;background:rgba(0,0,0,.3);border:1px solid var(--line3);color:var(--dim);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;transition:color .3s,border-color .3s,transform .3s;}
 .modal-close:hover{color:var(--alert);border-color:var(--alert);transform:rotate(90deg);}
-.modal-head{position:relative;z-index:2;display:flex;gap:16px;align-items:center;}
-.modal-icon{width:60px;height:60px;border-radius:50%;border:1.5px solid var(--line3);display:grid;place-items:center;flex-shrink:0;position:relative;overflow:hidden;background:var(--panel-solid);}
+.modal-head{position:relative;z-index:2;display:flex;gap:18px;align-items:center;}
+
+/* Enhanced Modal Icon */
+.modal-icon{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  border:2px solid var(--line3);
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+  background:var(--panel-solid);
+  box-shadow: 0 0 25px rgba(94, 224, 255, 0.2);
+}
 .modal-icon:has(img[style*="display: none"]) { display: none; }
-.modal-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;padding:6px;}
+.modal-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;padding:4px;}
 .modal-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;}
 .modal-title{font-family:var(--disp);font-weight:800;font-size:1.9rem;}
 .modal-sub{color:var(--dim);margin-top:2px;}
@@ -349,7 +372,7 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
 .modal-desc{color:var(--dim);line-height:1.8;}
 /* ---------- Aesthetic Rules List Styling ---------- */
 .modal-rules {
-  list-style: none; /* Remove plain browser numbers */
+  list-style: none;
   padding-left: 0;
   display: flex;
   flex-direction: column;
@@ -372,7 +395,6 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
   transition: border-color 0.3s, background 0.3s, transform 0.2s;
 }
 
-/* Custom glowing index badge */
 .modal-rules li::before {
   content: counter(rule-counter, decimal-leading-zero);
   position: absolute;
@@ -386,7 +408,6 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
   opacity: 0.85;
 }
 
-/* Interactive subtle lift & accent on hover */
 .modal-rules li:hover {
   background: rgba(94, 224, 255, 0.05);
   border-color: var(--line2);
@@ -550,8 +571,7 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
 </footer>
 
 <script>
-/* ================= SYSTEM CONTENT DATA (15 EVENTS) ================= */
-/* ================= SYSTEM CONTENT DATA (16 EVENTS) ================= */
+/* ================= SYSTEM CONTENT DATA (16 EVENTS UPDATED VIA PDF) ================= */
 const DEFAULT_CONTENT = {
   ticker: ["DPS MEGACITY PRESENTS","CRESCO SCIENTIAM 5.0","25–26 SEPTEMBER 2026","THREE THEME-WORLDS · SIXTEEN EVENTS"],
   events: [
@@ -567,19 +587,17 @@ const DEFAULT_CONTENT = {
       venue: "Classroom 12A",
       logo: "event -logos/mayavi-mandala-logo.png",
       box: "event-box-bg/mayavi-mandala-box.jpg",
-      desc: "Mayavi Mandala Description",
+      desc: "Mayavi Mandala invites participants to blend science, technology and imagination through pixels and grids. This event tests creativity, originality and effective use of a limited colour palette and challenges young artists to transform futuristic visions into visually captivating creations.",
       rules: [
-        "Open to students of Classes VI-VIII.",
-        "Each school may register one team consisting of two participants.",
-        "Participation is limited to the first 8 schools to submit the registration form.",
-        "Participants will be divided into two groups of 8 players each, with one player from each school in each group.",
-        "The games will be in a (5+0) Blitz format for the first two group rounds and (10 + 0) for the group finals and finale.",
-        "Matches within each group will follow a single-elimination format.",
-        "In the event of a draw, players will compete in a Blitz tie-breaker with a time control of 3 minutes per player.",
-        "The top-performing player from each group will advance to the final round.",
-        "The final round will be played as a Rapid chess match with a time control of 10 minutes (+0) per player.",
-        "In the event of a draw in the final round, an Armageddon tie-breaker with a time control of 10 minutes will be conducted.",
-        "The winner of the final match will be declared the champion."
+        "Open to students of Classes VIII to XII.",
+        "Each school may participate with one team of two participants.",
+        "Each team must bring one laptop for the competition. No other electronic devices will be permitted.",
+        "The topic will be revealed on the spot at the beginning of the event.",
+        "The total duration of the competition will be 2 hours, comprising: 30 minutes for brainstorming and conceptualisation (participants may not begin creating artwork during this period) and 1 hour 30 minutes for creating the final artwork.",
+        "Mobile phones must remain inside participants' bags for the entire duration of the event and may not be used.",
+        "Each team must have the offline version of Microsoft Excel installed on their laptop.",
+        "The artwork must be created exclusively by colouring individual cells/pixels. The use of gradients is strictly prohibited.",
+        "The artwork must be created on a 100 × 100 cell grid."
       ]
     },
     {
@@ -661,17 +679,27 @@ const DEFAULT_CONTENT = {
       num: "05",
       slug: "lakshya-pathik",
       title: "Lakshya Pathik",
-      team: "1 (Individual)",
-      dur: "1.5 hours",
+      team: "Up to 3 members",
+      dur: "3 hours",
       venue: "LAB 1",
-      logo: "lakshya-pathik-logo.png",
+      logo: "event -logos/lakshya-pathik-logo.png",
       box: "event-box-bg/lakshya-pathik-box.jpg",
-      desc: "Robotic Event",
+      desc: "Lakshya Pathik is a robotics and embedded systems challenge. Teams are tasked with designing and programming an autonomous robot using limited hardware to navigate complex pathways with extreme precision and speed.",
       rules: [
-        "Individual participation.",
-        "Participants will be given a prompt 15 minutes before the session.",
-        "Time limit for recitation/presentation is 4 minutes.",
-        "Judged on vocabulary, narrative shift, and expressiveness."
+        "The objective is to design and program an autonomous robot that follows the designated track from the start line to the finish line in the shortest possible time.",
+        "Open to students of Classes VIII to XII.",
+        "Each school may register one team of up to three participants.",
+        "The robot must navigate the track completely autonomously, without any manual intervention once the run begins.",
+        "The robot must not exceed 20 cm × 20 cm in length and width. Height is unrestricted unless specified otherwise.",
+        "The maximum permissible weight of the robot, including batteries, is 2 kg.",
+        "The robot must be capable of following the designated track, which may include straight paths, curves, and sharp turns.",
+        "Participants must place the robot behind the start line and initiate it using an on-board physical button or a referee-approved starting mechanism.",
+        "Each team will be given a maximum of 3 minutes to complete the course.",
+        "Each team will be provided with a fixed number of attempts, with the fastest successful run considered for the final ranking.",
+        "Remote controls, Wi-Fi, Bluetooth, external laptop connections, or any form of manual guidance during the run are strictly prohibited.",
+        "Manual interference with the robot or track after the run has started will result in immediate disqualification.",
+        "Robots that fail to comply with the prescribed size or weight limits during technical inspection will be disqualified.",
+        "Designs that may damage the track or arena, or use hazardous, combustible, or corrosive materials, are strictly prohibited."
       ]
     },
 
@@ -682,7 +710,7 @@ const DEFAULT_CONTENT = {
       num: "06",
       slug: "chromatica",
       title: "Chromatica",
-      team: "2 members",
+      team: "3 members",
       dur: "2 hours 30 minutes",
       venue: "TBD",
       logo: "event -logos/chromatica-logo.png",
@@ -690,7 +718,7 @@ const DEFAULT_CONTENT = {
       desc: "Chromatica is an art-based event where participants will be given a topic on spot, where they have to use their creativity and chemistry-related insight to display paintings using the resources provided. The artworks will be judged on the basis of uniqueness, relevance to the topic and their expert use of the provided materials.",
       rules: [
         "Open to classes IX to XII.",
-        "Each team may consist of 2 participants from each school.",
+        "Each team may consist of 3 participants from each school.",
         "Participants will have to create paintings using pH indicators and reagents of varying pH levels instead of conventional paints.",
         "They must creatively generate multiple shades using the reagents provided. It is mandatory to make at least 3 visibly distinct colours or shades.",
         "Only the materials provided may be used. External paints, markers, or colours are strictly prohibited. Supplies like paintbrushes, stationary, SAFETY GEARS etc. should be brought by the participants themselves.",
@@ -756,7 +784,7 @@ const DEFAULT_CONTENT = {
       venue: "Aerobay Lab",
       logo: "event -logos/vox-futura-logo.png",
       box: "event-box-bg/vox-futura-box.jpg",
-      desc: "Vox Futura is a dynamic news reporting event that challenges participants to step into the shoes of news anchors and reporters. Teams will report on imaginative events set in the future, transforming innovative ideas into compelling news stories through creativity, confidence and effective communication. As the event progresses, participants must adapt to unexpected developments, showcasing their critical thinking, teamwork and ability to deliver engaging reports in a fast-paced environment.",
+      desc: "Vox Futuri is a dynamic news reporting event that challenges participants to step into the shoes of news anchors and reporters. Teams will report on imaginative events set in the future, transforming innovative ideas into compelling news stories through creativity, confidence and effective communication. As the event progresses, participants must adapt to unexpected developments, showcasing their critical thinking, teamwork and ability to deliver engaging reports in a fast-paced environment.",
       rules: [
         "Open to students from classes VIII-XII.",
         "Each School may register one team of two participants.",
@@ -772,17 +800,19 @@ const DEFAULT_CONTENT = {
       num: "10",
       slug: "astra-syntax",
       title: "Astra Syntax",
-      team: "2-3 members",
-      dur: "2 hours",
+      team: "1 team",
+      dur: "3 hours",
       venue: "Lab 2",
-      logo: "astra-syntax-logo.png",
+      logo: "event -logos/astra-syntax-logo.png",
       box: "event-box-bg/astra-syntax-box.jpg",
-      desc: "Astra Syntax is a competitive programming event that challenges participants to solve algorithmic problems and implement efficient solutions within a limited time frame. Teams will be judged on their ability to write clean, optimized code and demonstrate problem-solving skills under pressure.",
+      desc: "Astra Syntax is a high-intensity competitive programming event where teams compete to solve challenging algorithmic problems under strict time constraints. Participants will demonstrate their coding proficiency, logical reasoning, and optimization skills by tackling concepts ranging from Dynamic Programming and Graph Theory to Data Structures, using C++, Java, or Python to climb the leaderboard before time runs out.",
       rules: [
-        "Teams of 2-3 participants.",
-        "Internet access is strictly monitored; standard libraries are permitted.",
-        "Final code submission must include a live demo and README.",
-        "Judged on algorithmic accuracy, efficiency, and project polish."
+        "Open to students of Classes IX to XII.",
+        "Format: 3 Rounds | The lowest-scoring team will be eliminated after Round 1.",
+        "Round 1 (Debugging): Identify and fix common programming errors. Focus areas include off-by-one errors, 32-bit integer overflow, edge cases, and floating-point precision.",
+        "Round 2 (Speed Coding Challenge): 6-10 short coding problems of easy to medium difficulty. The fastest correct submissions earn highest points. Both speed and accuracy evaluated. Live leaderboard may be displayed.",
+        "Round 3 (Competitive Coding): 5 programming problems based on school-level competitive programming concepts (LeetCode Medium-Hard, ZCO and IARCS-style problems). Participants are advised to read all five problems before beginning.",
+        "Allowed Languages: Round 1 & Round 2: C++, Java, Python. Round 3: Java and Python only."
       ]
     },
     {
@@ -791,19 +821,25 @@ const DEFAULT_CONTENT = {
       num: "11",
       slug: "sylva-machina",
       title: "Sylva Machina",
-      team: "2 members",
-      dur: "2 hours 30 minutes",
+      team: "Up to 3 members",
+      dur: "3 hours",
       venue: "Robotics Lab",
       logo: "event -logos/sylva-machina-logo.png",
       box: "event-box-bg/sylva-machina-box.jpg",
-      desc: "Sylva Machina is an advanced biomimicry and robotics challenge where teams construct and program autonomous mechanisms inspired by natural ecosystems and cosmic biological structures. Participants will engineer kinetic systems that adapt to dynamic, simulated extra-terrestrial terrain constraints.",
+      desc: "Sylva Machina is an AI development challenge where participants build AI models and integrate intelligent features that enable interactive experiences. Teams will showcase their innovation, technical skills, and AI capabilities by presenting their models and solutions to the judges.",
       rules: [
-        "Open to students of Classes IX-XII.",
-        "Each school may register one team of two participants.",
-        "Robots/mechanisms must operate within specified dimensions and voltage constraints.",
-        "Participants must bring their own microcontrollers, sensors, and basic toolkit; the host school will provide the testing arena and obstacles.",
-        "The event consists of two rounds: an autonomous navigation track followed by an adaptive bio-mechanical task challenge.",
-        "Judged on mechanical innovation, algorithmic efficiency, real-time obstacle resolution, and structural durability."
+        "Open to students of Classes VIII to XII.",
+        "Each school may register one team of up to three participants.",
+        "Each team must develop an AI model and integrate it into a functional, interactive application.",
+        "The AI model must be substantially built, trained, fine-tuned, prompt-engineered, or meaningfully configured by the team. Simply using an existing AI API or pre-built application without meaningful modification will not be permitted.",
+        "Teams may use any programming language, framework, platform, pre-trained model, third-party AI API, or public dataset, provided their use is appropriately disclosed and the team can clearly explain their contribution.",
+        "The final submission must include a working prototype capable of responding to live, unscripted user input during the demonstration.",
+        "Teams must be prepared to explain their model, training/fine-tuning process, data sources, and technical approach to the judges.",
+        "Each team must deliver a live pitch covering the problem being addressed, the proposed solution, the AI approach, target users, and its potential for real-world application.",
+        "Teams must present their project within the allotted presentation and demonstration time.",
+        "Participants must carry their own devices and required equipment for the demonstration unless otherwise arranged with the organisers.",
+        "Any pre-existing code, dataset, or model used in the project must be disclosed and appropriately credited.",
+        "Plagiarism, misrepresentation, pre-recorded demonstrations, fake/hard-coded outputs, or unauthorised external assistance will result in disqualification."
       ]
     },
 
@@ -907,16 +943,24 @@ const DEFAULT_CONTENT = {
       slug: "aurora-interface",
       title: "Aurora Interface",
       team: "2 members",
-      dur: "2 hours",
+      dur: "3 hours",
       venue: "Lab 2",
-      logo: "aurora-interface-logo.png",
+      logo: "event -logos/aurora-interface-logo.png",
       box: "event-box-bg/aurora-interface-box.jpg",
-      desc: "Web Development Event",
+      desc: "Aurora Interface is an AI-integrated web development challenge where participants create responsive websites featuring at least one AI-powered feature. Teams will showcase their creativity, design skills, and technical expertise through a final presentation to the judges.",
       rules: [
-        "Teams of two participants.",
-        "Case study data will be handed out at the start of the event.",
-        "10-minute presentation followed by a 3-minute Q&A session.",
-        "Evaluated on data interpretation, feasibility, and ecological impact."
+        "Open to students of Classes IX to XII.",
+        "Each school may participate with one team of 2 participants.",
+        "Teams will be given a surprise theme at the beginning of the event, based on which they must design and develop a complete web application.",
+        "The first 30 minutes will be dedicated to wireframing, layout planning and user-flow mapping. Coding may not begin during this period.",
+        "Teams must complete the entire development process within the allotted 3 hours. Late submissions will not be considered.",
+        "All coding must be done during the competition. The use of pre-written code will result in disqualification.",
+        "Open-source libraries and frameworks may be used. Teams may also use open-source graphics, images and text content.",
+        "Internet access is permitted; however, the use of AI tools is strictly prohibited.",
+        "The use of no-code/low-code platforms and pre-built templates is strictly prohibited.",
+        "During the final hour, judges may conduct surprise source-code audits, and teams must be able to explain their architecture, state management and design choices.",
+        "Teams must submit a live URL of their website and a link to their source code through the designated Google Form before the submission deadline.",
+        "Any form of violation of the above rules may result in immediate disqualification."
       ]
     }
   ]
@@ -1076,7 +1120,6 @@ function openModal(ev) {
   document.getElementById('modalVenue').innerText = ev.venue;
   document.getElementById('modalDesc').innerText = ev.desc;
 
-  // Dynamically set accent color based on world
   const accentColor = ev.world === 'myth' ? 'var(--myth)' : (ev.world === 'cosmos' ? 'var(--cosmos)' : 'var(--eco)');
 
   const rulesList = document.getElementById('modalRules');
