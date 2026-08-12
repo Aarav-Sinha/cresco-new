@@ -5,6 +5,6 @@ Disallow: /login
 Disallow: /admin-x7q
 Disallow: /admin
 Disallow: /school-portal
-Disallow: /security
+Disallow: /security    
 
-Sitemap: https://crescoscientiam.dpsmegacity.in/sitemap.xml
+Sitemap: https://crescoscientiam.vercel.app/sitemap.xml
