@@ -222,6 +222,7 @@
   /* ambient rotating decoration */
   .ambient-ring{position:absolute;inset:-6%;border-radius:50%;border:1px dashed rgba(140,170,255,.12);animation:ambientSpin 90s linear infinite;pointer-events:none;}
   @keyframes ambientSpin{to{transform:rotate(360deg);}}
+  
   /* ---------- Dedicated Scrollbar for Modal Body ---------- */
   .modal-body-pad::-webkit-scrollbar {
     width: 6px;
@@ -763,7 +764,8 @@ const DAYS = {
   1: {
     label: "DAY 01", date: "25 Sept", start: 8, end: 17.5,
     events: [
-      {time:"08:30", end:"09:00", title:"Reporting Time", venue:"Main Hall", world:"core"},
+      {time:"07:30", title:"Reporting Time", venue:"Hall 1", world:"core"},
+      {time:"07:30", end:"08:30", title:"Registration", venue:"Hall 1", world:"core"},
       {time:"09:00", end:"10:00", title:"Inaugural Ceremony", venue:"Hall 1", world:"core"},
       {time:"10:30", end:"14:00", title:"Clamor Naturae", venue:"Hostel Building - Ground Floor", world:"environment"},
       {time:"10:30", end:"14:00", title:"Genesis Nova", venue:"Classroom 12 B", world:"environment"},
@@ -772,24 +774,22 @@ const DAYS = {
       {time:"10:30", end:"14:00", title:"Lakshya Pathik", venue:"AI & Robotics Lab", world:"myth"},
       {time:"10:30", end:"13:30", title:"Ventus Lapidum", venue:"Senior Physics Lab", world:"environment"},
       {time:"10:30", end:"13:30", title:"Corpus Vestigium", venue:"Classroom 12 C", world:"cosmos"},
-      {time:"11:30", end:"14:00", title:"Terra Cognitio", venue:"Hall 1", world:"environment"},
-      {time:"11:00", end:"13:30", title:"Mayavi Mandala", venue:"Senior Computer Lab 2", world:"myth"}
-
+      {time:"11:00", end:"13:30", title:"Mayavi Mandala", venue:"Senior Computer Lab 2", world:"myth"},
+      {time:"11:30", end:"14:00", title:"Terra Cognitio", venue:"Hall 1", world:"environment"}
     ]
   },
   2: {
     label: "DAY 02", date: "26 Sept", start: 8.5, end: 18,
     events: [
-      {time:"08:30", end:"09:00", title:"Day 2 Check-In", venue:"Main Foyer", world:"core"},
-      {time:"09:00", end:"11:30", title:"Chromatica", venue:"Senior Physics Lab", world:"cosmos"},
-      {time:"09:00", end:"12:00", title:"Dharmasangram", venue:"Senior Library", world:"myth"},
-      {time:"09:00", end:"12:00", title:"Swaranjali", venue:"Junior Playroom", world:"myth"},
-      {time:"09:00", end:"12:00", title:"Astra Syntax", venue:"Senior Computer Lab 1", world:"cosmos"},
-      {time:"09:00", end:"12:00", title:"&pi;&middot;Infinitum", venue:"Classroom 12 C", world:"cosmos"},
-      {time:"09:00", end:"12:00", title:"Chitrakatha", venue:"Classroom 12 A", world:"myth"},
-      {time:"09:00", end:"12:00", title:"Sylva Machina", venue:"TBD", world:"cosmos"},
-      {time:"17:00", end:"18:00", title:"Closing Ceremony & Prizes", venue:"Auditorium", world:"core"}
-    
+      {time:"08:00", title:"Reporting Time", venue:"Main Foyer", world:"core"},
+      {time:"09:00", end:"12:30", title:"Chromatica", venue:"Senior Physics Lab", world:"cosmos"},
+      {time:"09:00", end:"12:30", title:"Dharmasangram", venue:"Senior Library", world:"myth"},
+      {time:"09:00", end:"12:30", title:"Swaranjali", venue:"Junior Playroom", world:"myth"},
+      {time:"09:00", end:"12:30", title:"Astra Syntax", venue:"Senior Computer Lab 1", world:"cosmos"},
+      {time:"09:00", end:"12:30", title:"π·Infinitum", venue:"Classroom 12 C", world:"cosmos"},
+      {time:"09:00", end:"12:30", title:"Chitrakatha", venue:"Classroom 12 A", world:"myth"},
+      {time:"09:00", end:"12:30", title:"Sylva Machina", venue:"TBD", world:"cosmos"},
+      {time:"13:30", title:"Closing Ceremony & Prize Distribution", venue:"Hall 1", world:"core"}
     ]
   }
 };
@@ -799,10 +799,6 @@ const RING_RADII=[70,120,170,220];
 
 /* ================= HELPERS ================= */
 function timeToHours(t){ const [h,m]=t.split(':').map(Number); return h + m/60; }
-function angleForHour(hour, start, span){
-  const clamped = Math.max(start, Math.min(start+span, hour));
-  return -90 + ((clamped - start) / span) * 300;
-}
 function polar(cx,cy,r,angleDeg){
   const rad = angleDeg * Math.PI/180;
   return {x: cx + r*Math.cos(rad), y: cy + r*Math.sin(rad)};
@@ -812,22 +808,28 @@ function arcPath(cx,cy,r,a1,a2){
   const large = (a2-a1) > 180 ? 1 : 0;
   return `M ${p1.x.toFixed(2)} ${p1.y.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;
 }
+function formatTime(t){
+  const [h,m]=t.split(':').map(Number);
+  const h12 = h>12?h-12:(h===0?12:h);
+  const ampm = h>=12?'PM':'AM';
+  return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
 
 let currentDay = 1;
 
 function buildClock(dayKey){
   const day = DAYS[dayKey];
   const svg = document.getElementById('clockSvg');
-  const cx=250, cy=250, startHour=Math.floor(day.start), span=300;
+  const cx=250, cy=250;
   const totalHours = day.end - day.start;
   let html = '';
 
-  // background ring tracks
-  RING_RADII.forEach(r=>{
+  // Background ring tracks
+  RING_RADII.forEach(r => {
     html += `<circle class="ring-track" cx="${cx}" cy="${cy}" r="${r}"/>`;
   });
 
-  // hour tick marks + labels (outer)
+  // Outer hour tick marks + labels
   const outerR = 250;
   for(let h = Math.ceil(day.start); h <= Math.floor(day.end); h++){
     const ang = -90 + ((h - day.start) / totalHours) * 300;
@@ -840,20 +842,25 @@ function buildClock(dayKey){
     html += `<text class="tick-label" x="${lbl.x.toFixed(1)}" y="${lbl.y.toFixed(1)}">${hour12}${h%3===0?ampm:''}</text>`;
   }
 
-  // event arcs + nodes, grouped onto their world's ring
-  day.events.forEach((ev, i)=>{
+  // Draw event nodes and conditional duration arcs
+  day.events.forEach((ev, i) => {
     const ringIdx = RING_ORDER.indexOf(ev.world);
     const r = RING_RADII[ringIdx];
     const a1 = -90 + ((timeToHours(ev.time) - day.start) / totalHours) * 300;
-    const a2Raw = -90 + ((timeToHours(ev.end) - day.start) / totalHours) * 300;
-    const a2 = Math.max(a2Raw, a1 + 4); // minimum visible arc length
-    const path = arcPath(cx,cy,r,a1,a2);
-    const nodeP = polar(cx,cy,r,a1);
-    const len = (Math.PI * r * ((a2-a1)/180)).toFixed(1);
-    html += `<path class="arc-seg" d="${path}" stroke="var(--${ev.world})" stroke-width="7"
-              style="stroke-dasharray:${len};stroke-dashoffset:${len};animation:drawArc 1s ${0.15+i*0.05}s cubic-bezier(.22,1,.36,1) forwards;"
-              data-idx="${i}"/>`;
-    html += `<circle class="node-dot" cx="${nodeP.x.toFixed(1)}" cy="${nodeP.y.toFixed(1)}" r="5" fill="var(--${ev.world})" color="var(--${ev.world})"
+    const nodeP = polar(cx, cy, r, a1);
+
+    if (ev.end) {
+      const a2Raw = -90 + ((timeToHours(ev.end) - day.start) / totalHours) * 300;
+      const a2 = Math.max(a2Raw, a1 + 4);
+      const path = arcPath(cx, cy, r, a1, a2);
+      const len = (Math.PI * r * ((a2 - a1) / 180)).toFixed(1);
+      html += `<path class="arc-seg" d="${path}" stroke="var(--${ev.world})" stroke-width="7"
+                style="stroke-dasharray:${len};stroke-dashoffset:${len};animation:drawArc 1s ${0.15+i*0.05}s cubic-bezier(.22,1,.36,1) forwards;"
+                data-idx="${i}"/>`;
+    }
+
+    const dotRadius = ev.end ? 5 : 7;
+    html += `<circle class="node-dot" cx="${nodeP.x.toFixed(1)}" cy="${nodeP.y.toFixed(1)}" r="${dotRadius}" fill="var(--${ev.world})" color="var(--${ev.world})"
               style="opacity:0;animation:nodeIn .4s ${0.5+i*0.05}s ease forwards;" data-idx="${i}"/>`;
   });
 
@@ -870,45 +877,44 @@ function buildClock(dayKey){
   document.getElementById('ccDate').textContent = day.date;
   document.getElementById('ccCount').textContent = day.events.length + ' events';
 
-  svg.querySelectorAll('.arc-seg, .node-dot').forEach(el=>{
-    el.addEventListener('click', ()=> openDetail(day.events[+el.dataset.idx]));
+  svg.querySelectorAll('.arc-seg, .node-dot').forEach(el => {
+    el.addEventListener('click', () => openDetail(day.events[+el.dataset.idx]));
   });
 }
 
 function buildList(dayKey){
   const day = DAYS[dayKey];
-  const sorted = [...day.events].sort((a,b)=> timeToHours(a.time)-timeToHours(b.time));
+  const sorted = [...day.events].sort((a,b) => timeToHours(a.time) - timeToHours(b.time));
   const track = document.getElementById('listTrack');
-  track.innerHTML = sorted.map((ev,i)=>`
-    <div class="list-item" style="--tc:var(--${ev.world});animation-delay:${i*0.06}s" data-idx="${sorted.indexOf(ev)}">
-      <span class="list-dot"></span>
-      <div class="list-time">${formatTime(ev.time)} &ndash; ${formatTime(ev.end)}</div>
-      <div class="list-title">${ev.title}</div>
-      <div class="list-venue">${ev.venue}</div>
-      <span class="list-tag">${WNAMES[ev.world]}</span>
-    </div>`).join('');
-  document.getElementById('listCount').textContent = day.events.length + ' events';
-  track.querySelectorAll('.list-item').forEach((el,i)=>{
-    el.addEventListener('click', ()=> openDetail(sorted[i]));
-  });
-}
+  
+  track.innerHTML = sorted.map((ev, i) => {
+    const timeDisplay = ev.end ? `${formatTime(ev.time)} &ndash; ${formatTime(ev.end)}` : `${formatTime(ev.time)} Onwards`;
+    return `
+      <div class="list-item" style="--tc:var(--${ev.world});animation-delay:${i*0.06}s" data-idx="${i}">
+        <span class="list-dot"></span>
+        <div class="list-time">${timeDisplay}</div>
+        <div class="list-title">${ev.title}</div>
+        <div class="list-venue">${ev.venue}</div>
+        <span class="list-tag">${WNAMES[ev.world]}</span>
+      </div>`;
+  }).join('');
 
-function formatTime(t){
-  const [h,m]=t.split(':').map(Number);
-  const h12 = h>12?h-12:(h===0?12:h);
-  const ampm = h>=12?'PM':'AM';
-  return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+  document.getElementById('listCount').textContent = day.events.length + ' events';
+  track.querySelectorAll('.list-item').forEach((el, i) => {
+    el.addEventListener('click', () => openDetail(sorted[i]));
+  });
 }
 
 function openDetail(ev){
   document.getElementById('detailTag').textContent = WNAMES[ev.world];
-  document.getElementById('detailTag').style.color = 'var(--'+ev.world+')';
+  document.getElementById('detailTag').style.color = 'var(--' + ev.world + ')';
   document.getElementById('detailTitle').textContent = ev.title;
-  document.getElementById('detailTime').textContent = formatTime(ev.time) + ' – ' + formatTime(ev.end);
-  document.getElementById('detailVenue').innerHTML = 'Venue<b>'+ev.venue+'</b>';
+  document.getElementById('detailTime').textContent = ev.end ? `${formatTime(ev.time)} – ${formatTime(ev.end)}` : `${formatTime(ev.time)} Onwards`;
+  document.getElementById('detailVenue').innerHTML = 'Venue<b>' + ev.venue + '</b>';
   document.getElementById('detailPanel').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
+
 document.getElementById('detailClose').addEventListener('click', ()=>{
   document.getElementById('detailPanel').classList.remove('open');
   document.body.style.overflow='';
