@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="robots" content="noindex">
   <base href="/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -18,7 +19,7 @@
     --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.5);--panel-solid:#0b1120;
     --line:rgba(140,170,255,.11);--line2:rgba(140,170,255,.26);--line3:rgba(140,170,255,.4);
     --blue:#1c39bb;--electric:#5ee0ff;--amber:#ffb648;--alert:#ef4a5a;--good:#2ecc71;
-    --myth:#c9b8ff;--cosmos:#5ee0ff;--environment:#8de8b0;--core:#ffb648;
+    --myth:#c9b8ff;--cosmos:#5ee0ff;--environment:#8de8b0;--core:#ffb648;--arrival:#ffb648;
     --paper:#eef2fb;--dim:rgba(238,242,251,.62);--faint:rgba(238,242,251,.34);
     --disp:'Poppins',sans-serif;--ui:'Space Grotesk',sans-serif;--mono:'IBM Plex Mono',monospace;
   }
@@ -259,7 +260,7 @@
   .list-venue{font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:3px;}
   .list-tag{display:inline-block;margin-top:6px;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:999px;color:var(--tc,var(--electric));border:1px solid var(--line2);background:rgba(10,16,35,.3);}
 
-  /* ============ MAP & ANCHOR NAVIGATION (NO CROP & DYNAMIC HEIGHT FIX) ============ */
+  /* ============ MAP & ANCHOR NAVIGATION ============ */
   .map-section-grid {
     display: grid;
     grid-template-columns: 1.25fr 0.75fr;
@@ -452,13 +453,7 @@
   .venue-panel p{color:var(--dim);margin-top:10px;}
 
   footer{border-top:1px solid var(--line);padding:70px 0 30px;position:relative;z-index:2;margin-top:60px;background:rgba(3,8,22,.6);backdrop-filter:blur(10px);}
-  .foot-top{display:grid;grid-template-columns:1.3fr repeat(3,1fr);gap:40px;padding-bottom:50px;}
-  .foot-brand-word{font-family:var(--disp);font-weight:800;font-size:1.5rem;}
-  .foot-brand p{color:var(--dim);margin-top:16px;font-size:.92rem;line-height:1.8;max-width:280px;}
-  .foot-col span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;margin-bottom:18px;}
-  .foot-col a{display:block;color:var(--dim);font-size:.92rem;padding:7px 0;}
-  .foot-col a:hover{color:var(--electric);}
-  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:26px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.06em;}
+  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.06em;}
   @media (max-width:900px){.foot-top{grid-template-columns:1fr 1fr;}}
   @media (max-width:560px){.foot-top{grid-template-columns:1fr;}}
   </style>
@@ -550,7 +545,7 @@
             </div>
           </div>
           <div class="ring-legend">
-            <div class="rl-item"><span class="rl-dot" style="background:var(--core);"></span>Ceremonies</div>
+            <div class="rl-item"><span class="rl-dot" style="background:var(--core);"></span>Ceremonies & Arrival</div>
             <div class="rl-item"><span class="rl-dot" style="background:var(--myth);"></span>Mythology</div>
             <div class="rl-item"><span class="rl-dot" style="background:var(--cosmos);"></span>Cosmos</div>
             <div class="rl-item"><span class="rl-dot" style="background:var(--environment);"></span>Environment</div>
@@ -762,10 +757,10 @@
 /* ================= SCHEDULE DATA ================= */
 const DAYS = {
   1: {
-    label: "DAY 01", date: "25 Sept", start: 8, end: 17.5,
+    label: "DAY 01", date: "25 Sept", start: 7.5, end: 17.5,
     events: [
-      {time:"07:30", title:"Reporting Time", venue:"Hall 1", world:"core"},
-      {time:"07:30", end:"08:30", title:"Registration", venue:"Hall 1", world:"core"},
+      {time:"07:30", title:"Reporting Time", venue:"Hall 1", world:"arrival"},
+      {time:"07:30", end:"08:30", title:"Registration", venue:"Hall 1", world:"arrival"},
       {time:"09:00", end:"10:00", title:"Inaugural Ceremony", venue:"Hall 1", world:"core"},
       {time:"10:30", end:"14:00", title:"Clamor Naturae", venue:"Hostel Building - Ground Floor", world:"environment"},
       {time:"10:30", end:"14:00", title:"Genesis Nova", venue:"Classroom 12 B", world:"environment"},
@@ -779,9 +774,9 @@ const DAYS = {
     ]
   },
   2: {
-    label: "DAY 02", date: "26 Sept", start: 8.5, end: 18,
+    label: "DAY 02", date: "26 Sept", start: 8.0, end: 18,
     events: [
-      {time:"08:00", title:"Reporting Time", venue:"Main Foyer", world:"core"},
+      {time:"08:00", title:"Reporting Time", venue:"Hall 1", world:"arrival"},
       {time:"09:00", end:"12:30", title:"Chromatica", venue:"Senior Physics Lab", world:"cosmos"},
       {time:"09:00", end:"12:30", title:"Dharmasangram", venue:"Senior Library", world:"myth"},
       {time:"09:00", end:"12:30", title:"Swaranjali", venue:"Junior Playroom", world:"myth"},
@@ -793,7 +788,7 @@ const DAYS = {
     ]
   }
 };
-const WNAMES={core:'Ceremony',myth:'Mythology',cosmos:'Cosmos',environment:'Environment'};
+const WNAMES={arrival: 'Arrival',core:'Ceremony',myth:'Mythology',cosmos:'Cosmos',environment:'Environment'};
 const RING_ORDER=['core','myth','environment','cosmos']; // innermost to outermost
 const RING_RADII=[70,120,170,220];
 
@@ -844,7 +839,8 @@ function buildClock(dayKey){
 
   // Draw event nodes and conditional duration arcs
   day.events.forEach((ev, i) => {
-    const ringIdx = RING_ORDER.indexOf(ev.world);
+    let ringIdx = RING_ORDER.indexOf(ev.world);
+    if (ringIdx === -1) ringIdx = 0; // Fallback mapping for arrival onto core innermost track
     const r = RING_RADII[ringIdx];
     const a1 = -90 + ((timeToHours(ev.time) - day.start) / totalHours) * 300;
     const nodeP = polar(cx, cy, r, a1);
