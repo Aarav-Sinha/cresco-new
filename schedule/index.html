@@ -1002,5 +1002,5 @@ if (mapImg) {
   const firebaseConfig = { apiKey: "AIzaSyCr7RU1pUOyxV88VEAgJZwEHNupTHCnv98", authDomain: "cresco-scientiam.firebaseapp.com", projectId: "cresco-scientiam", storageBucket: "cresco-scientiam.firebasestorage.app", messagingSenderId: "102065794685", appId: "1:102065794685:web:bf1bb3506d77a722368b14", measurementId: "G-QLQSFRB8ZW" };
   try{ const app=initializeApp(firebaseConfig); const db=getFirestore(app); setDoc(doc(db,"stats","pageViews"),{ schedule: increment(1) },{ merge:true }).catch(()=>{}); }catch(err){ console.warn("Firebase not initialised:",err); }
 </script>
-</body>
+</body>>
 </html>
