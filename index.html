@@ -240,18 +240,43 @@ h1.decode .num{color:var(--amber);}
 .announce-card .ac-body{color:var(--dim);margin-top:10px;line-height:1.8;font-size:.95rem;}
 .announce-card .ac-body p+p{margin-top:12px;}
 
-/* ============ SIGNAL ============ */
-.signal{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center;}
-.signal-visual{position:relative;aspect-ratio:1;border:1px solid var(--line2);background:radial-gradient(circle at 50% 50%,rgba(28,57,187,.1),transparent 70%);border-radius:10px;overflow:hidden;}
-.signal-visual svg{width:100%;height:100%;}
-.signal-copy .section-title{font-family:var(--disp);font-weight:800;font-size:clamp(1.9rem,4.4vw,3.1rem);line-height:1.06;margin-top:18px;}
-.signal-copy .section-title em{font-style:normal;color:var(--blue);}
-.signal-copy p{color:var(--dim);margin-top:22px;line-height:1.85;font-size:1.02rem;}
-.signal-list{margin-top:30px;display:flex;flex-direction:column;gap:0;}
-.signal-list li{display:flex;gap:16px;padding:16px 0;border-top:1px solid var(--line);align-items:baseline;}
-.signal-list b{font-family:var(--mono);color:var(--electric);font-size:.85rem;flex-shrink:0;width:38px;}
-.signal-list span{color:var(--dim);font-size:.95rem;}
-@media (max-width:900px){.signal{grid-template-columns:1fr;} .signal-visual{max-width:340px;margin:0 auto;}}
+/* ============ SIGNAL — TRANSMISSION LOG ============ */
+.signal-head{max-width:720px;margin-bottom:50px;}
+.signal-head .section-title{font-family:var(--disp);font-weight:800;font-size:clamp(1.9rem,4.4vw,3.1rem);line-height:1.08;margin-top:18px;}
+.signal-head .section-title em{font-style:normal;color:var(--blue);}
+.signal-head p{color:var(--dim);margin-top:20px;line-height:1.85;font-size:1.02rem;}
+
+.signal-wave{position:relative;height:84px;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);margin-bottom:58px;overflow:hidden;}
+.signal-wave canvas{display:block;width:100%;height:100%;}
+.signal-wave::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--ink) 0%,transparent 10%,transparent 90%,var(--ink) 100%);pointer-events:none;}
+
+.signal-panels{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:10px;overflow:hidden;}
+.sig-panel{position:relative;background:var(--panel-solid);padding:38px 30px 32px;overflow:hidden;border-top:3px solid var(--sc,var(--electric));transition:background .4s ease,transform .4s ease;}
+.sig-panel::before{content:attr(data-mono);position:absolute;top:-14px;right:6px;font-family:var(--disp);font-weight:800;font-size:7rem;line-height:1;color:var(--sc,var(--electric));opacity:.07;pointer-events:none;letter-spacing:-.04em;z-index:0;}
+.sig-panel[data-verb="create"]{--sc:var(--electric);}
+.sig-panel[data-verb="establish"]{--sc:var(--amber);}
+.sig-panel[data-verb="compete"]{--sc:var(--good);}
+.sig-orbit{position:absolute;inset:auto -50px -55px auto;width:230px;height:230px;opacity:.22;pointer-events:none;z-index:0;transition:opacity .4s ease,transform .6s ease;}
+.sig-orbit svg{width:100%;height:100%;}
+.sig-panel:hover .sig-orbit{opacity:.36;transform:scale(1.05);}
+.sig-idx{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--faint);position:relative;z-index:1;transition:color .35s ease;}
+.sig-word{font-family:var(--disp);font-weight:800;font-size:1.85rem;margin:14px 0 14px;position:relative;z-index:1;color:var(--paper);}
+.sig-word b{color:var(--sc,var(--electric));}
+.sig-desc{color:var(--dim);font-size:.92rem;line-height:1.65;position:relative;z-index:1;min-height:80px;}
+.sig-meter{display:flex;gap:5px;margin-top:22px;position:relative;z-index:1;}
+.sig-meter i{flex:1;height:4px;border-radius:2px;background:var(--line3);transition:background .4s ease,box-shadow .4s ease;}
+.sig-meter i.lit{background:var(--sc,var(--electric));box-shadow:0 0 8px var(--sc,var(--electric));}
+.sig-stat{display:block;margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--faint);position:relative;z-index:1;}
+
+.sig-panel:hover{background:rgba(16,23,45,.92);transform:translateY(-4px);}
+.sig-panel:hover .sig-idx{color:var(--sc,var(--electric));}
+
+.signal-cta{text-align:center;margin-top:40px;}
+
+@media (max-width:900px){
+  .signal-panels{grid-template-columns:1fr;}
+  .sig-panel{border-top:none;border-left:3px solid var(--sc,var(--electric));}
+}
 
 /* ============ WORLDS — IMMERSIVE TILT PORTALS ============ */
 .worlds-head{max-width:680px;margin-bottom:56px;}
@@ -262,16 +287,43 @@ h1.decode .num{color:var(--amber);}
 /* A shared perspective makes the three cards look like portals receding from the top. */
 .worlds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;perspective:1400px;perspective-origin:center 18%;align-items:start;}
 .world-card{
-  --mx:0px;--my:0px;--tilt:8deg;
-  position:relative;isolation:isolate;min-height:340px;display:flex;flex-direction:column;
-  padding:36px 30px;overflow:hidden;border-radius:9px;
-  background:rgba(7,12,27,.82);border:1px solid var(--line2);
-  backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);
-  transform:rotateX(var(--tilt)) translateY(0) scale(.985);
-  transform-origin:center top;
+  --mx:0px;
+  --my:0px;
+  --tilt:8deg;
+
+  position:relative;
+  isolation:isolate;
+  min-height:340px;
+  display:flex;
+  flex-direction:column;
+  padding:36px 30px;
+  overflow:hidden;
+  border-radius:9px;
+
+  background:rgba(7,12,27,.82);
+  border:1px solid var(--line2);
+
+  backdrop-filter:blur(16px) saturate(150%);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+
+  transform:
+    perspective(1400px)
+    rotateX(var(--tilt))
+    translateY(0)
+    scale(.985);
+
+  transform-origin:center center;
+
   will-change:transform,box-shadow;
-  transition:transform .7s cubic-bezier(.16,1,.3,1),border-color .55s ease,box-shadow .7s ease,filter .55s ease;
-  box-shadow:0 32px 45px -35px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.025);
+  transition:
+    transform .12s linear,
+    border-color .55s ease,
+    box-shadow .7s ease,
+    filter .55s ease;
+
+  box-shadow:
+    0 32px 45px -35px rgba(0,0,0,.95),
+    inset 0 1px 0 rgba(255,255,255,.025);
 }
 
 /* top edge recedes into depth */
@@ -317,10 +369,23 @@ h1.decode .num{color:var(--amber);}
 .world-card[data-w="myth"] h3{color:#c9b8ff;}.world-card[data-w="cosmos"] h3{color:var(--electric);}.world-card[data-w="environment"] h3{color:#8de8b0;}
 
 /* ENTERING THE REALM: card comes forward, straightens, image deepens and gains motion. */
-.world-card:hover,.world-card:focus-visible,.world-card.is-entering{
-  --tilt:0deg;transform:rotateX(0deg) translateY(-18px) scale(1.075);
-  z-index:20;border-color:var(--line3);filter:brightness(1.08);
-  box-shadow:0 48px 90px -34px rgba(22,58,205,.48),0 0 0 1px rgba(160,220,255,.08),inset 0 0 70px rgba(50,100,220,.06);
+.world-card:hover,
+.world-card:focus-visible,
+.world-card.is-entering{
+  transform:
+    perspective(1400px)
+    rotateX(var(--tilt))
+    translateY(-18px)
+    scale(1.075);
+
+  z-index:20;
+  border-color:var(--line3);
+  filter:brightness(1.08);
+
+  box-shadow:
+    0 48px 90px -34px rgba(22,58,205,.48),
+    0 0 0 1px rgba(160,220,255,.08),
+    inset 0 0 70px rgba(50,100,220,.06);
 }
 .world-card:hover::before,.world-card:focus-visible::before,.world-card.is-entering::before{opacity:.9;}
 .world-card:hover::after,.world-card:focus-visible::after,.world-card.is-entering::after{opacity:1;transform:translateX(55%) rotate(6deg);}
@@ -340,7 +405,30 @@ h1.decode .num{color:var(--amber);}
 .worlds-grid.has-active .world-card:not(:hover):not(.is-entering){filter:brightness(.62) saturate(.72);}
 @keyframes portalFloat{0%{transform:translate3d(0,35px,0) scale(.55);opacity:0}15%{opacity:.8}75%{opacity:.65}100%{transform:translate3d(18px,-150px,0) scale(1.45);opacity:0}}
 @keyframes scanShift{from{background-position:0 0}to{background-position:0 40px}}
-@media (max-width:820px){.worlds-grid{grid-template-columns:1fr;perspective:none;}.world-card{transform:none;}.world-card:hover,.world-card:focus-visible,.world-card.is-entering{transform:translateY(-8px) scale(1.015);}}
+@media (max-width:820px){
+  .worlds-grid{
+    grid-template-columns:1fr;
+    perspective:1400px;
+  }
+
+  .world-card{
+    transform:
+      perspective(1400px)
+      rotateX(var(--tilt))
+      translateY(0)
+      scale(.99);
+  }
+
+  .world-card:hover,
+  .world-card:focus-visible,
+  .world-card.is-entering{
+    transform:
+      perspective(1400px)
+      rotateX(var(--tilt))
+      translateY(-8px)
+      scale(1.015);
+  }
+}
 @media (prefers-reduced-motion:reduce){.world-card,.world-card .wc-bg,.world-card::after,.world-card .wc-scan,.world-card .wc-particles i{transition:none!important;animation:none!important;}}
 
 /* ============ ARCHIVE / 3D COVERFLOW CAROUSEL ============ */
@@ -441,59 +529,166 @@ h1.decode .num{color:var(--amber);}
 }
 
 /* ============ COUNTDOWN ============ */
-.tminus-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--navy);}
-.tminus-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;padding:52px 0;}
-.tminus-label span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;color:var(--faint);text-transform:uppercase;}
-.tminus-label b{display:block;font-family:var(--disp);font-weight:800;font-size:clamp(1.2rem,2.6vw,1.8rem);margin-top:8px;}
-.tminus-grid{display:flex;flex-wrap:nowrap;gap:clamp(10px,2.5vw,24px);justify-content:center;width:auto;}
-
-.tm-box{
-  text-align:center;
-  min-width:clamp(66px,18vw,90px);
-  padding:16px 12px;
-  border-radius:14px;
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  background:rgba(9, 16, 36, 0.65);
-  border:1px solid rgba(94, 224, 255, 0.3);
-  box-shadow:0 8px 24px -6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(94, 224, 255, 0.25);
+.tminus-band{
   position:relative;
-  transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(circle at 50% 0%,rgba(94,224,255,.07),transparent 42%),
+    var(--navy);
+  overflow:hidden;
+}
+.tminus-band::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(94,224,255,.035),transparent);
+}
+.tminus-inner{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(230px,.7fr) minmax(520px,1.3fr);
+  align-items:center;
+  gap:clamp(28px,5vw,72px);
+  padding:34px 0;
+}
+.tminus-label{
+  position:relative;
+  padding-left:18px;
+  border-left:2px solid var(--electric);
+}
+.tminus-label span{
+  display:block;
+  font-family:var(--mono);
+  font-size:9.5px;
+  letter-spacing:.24em;
+  color:var(--electric);
+  text-transform:uppercase;
+}
+.tminus-label b{
+  display:block;
+  font-family:var(--disp);
+  font-weight:800;
+  font-size:clamp(1.15rem,2.2vw,1.55rem);
+  line-height:1.15;
+  margin-top:7px;
+}
+.tminus-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  width:100%;
+}
+.tm-box{
+  position:relative;
+  min-width:0;
+  text-align:center;
+  padding:17px 10px 14px;
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(18,30,58,.82),rgba(6,12,28,.72));
+  border:1px solid rgba(94,224,255,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 12px 28px -20px rgba(0,0,0,.9);
+  overflow:hidden;
+  transition:transform .3s ease,border-color .3s ease,background .3s ease,box-shadow .3s ease;
 }
 .tm-box::before{
   content:'';
   position:absolute;
-  top:0;left:15%;right:15%;
+  top:0;
+  left:18%;
+  right:18%;
   height:1px;
-  background:linear-gradient(90deg, transparent, var(--electric), transparent);
-  opacity:.8;
+  background:linear-gradient(90deg,transparent,var(--electric),transparent);
+  opacity:.75;
+}
+.tm-box::after{
+  content:'';
+  position:absolute;
+  inset:auto 0 0;
+  height:22px;
+  background:linear-gradient(180deg,transparent,rgba(94,224,255,.035));
+  pointer-events:none;
 }
 .tm-box:hover{
   transform:translateY(-3px);
-  border-color:rgba(94, 224, 255, 0.6);
-  box-shadow:0 12px 30px -8px rgba(94, 224, 255, 0.3), inset 0 1px 0 rgba(94, 224, 255, 0.4);
+  border-color:rgba(94,224,255,.48);
+  background:linear-gradient(145deg,rgba(21,39,72,.92),rgba(7,15,32,.82));
+  box-shadow:0 16px 34px -20px rgba(94,224,255,.28),inset 0 1px 0 rgba(94,224,255,.18);
 }
 .tm-num{
   font-family:var(--disp);
+  font-variant-numeric:tabular-nums;
   font-weight:800;
-  font-size:clamp(1.8rem,5vw,3.2rem);
+  font-size:clamp(1.7rem,3.2vw,2.55rem);
   color:var(--electric);
   line-height:1;
-  text-shadow:0 0 18px rgba(94, 224, 255, 0.5);
+  letter-spacing:-.035em;
+  text-shadow:0 0 16px rgba(94,224,255,.34);
 }
 .tm-label{
   font-family:var(--mono);
-  font-size:9.5px;
-  letter-spacing:.2em;
+  font-size:8px;
+  letter-spacing:.18em;
   color:var(--faint);
   text-transform:uppercase;
   margin-top:8px;
   font-weight:600;
 }
-
-@media (max-width: 640px) {
-  .tminus-inner { flex-direction: column; text-align: center; justify-content: center; padding: 36px 0; }
-  .tminus-grid { width: 100%; justify-content: space-around; }
+@media (max-width:980px){
+  .tminus-inner{
+    grid-template-columns:1fr;
+    gap:22px;
+    padding:30px 0;
+    text-align:center;
+  }
+  .tminus-label{
+    width:max-content;
+    max-width:100%;
+    margin:0 auto;
+    padding:0 0 0 14px;
+    text-align:left;
+  }
+  .tminus-grid{
+    max-width:620px;
+    margin:0 auto;
+  }
+}
+@media (max-width:640px){
+  .tminus-inner{
+    gap:18px;
+    padding:27px 0 29px;
+  }
+  .tminus-label{
+    width:100%;
+    padding-left:12px;
+  }
+  .tminus-label span{font-size:8px;letter-spacing:.2em;}
+  .tminus-label b{font-size:1.05rem;line-height:1.25;}
+  .tminus-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:6px;
+    width:100%;
+  }
+  .tm-box{
+    padding:13px 4px 11px;
+    border-radius:10px;
+  }
+  .tm-num{
+    font-size:clamp(1.35rem,7.8vw,1.9rem);
+    letter-spacing:-.04em;
+  }
+  .tm-label{
+    font-size:6.5px;
+    letter-spacing:.1em;
+    margin-top:7px;
+  }
+}
+@media (max-width:370px){
+  .tminus-grid{gap:4px;}
+  .tm-box{padding-left:2px;padding-right:2px;}
+  .tm-num{font-size:1.3rem;}
+  .tm-label{font-size:6px;letter-spacing:.07em;}
 }
 
 footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-index:2;}
@@ -625,19 +820,43 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
   </section>
 
   <section>
-    <div class="wrap signal">
-      <div class="signal-visual reveal"><svg viewBox="0 0 300 300"><g id="signalOrbit"></g></svg></div>
-      <div class="signal-copy reveal">
+    <div class="wrap">
+      <div class="signal-head reveal">
         <span class="eyebrow">Incoming Transmission</span>
         <h2 class="section-title">A fest built on <em>three verbs</em>, not one theme.</h2>
-        <p>CrescoScientiam began as a single-day science meet at DPS Megacity and has grown, edition after edition, into a two-day fest where science, storytelling, and strategy collide. Every event traces back to one of three instincts: the instinct to <b style="color:var(--paper);">create</b> something from nothing, the discipline to <b style="color:var(--paper);">establish</b> it under scrutiny, and the nerve to <b style="color:var(--paper);">compete</b> for it on the day.</p>
-        <div class="signal-list">
-          <li><b>01</b><span>A city-wide science fest hosted by Delhi Public School Megacity, Kolkata.</span></li>
-          <li><b>02</b><span>Sixteen events across Mythology, Cosmos and Environment — from chess to genetic engineering.</span></li>
-          <li><b>03</b><span>Five editions strong, growing from four events in 2019 to sixteen in 2026.</span></li>
-        </div>
-        <div style="margin-top:32px;"><a href="/about" class="btn btn-ghost">Full Mission Brief <span class="arrow">&rarr;</span></a></div>
+        <p>CrescoScientiam began as a single-day science meet at DPS Megacity and has grown, edition after edition, into a two-day fest where science, storytelling, and strategy collide. Every event traces back to one of three instincts.</p>
       </div>
+
+      <div class="signal-wave reveal"><canvas id="signalWave"></canvas></div>
+
+      <div class="signal-panels reveal">
+        <div class="sig-panel" data-verb="create" data-mono="Cr">
+          <div class="sig-orbit" aria-hidden="true"><svg viewBox="0 0 220 220"></svg></div>
+          <span class="sig-idx">TX&middot;01</span>
+          <h3 class="sig-word"><b>CR</b>eate</h3>
+          <p class="sig-desc">CrescoScientiam began as a single-day science meet at DPS Megacity — one idea, one campus, one afternoon.</p>
+          <div class="sig-meter" data-value="1"><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="sig-stat">2019 &middot; First Edition</span>
+        </div>
+        <div class="sig-panel" data-verb="establish" data-mono="Es">
+          <div class="sig-orbit" aria-hidden="true"><svg viewBox="0 0 220 220"></svg></div>
+          <span class="sig-idx">TX&middot;02</span>
+          <h3 class="sig-word"><b>ES</b>tablish</h3>
+          <p class="sig-desc">What started small now spans three theme-worlds and sixteen events — from chess to genetic engineering.</p>
+          <div class="sig-meter" data-value="3"><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="sig-stat">16 Events &middot; 3 Worlds</span>
+        </div>
+        <div class="sig-panel" data-verb="compete" data-mono="Co">
+          <div class="sig-orbit" aria-hidden="true"><svg viewBox="0 0 220 220"></svg></div>
+          <span class="sig-idx">TX&middot;03</span>
+          <h3 class="sig-word"><b>CO</b>mpete</h3>
+          <p class="sig-desc">Five editions strong and counting — students returning each year to defend what they won the year before.</p>
+          <div class="sig-meter" data-value="5"><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="sig-stat">5 Editions &middot; 2019&ndash;2026</span>
+        </div>
+      </div>
+
+      <div class="signal-cta reveal"><a href="/about" class="btn btn-ghost">Full Mission Brief <span class="arrow">&rarr;</span></a></div>
     </div>
   </section>
 
@@ -790,6 +1009,7 @@ const AUTO_SLIDE_DELAY = 3000;
 
 function updateCoverflow(){
   const cards = document.querySelectorAll('.coverflow-stage .g-card');
+  
   const dots = document.querySelectorAll('.coverflow-dots .cf-dot');
   if(!cards.length) return;
 
@@ -929,6 +1149,142 @@ renderSite();
   });
 })();
 </script>
+<script>
+/* =========================================================
+   SCROLL-DRIVEN 3D REALM TILT
+   Above viewport  -> backward tilt
+   Viewport centre  -> perfectly straight
+   Below viewport   -> forward/downward tilt
+   ========================================================= */
+
+(function(){
+
+  const cards = [...document.querySelectorAll('.world-card')];
+  if(!cards.length) return;
+
+  const reduced = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  let ticking = false;
+
+  function clamp(v,min,max){
+    return Math.max(min,Math.min(max,v));
+  }
+
+  function smoothstep(t){
+    return t * t * (3 - 2 * t);
+  }
+
+  function updateRealmTilt(){
+
+    const viewportH = window.innerHeight;
+
+    cards.forEach(card => {
+
+      const rect = card.getBoundingClientRect();
+
+      /*
+        Position of card centre relative to viewport.
+
+        -1 = well above viewport
+         0 = viewport centre
+        +1 = well below viewport
+      */
+      const center =
+        (rect.top + rect.height / 2 - viewportH / 2)
+        / (viewportH * 0.48);
+
+      /*
+        Dead-zone around viewport centre.
+
+        This creates the important effect where the card
+        remains completely straight while you are actually
+        reading/interacting with it.
+      */
+      const deadZone = 0.22;
+
+      let tilt = 0;
+
+      if(center < -deadZone){
+
+        // Card is leaving through the top.
+        const t = clamp(
+          (center + deadZone) / (1 - deadZone),
+          -1,
+          0
+        );
+
+        tilt = -8 * smoothstep(Math.abs(t));
+
+      }else if(center > deadZone){
+
+        // Card is still below the viewport.
+        const t = clamp(
+          (center - deadZone) / (1 - deadZone),
+          0,
+          1
+        );
+
+        tilt = 8 * smoothstep(t);
+
+      }else{
+
+        // Central reading zone = perfectly straight.
+        tilt = 0;
+      }
+
+      card.style.setProperty(
+        '--tilt',
+        `${tilt.toFixed(3)}deg`
+      );
+
+    });
+
+    ticking = false;
+  }
+
+  function requestUpdate(){
+
+    if(!ticking){
+      requestAnimationFrame(updateRealmTilt);
+      ticking = true;
+    }
+
+  }
+
+  if(!reduced){
+
+    window.addEventListener(
+      'scroll',
+      requestUpdate,
+      {passive:true}
+    );
+
+    window.addEventListener(
+      'resize',
+      requestUpdate,
+      {passive:true}
+    );
+
+    window.addEventListener(
+      'orientationchange',
+      requestUpdate,
+      {passive:true}
+    );
+
+    requestUpdate();
+
+  }else{
+
+    cards.forEach(card=>{
+      card.style.setProperty('--tilt','0deg');
+    });
+
+  }
+
+})();
+</script>
 
 <script>
 (function(){
@@ -1046,33 +1402,92 @@ renderSite();
   window.addEventListener('resize', updateCoverflow);
 })();
 
-function buildOrbitSVG(target,opts){
-  const cx=150,cy=150;
-  const rings=opts.rings||[46,78,112];
-  const colors=opts.colors||['#1c39bb','#5ee0ff','#ffb648'];
-  let html=`<circle cx="${cx}" cy="${cy}" r="${opts.core||6}" fill="${colors[0]}" style="filter:drop-shadow(0 0 8px ${colors[0]})"/>`;
-  rings.forEach((r,i)=>{
-    html+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(140,170,255,.25)" stroke-width="1" ${i===1?'stroke-dasharray="3 5"':''}/>`;
-    const defaultShells=[2,8,14];
-    const count=opts.counts?opts.counts[i]:defaultShells[i];
-    const dur=(6+i*3.5).toFixed(1);
-    const dir=i%2===0?'':'Rev';
-    html+=`<g style="transform-origin:${cx}px ${cy}px;animation:orbSpin${dir} ${dur}s linear infinite;">`;
-    for(let k=0;k<count;k++){
-      const ang=(k/count)*Math.PI*2;
-      const ex=cx+r*Math.cos(ang);
-      const ey=cy+r*Math.sin(ang);
-      html+=`<circle cx="${ex.toFixed(2)}" cy="${ey.toFixed(2)}" r="${i===0?3.2:2.2}" fill="${colors[i%colors.length]}"/>`;
-    }
-    html+='</g>';
-  });
-  target.innerHTML=html;
-}
 (function(){
   const style=document.createElement('style');
   style.textContent='@keyframes orbSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes orbSpinRev{from{transform:rotate(360deg)}to{transform:rotate(0)}}';
   document.head.appendChild(style);
-  const signal=document.getElementById('signalOrbit');if(signal)buildOrbitSVG(signal,{});
+})();
+
+/* ---------- SIGNAL WAVEFORM (replaces the old orbit graphic) ---------- */
+(function(){
+  const canvas=document.getElementById('signalWave');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,dpr=Math.min(devicePixelRatio||1,2),t=0,rt;
+  function build(){
+    W=canvas.parentElement.clientWidth;H=canvas.parentElement.clientHeight;
+    canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function resize(){clearTimeout(rt);rt=setTimeout(build,120);}
+  addEventListener('resize',resize);build();
+  function frame(){
+    t+=.02;
+    ctx.clearRect(0,0,W,H);
+    const midY=H/2;
+    ctx.beginPath();
+    for(let x=0;x<=W;x+=4){
+      const y=midY+Math.sin(x*0.02+t)*10*Math.sin(t*0.4)+Math.sin(x*0.05+t*1.7)*5;
+      if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle='rgba(94,224,255,.55)';
+    ctx.lineWidth=1.4;
+    ctx.shadowColor='rgba(94,224,255,.6)';
+    ctx.shadowBlur=6;
+    ctx.stroke();
+    if(!reduced)requestAnimationFrame(frame);else setTimeout(frame,1500);
+  }
+  frame();
+})();
+
+/* ---------- SIGNAL PANEL METERS (fill on scroll reveal) ---------- */
+(function(){
+  const panels=document.querySelectorAll('.sig-panel');
+  if(!panels.length)return;
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const meter=e.target.querySelector('.sig-meter');
+        const bars=[...meter.querySelectorAll('i')];
+        const value=parseInt(meter.dataset.value,10)||0;
+        bars.forEach((bar,i)=>{
+          setTimeout(()=>{if(i<value)bar.classList.add('lit');},i*90);
+        });
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.4});
+  panels.forEach(p=>io.observe(p));
+})();
+
+/* ---------- SIGNAL PANEL BACKGROUND ORBITS ---------- */
+(function(){
+  const colorMap={create:'#5ee0ff',establish:'#ffb648',compete:'#6be08a'};
+  function buildPanelOrbit(svg,color){
+    const cx=110,cy=110;
+    const rings=[28,52,76,100];
+    const counts=[2,6,10,14];
+    let html=`<circle cx="${cx}" cy="${cy}" r="4" fill="${color}" style="filter:drop-shadow(0 0 6px ${color})"/>`;
+    rings.forEach((r,i)=>{
+      html+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="1" opacity=".45" ${i===1?'stroke-dasharray="3 5"':''}/>`;
+      const dur=(9+i*4).toFixed(1);
+      const dir=i%2===0?'':'Rev';
+      html+=`<g style="transform-origin:${cx}px ${cy}px;animation:orbSpin${dir} ${dur}s linear infinite;">`;
+      for(let k=0;k<counts[i];k++){
+        const ang=(k/counts[i])*Math.PI*2;
+        const ex=cx+r*Math.cos(ang),ey=cy+r*Math.sin(ang);
+        html+=`<circle cx="${ex.toFixed(2)}" cy="${ey.toFixed(2)}" r="${i===0?3:2}" fill="${color}"/>`;
+      }
+      html+='</g>';
+    });
+    svg.innerHTML=html;
+  }
+  document.querySelectorAll('.sig-panel').forEach(panel=>{
+    const svg=panel.querySelector('.sig-orbit svg');
+    if(!svg)return;
+    buildPanelOrbit(svg,colorMap[panel.dataset.verb]||'#5ee0ff');
+  });
 })();
 (function(){
   const html5=document.querySelectorAll('.hlogo-orbit-svg');
