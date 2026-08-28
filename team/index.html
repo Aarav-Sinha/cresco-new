@@ -1,658 +1,3436 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   
   <base href="/">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#030816">
-<meta name="description" content="Meet the team running CrescoScientiam 5.0 — Core Committee, Event Heads, Department Heads, and Teachers.">
-<title>Team — CrescoScientiam 5.0</title>
-<!-- Browser Tab Icon (Favicon) -->
-<link rel="icon" type="image/png" href="event -logos/CRESCO_title_image.png">
-<link rel="apple-touch-icon" href="event -logos/CRESCO_title_image.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.5);--panel-solid:#0b1120;
-  --line:rgba(140,170,255,.11);--line2:rgba(140,170,255,.26);--line3:rgba(140,170,255,.4);
-  --blue:#1c39bb;--electric:#5ee0ff;--amber:#ffb648;--alert:#ef4a5a;
-  --paper:#eef2fb;--dim:rgba(238,242,251,.62);--faint:rgba(238,242,251,.34);
-  --disp:'Poppins',sans-serif;--ui:'Space Grotesk',sans-serif;--mono:'IBM Plex Mono',monospace;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;overflow-x:hidden;width:100%;}
-body{background:var(--ink);color:var(--paper);font-family:var(--ui);font-size:17px;line-height:1.55;overflow-x:hidden;width:100%;-webkit-font-smoothing:antialiased;cursor:default;opacity:0;animation:pageIn .7s ease .05s forwards;}
-@keyframes pageIn{to{opacity:1;}}
-a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{list-style:none;} button{font:inherit;color:inherit;}
 
-/* ============ DYNAMIC ENHANCED BACKGROUND SYSTEM ============ */
-#starfield {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-.bg-glows {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
+  <meta name="theme-color" content="#030816">
+  <meta name="description"
+        content="Meet the team running CrescoScientiam 5.0 — Core Committee, Event Heads, Department Heads, and Teachers.">
 
-.glow-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.25;
-  animation: pulseGlow 12s ease-in-out infinite alternate;
-}
+  <title>Team — CrescoScientiam 5.0</title>
 
-.glow-orb-1 {
-  top: -10%;
-  right: 15%;
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, var(--blue) 0%, transparent 70%);
-}
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="event-logos/CRESCO_title_image.png">
+  <link rel="apple-touch-icon" href="event-logos/CRESCO_title_image.png">
 
-.glow-orb-2 {
-  top: 45%;
-  left: -10%;
-  width: 45vw;
-  height: 45vw;
-  background: radial-gradient(circle, #0055ff 0%, transparent 70%);
-  animation-delay: -4s;
-}
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-.glow-orb-3 {
-  bottom: 5%;
-  right: -5%;
-  width: 40vw;
-  height: 40vw;
-  background: radial-gradient(circle, var(--electric) 0%, transparent 70%);
-  opacity: 0.15;
-  animation-delay: -8s;
-}
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
-@keyframes pulseGlow {
-  0% { transform: scale(1) translate(0, 0); opacity: 0.2; }
-  50% { transform: scale(1.15) translate(-20px, 20px); opacity: 0.35; }
-  100% { transform: scale(0.95) translate(15px, -15px); opacity: 0.18; }
-}
+  <style>
 
-.tech-grid {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image: 
-    linear-gradient(rgba(94, 224, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(94, 224, 255, 0.03) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
-}
+    /* =========================================================
+       ROOT
+    ========================================================= */
 
-.scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.35;mix-blend-mode:overlay;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.028) 0px,rgba(255,255,255,.028) 1px,transparent 1px,transparent 3px);}
-.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px;}
+    :root {
+      --ink: #02050f;
+      --deep: #030816;
+      --navy: #07102c;
+      --navy2: #0b1640;
 
-.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,64px);position:relative;z-index:3;}
-.eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--electric);}
-.eyebrow::before{content:'';width:24px;height:1px;background:linear-gradient(90deg,transparent,var(--electric));}
-section{position:relative;z-index:2;padding:20px 0;}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
-.reveal.in{opacity:1;transform:translateY(0);}
+      --panel: rgba(9, 15, 35, .66);
+      --panel-heavy: rgba(6, 11, 28, .90);
 
-.ticker-bar{position:fixed;top:0;left:0;right:0;z-index:90;height:32px;overflow:hidden;backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);background:rgba(3,8,22,.7);border-bottom:1px solid var(--line);display:flex;align-items:center;}
-.ticker-track{display:flex;white-space:nowrap;animation:tickerScroll 34s linear infinite;}
-.ticker-track span{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:0 24px;display:inline-flex;align-items:center;gap:10px;}
-.ticker-track span i{width:4px;height:4px;border-radius:50%;background:var(--electric);display:inline-block;}
-@keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+      --line: rgba(140, 170, 255, .12);
+      --line2: rgba(140, 170, 255, .22);
+      --line3: rgba(140, 170, 255, .40);
 
-.topbar{position:fixed;top:44px;left:50%;transform:translateX(-50%);z-index:96;width:min(94vw,1220px);border-radius:24px;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);background:rgba(8,12,26,.72);border:1px solid var(--line2);box-shadow:0 14px 44px -16px rgba(0,0,0,.65);transition:background .3s;}
-.topbar.scrolled{background:rgba(6,9,20,.9);}
-.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 10px 9px 14px;}
-.tb-brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.tb-logo-img{height:28px;width:auto;object-fit:contain;flex-shrink:0;}
-.tb-cell{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:11px;border:1px solid var(--line3);color:var(--electric);background:rgba(28,57,187,.25);}
-.tb-words{display:none;font-family:var(--disp);font-weight:700;font-size:.7rem;letter-spacing:.01em;color:var(--dim);white-space:nowrap;}
-.tb-words b{color:var(--paper);}
-@media (min-width:460px){.tb-words{display:block;}}
-.tb-tabs{display:none;gap:2px;align-items:center;}
-.tb-tabs a{font-family:var(--ui);font-weight:600;font-size:12.5px;color:var(--dim);padding:9px 12px;border-radius:14px;transition:color .25s,background .25s;white-space:nowrap;}
-.tb-tabs a:hover{color:var(--paper);background:rgba(94,224,255,.08);}
-.tb-tabs a.active{color:var(--ink);background:var(--electric);}
-.tb-bar-btn{display:flex;flex-direction:column;gap:4px;width:40px;height:40px;align-items:center;justify-content:center;border-radius:12px;border:1px solid var(--line2);background:transparent;cursor:pointer;flex-shrink:0;transition:border-color .3s,background .3s;}
-.tb-bar-btn:hover{border-color:var(--electric);background:rgba(94,224,255,.06);}
-.tb-bar-btn:active{transform:scale(.93);}
-.tb-bar-btn span{width:18px;height:2px;background:var(--paper);border-radius:2px;transition:transform .3s,opacity .3s;}
-.tb-bar-btn.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
-.tb-bar-btn.open span:nth-child(2){opacity:0;}
-.tb-bar-btn.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
-@media (min-width:981px){.tb-tabs{display:flex;} .tb-bar-btn{display:none;}}
-@media (max-width:980px){.topbar{top:40px;border-radius:20px;}}
-@media (max-width:420px){.tb-words{display:none;}}
+      --blue: #1c39bb;
+      --blue2: #315cff;
+      --electric: #5ee0ff;
+      --electric2: #9cf0ff;
 
-.overlay-nav{position:fixed;inset:0;z-index:200;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(3,6,14,.96);clip-path:circle(0% at calc(100% - 46px) 60px);transition:clip-path .7s cubic-bezier(.7,0,.2,1);pointer-events:none;}
-.overlay-nav.open{clip-path:circle(150% at calc(100% - 46px) 60px);pointer-events:all;}
-.overlay-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:.5;}
-.overlay-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;padding:110px clamp(24px,7vw,110px) 40px;max-width:1000px;margin:0 auto;overflow-y:auto;}
-.overlay-clock{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.14em;margin-bottom:30px;}
-.overlay-clock b{display:inline-block;margin-left:10px;font-size:15px;color:var(--electric);font-weight:500;}
-.overlay-links{display:flex;flex-direction:column;gap:0;}
-.overlay-links a{display:flex;align-items:baseline;gap:20px;font-family:var(--disp);font-weight:700;font-size:clamp(1.6rem,6.4vw,2.4rem);color:var(--faint);padding:11px 0;border-bottom:1px solid var(--line);transition:color .35s,padding .35s;}
-.overlay-links a small{font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:400;letter-spacing:.1em;}
-.overlay-links a:hover,.overlay-links a.active{color:var(--paper);padding-left:12px;}
-.overlay-links a:hover small,.overlay-links a.active small{color:var(--electric);}
-.overlay-bottom{display:flex;flex-direction:column;gap:16px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line);}
-.overlay-bottom .ob-col span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--faint);text-transform:uppercase;margin-bottom:6px;}
-.overlay-bottom .ob-col a,.overlay-bottom .ob-col p{color:var(--dim);font-size:.92rem;}
+      --violet: #8b6cff;
+      --pink: #c46cff;
 
-.page-hero{padding:160px 0 30px;text-align:center;}
-.page-hero .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--faint);text-transform:uppercase;}
-.page-hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,5.6vw,3.4rem);margin-top:16px;}
-.page-hero h1 em{font-style:normal;color:var(--electric);}
-.page-hero p{margin-top:14px;color:var(--dim);max-width:560px;margin-left:auto;margin-right:auto;}
+      --amber: #ffb648;
+      --alert: #ef4a5a;
 
-/* ============ RECTANGULAR BOX GRID SYSTEM ============ */
-.section-block{padding:40px 0;}
-.section-heading-wrap{text-align:center;margin-bottom:32px;}
-.section-heading{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,4.2vw,2.5rem);position:relative;display:inline-block;}
-.section-heading::after{content:'';display:block;width:64px;height:2px;background:linear-gradient(90deg,transparent,var(--electric),transparent);margin:14px auto 0;}
+      --paper: #eef2fb;
+      --dim: rgba(238, 242, 251, .64);
+      --faint: rgba(238, 242, 251, .35);
 
-.post-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;}
-.post-grid.core-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
-
-/* Card container organized vertically */
-.post-box{
-  position:relative;
-  border-radius:20px;
-  overflow:hidden;
-  height:240px;
-  display:flex;
-  flex-direction:column;
-  background:rgba(8,12,26,.6);
-  border:1px solid var(--line2);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s,border-color .4s;
-}
-.post-box:hover{
-  transform:translateY(-4px);
-  box-shadow:0 20px 40px -18px rgba(28,57,187,.45);
-  border-color:rgba(94,224,255,.4);
-}
-
-/* Position/Event Title Bar sitting directly ABOVE the image */
-.post-box-title{
-  position:relative;
-  z-index:5;
-  font-family:var(--mono);
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--electric);
-  background:rgba(3, 8, 22, 0.95);
-  border-bottom:1px solid var(--line2);
-  padding:10px 14px;
-  text-align:center;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  flex-shrink:0;
-}
-
-/* Image container occupying remaining space between Title and Name Tag */
-.box-photo-wrap{
-  position:relative;
-  width:100%;
-  flex:1;
-  overflow:hidden;
-}
-
-.box-photo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center top;
-  display:block;
-}
-
-.box-fallback{
-  display:none;
-  width:100%;
-  height:100%;
-  background:rgba(255,255,255,.05);
-  align-items:center;
-  justify-content:center;
-  font-family:var(--disp);
-  font-weight:800;
-  font-size:1.4rem;
-  color:var(--faint);
-}
-
-/* Bottom Name Tag directly attached to bottom of the box */
-.box-names-container {
-  position:relative;
-  width:100%;
-  display:flex;
-  z-index:4;
-  flex-shrink:0;
-  background:rgba(3, 8, 22, 0.92);
-  border-top:1px solid var(--line2);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-
-.name-badge {
-  flex:1;
-  padding:8px 10px;
-  text-align:center;
-  font-family:var(--ui);
-  font-weight:600;
-  font-size:0.8rem;
-  line-height:1.2;
-  color:var(--paper);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.name-badge:not(:last-child){
-  border-right:1px solid var(--line2);
-}
-
-/* ============ TEACHERS SPOTLIGHT DESIGN ============ */
-.teachers-spotlight-card {
-  max-width: 780px;
-  margin: 0 auto;
-  position: relative;
-  background: linear-gradient(135deg, rgba(28, 57, 187, 0.12) 0%, rgba(8, 12, 26, 0.7) 100%);
-  border: 1px solid rgba(94, 224, 255, 0.25);
-  border-radius: 24px;
-  padding: 36px 28px;
-  text-align: center;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 20px 50px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-  overflow: hidden;
-}
-
-.teachers-spotlight-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(94, 224, 255, 0.15) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.teachers-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  border-radius: 30px;
-  background: rgba(94, 224, 255, 0.08);
-  border: 1px solid rgba(94, 224, 255, 0.3);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: var(--electric);
-  text-transform: uppercase;
-  margin-bottom: 24px;
-}
-
-.teachers-names-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.teacher-item {
-  font-family: var(--disp);
-  font-size: clamp(1.2rem, 3.2vw, 1.6rem);
-  font-weight: 700;
-  color: var(--paper);
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.teacher-item::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--electric);
-  box-shadow: 0 0 10px var(--electric);
-}
-
-.teacher-divider-dot {
-  color: var(--line3);
-  font-size: 1.4rem;
-}
-
-@media (max-width: 580px) {
-  .teachers-names-row {
-    flex-direction: column;
-    gap: 12px;
-  }
-  .teacher-divider-dot {
-    display: none;
-  }
-}
-
-/* ---------- Dedicated Scrollbar for Modal Body ---------- */
-.modal-body-pad::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-body-pad::-webkit-scrollbar-track {
-  background: rgba(9, 13, 26, 0.6);
-  border-radius: 0 0 16px 0;
-  margin: 12px 0;
-}
-
-.modal-body-pad::-webkit-scrollbar-thumb {
-  background: rgba(94, 224, 255, 0.25);
-  border-radius: 10px;
-}
-
-.modal-body-pad::-webkit-scrollbar-thumb:hover {
-  background: var(--electric);
-}
-
-.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--line2),transparent);margin:20px 0;}
-
-footer{border-top:1px solid var(--line);padding:70px 0 30px;position:relative;z-index:2;margin-top:60px;background:rgba(3,8,22,.6);backdrop-filter:blur(10px);}
-.foot-top{display:grid;grid-template-columns:1.3fr repeat(3,1fr);gap:40px;padding-bottom:50px;}
-.foot-brand-word{font-family:var(--disp);font-weight:800;font-size:1.5rem;}
-.foot-brand p{color:var(--dim);margin-top:16px;font-size:.92rem;line-height:1.8;max-width:280px;}
-.foot-col span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;margin-bottom:18px;}
-.foot-col a{display:block;color:var(--dim);font-size:.92rem;padding:7px 0;}
-.foot-col a:hover{color:var(--electric);}
-.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:26px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.06em;}
-@media (max-width:900px){.foot-top{grid-template-columns:1fr 1fr;}}
-@media (max-width:560px){.foot-top{grid-template-columns:1fr;}}
-
-@media (max-width:640px){
-  .post-grid, .post-grid.core-grid{grid-template-columns:1fr;}
-  .post-box{height:220px;}
-}
-</style>
-</head>
-<body>
-<!-- BACKGROUND LAYER ELEMENTS -->
-<canvas id="starfield"></canvas>
-<div class="bg-glows">
-  <div class="glow-orb glow-orb-1"></div>
-  <div class="glow-orb glow-orb-2"></div>
-  <div class="glow-orb glow-orb-3"></div>
-</div>
-<div class="tech-grid"></div>
-<div class="scanlines"></div>
-<div class="grain"></div>
-
-<div class="ticker-bar"><div class="ticker-track" id="tickerTrack">
-  <span><i></i>DPS MEGACITY PRESENTS</span><span><i></i>CRESCOSCIENTIAM 5.0</span><span><i></i>25&ndash;26 SEPTEMBER 2026</span>
-  <span><i></i>DPS MEGACITY PRESENTS</span><span><i></i>CRESCOSCIENTIAM 5.0</span><span><i></i>25&ndash;26 SEPTEMBER 2026</span>
-</div></div>
-
-<header class="topbar" id="topbar">
-  <div class="topbar-inner">
-    <a href="/" class="tb-brand">
-      <img src="event -logos/cresco_logo.png" alt="Cresco Logo" class="tb-logo-img"
-           onload="this.nextElementSibling.style.display='none';" 
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <span class="tb-cell" style="display:none;">Cs</span>
-      <span class="tb-words"><b>Cresco</b>Scientiam 5.0</span>
-    </a>
-    <nav class="tb-tabs">
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-      <a href="/team" class="active">Team</a>
-      <a href="/events">Events</a>
-      <a href="/schedule">Schedule</a>
-      <a href="/resources">Resources</a>
-      <a href="/sponsors">Sponsors</a>
-      <a href="/contact">Contact</a>
-    </nav>
-    <button class="tb-bar-btn" id="menuTrigger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-  </div>
-</header>
-
-<nav class="overlay-nav" id="overlayNav">
-  <div class="overlay-grid"></div>
-  <div class="overlay-inner">
-    <div class="overlay-clock">LOCAL TIME &middot; IST<b id="overlayClock">00:00:00</b></div>
-    <div class="overlay-links">
-      <a href="/"><small>01</small>Home</a>
-      <a href="/about"><small>02</small>About</a>
-      <a href="/team" class="active"><small>03</small>Team</a>
-      <a href="/events"><small>04</small>Events</a>
-      <a href="/schedule"><small>05</small>Schedule</a>
-      <a href="/resources"><small>06</small>Resources</a>
-      <a href="/sponsors"><small>07</small>Sponsors</a>
-      <a href="/contact"><small>08</small>Contact</a>
-    </div>
-    <div class="overlay-bottom">
-      <div class="ob-col"><span>Presented By</span><p>DPS Megacity, Kolkata</p></div>
-      <div class="ob-col"><span>Social</span><a href="https://www.instagram.com/cresco_2026/" target="_blank" rel="noopener">@cresco_2026</a></div>
-    </div>
-  </div>
-</nav>
-
-<main>
-  <section class="page-hero">
-    <div class="wrap">
-      <span class="kicker">Roster</span>
-      <h1>The People Running <em>Mission 5.0</em></h1>
-      <p>Core Committee, Event Heads, Department Heads, and the teachers guiding it all.</p>
-    </div>
-  </section>
-
-  <div id="teamContent"></div>
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-bottom" style="border-top: none; padding-top: 0;">
-      <span>&copy; 2026 CRESCO SCIENTIAM &middot; DELHI PUBLIC SCHOOL MEGACITY, KOLKATA</span>
-      <span>DEVELOPED BY AARAV SINHA</span>
-    </div>
-  </div>
-</footer>
-
-<!-- BACKGROUND STARFIELD & INTERACTIVE PARTICLES JS -->
-<script>
-(function(){
-  const canvas = document.getElementById('starfield');
-  const ctx = canvas.getContext('2d');
-  let width, height, stars = [];
-  
-  function resize(){
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-  
-  function createStars(){
-    stars = [];
-    const count = Math.floor((width * height) / 10000);
-    for(let i = 0; i < count; i++){
-      stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        radius: Math.random() * 1.4 + 0.3,
-        alpha: Math.random() * 0.7 + 0.2,
-        speed: Math.random() * 0.2 + 0.05,
-        color: Math.random() > 0.4 ? '#5ee0ff' : (Math.random() > 0.5 ? '#1c39bb' : '#ffffff')
-      });
+      --disp: 'Poppins', sans-serif;
+      --ui: 'Space Grotesk', sans-serif;
+      --mono: 'IBM Plex Mono', monospace;
     }
-  }
 
-  function render(){
-    ctx.clearRect(0, 0, width, height);
-    stars.forEach(s => {
-      s.y -= s.speed;
-      if(s.y < 0) { s.y = height; s.x = Math.random() * width; }
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-      ctx.fillStyle = s.color;
-      ctx.globalAlpha = s.alpha;
-      ctx.fill();
-    });
-    
-    ctx.globalAlpha = 0.04;
-    ctx.strokeStyle = '#5ee0ff';
-    ctx.lineWidth = 0.8;
-    for(let i = 0; i < stars.length; i++){
-      for(let j = i + 1; j < stars.length; j++){
-        const dx = stars[i].x - stars[j].x;
-        const dy = stars[i].y - stars[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if(dist < 90){
-          ctx.beginPath();
-          ctx.moveTo(stars[i].x, stars[i].y);
-          ctx.lineTo(stars[j].x, stars[j].y);
-          ctx.stroke();
-        }
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    body {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--ui);
+      font-size: 17px;
+      line-height: 1.55;
+      overflow-x: hidden;
+      width: 100%;
+      -webkit-font-smoothing: antialiased;
+
+      opacity: 0;
+      animation: pageIn .8s ease .05s forwards;
+    }
+
+    @keyframes pageIn {
+      to {
+        opacity: 1;
       }
     }
-    
-    requestAnimationFrame(render);
-  }
 
-  window.addEventListener('resize', () => { resize(); createStars(); });
-  resize();
-  createStars();
-  render();
-})();
-</script>
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-<script>
-const TEAM_SECTIONS = [
-  {
-    key: "core", title: "Core Committee", cssClass: "section-core", gridClass: "core-grid",
-    boxes: [
-      { title: "Core Committee", names: ["Sanjita Kundu"], img: "sanjita.jpg" },
-      { title: "Core Committee", names: ["Anushka Dey"], img: "anushka.jpg" },
-      { title: "Core Committee", names: ["Animita Mukherjee"], img: "animita.jpg" },
-      { title: "Core Committee", names: ["Shreyash Saha"], img: "shreyash.jpg" },
-      {title: "Core Committee", names: ["Priyanshu Sarkar"], img: "priyanshu.jpg" },
-      { title: "Core Committee", names: ["Yashika Agarwalla"], img: "yashika.jpg" }
-    ]
-  },
-  {
-    key: "eventheads", title: "Event Heads", cssClass: "section-eventheads", gridClass: "",
-    boxes: [
-      { title: "Mayavi Mandala", names: ["Aapluta Kar", "Ushika Karmakar", "Debomita Biswas"], img: "mayavi_mandala.jpg" },
-      { title: "Chitrakatha", names: ["Anahita  Srivastava", "Sushmita Jha"], img: "chitrakatha.jpg" },
-      { title: "Dharmasangram", names: ["Prisha Arora", "Shreenika Kundu"], img: "dharmasangram.jpg" },
-      { title: "Swaranjali", names: ["Spriha Das", "Arya Banerjee"], img: "swaranjali.jpg" },
-      { title: "Lakshya Pathik", names: ["Aryan Sircar"], img: "lakshya_pathik.jpg" },
-      { title: "Chromatica", names: ["Shaurya Kishore", "Alankrita Upadhyay"], img: "chromatica.jpg" },
-      { title: "Corpus Vestigium", names: ["Aashna Goyal", "Vanshika Paul"], img: "corpus_vestigium.jpg" },
-      { title: "π Infinitium", names: ["Anshuman Sikaria", "Anaya Afaaf"], img: "pi_infinitium.jpg" },
-      { title: "Vox Futuri", names: ["Vidhi Bhalotia", "Sneha Panda"], img: "vox_futura.jpg" },
-      { title: "Astra Syntax", names: ["Yuvraj Chowdhury", "Souhardha Kar"], img: "astra_syntax.jpg" },
-      { title: "Sylva Machina", names: ["Atri Pradhan"], img: "sylva_machina.jpg" },
-      { title: "Clamor Naturae", names: ["Riddhima Bhowmik", "Adwitiyaa Chandra"], img: "clamor_naturae.jpg" },
-      { title: "Terra Cognitio", names: ["Uddalak Nandan", "Attri Roy"], img: "terra_cognitio.jpg" },
-      { title: "Genesis Nova", names: ["Maisha Jalota", "Meher Bhurji"], img: "genesis_nova.jpg" },
-      { title: "Ventus Lapidum", names: ["Adrija Ray", "Ishaan Mukherjee"], img: "ventus_lapidum.jpg" },
-      { title: "Aurora Interface", names: ["Mansi Agarwal"], img: "aurora_interface.jpg" }
-    ]
-  },
-  {
-    key: "department", title: "Department Heads", cssClass: "section-department", gridClass: "",
-    boxes: [
-      { title: "IT Head", names: ["Aarav Sinha"], img: "it.jpg" },
-      { title: "Logistics Head", names: ["Subhayan Das", "Nishar Ahmed", "Shrinanda Nandi"], img: "logistics.jpg" },
-      { title: "Correspondence Head", names: ["Zoya Agasti", "Meghna Sen"], img: "correspondence.jpg" },
-      { title: "Decoration Head", names: ["Hrishab Naskar"], img: "decoration.jpg" },
-      { title: "Hospitality Head", names: ["Aratrika Mitra", "Laiba Hashmi"], img: "hospitality.jpg" },
-      { title: "Social Media Admin", names: ["Hridhan Singh", "Pratirup Ghosh"], img: "social_media.jpg" },
-      { title: "Event Admin", names: ["Sushrut Banerjee"], img: "event_admin.jpg" }
-    ]
-  },
-  {
-    key: "teachers", title: "Teachers", cssClass: "section-teachers", gridClass: "",
-    boxes: [
-      { title: "Teacher In-Charge", names: ["Rajarshi Dasgupta"], img: "rajarshi.jpg" },
-      { title: "Teacher In-Charge", names: ["Sanchita Nandy"], img: "sanchita.jpg" }
-    ]
-  }
-];
+    img {
+      max-width: 100%;
+      display: block;
+    }
 
-function initials(names){
-  return names.map(n => n.split(' ').map(w=>w[0]).slice(0,2).join('')).join(' & ').toUpperCase();
-}
+    ul,
+    ol {
+      list-style: none;
+    }
 
-function renderBox(box){
-  const badgesHtml = box.names.map(name => `<div class="name-badge">${name}</div>`).join('');
-  
-  return `
-    <div class="post-box">
-      <div class="post-box-title">${box.title}</div>
-      <div class="box-photo-wrap">
-        <img class="box-photo" src="${box.img}" alt="${box.title}"
-             onload="this.style.display='block';"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="box-fallback">${initials(box.names)}</div>
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+
+    /* =========================================================
+       BACKGROUND
+    ========================================================= */
+
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-glows {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: .25;
+      animation: pulseGlow 14s ease-in-out infinite alternate;
+    }
+
+    .glow-orb-1 {
+      top: -20%;
+      right: 4%;
+      width: 52vw;
+      height: 52vw;
+      background: radial-gradient(
+        circle,
+        rgba(49, 92, 255, .42) 0%,
+        transparent 70%
+      );
+    }
+
+    .glow-orb-2 {
+      top: 42%;
+      left: -18%;
+      width: 48vw;
+      height: 48vw;
+      background: radial-gradient(
+        circle,
+        rgba(28, 57, 187, .42) 0%,
+        transparent 70%
+      );
+
+      animation-delay: -4s;
+    }
+
+    .glow-orb-3 {
+      bottom: -15%;
+      right: -8%;
+      width: 45vw;
+      height: 45vw;
+      background: radial-gradient(
+        circle,
+        rgba(94, 224, 255, .28) 0%,
+        transparent 70%
+      );
+
+      animation-delay: -8s;
+    }
+
+    @keyframes pulseGlow {
+
+      0% {
+        transform: scale(1) translate(0, 0);
+        opacity: .18;
+      }
+
+      50% {
+        transform: scale(1.12) translate(-20px, 20px);
+        opacity: .30;
+      }
+
+      100% {
+        transform: scale(.96) translate(15px, -15px);
+        opacity: .17;
+      }
+    }
+
+    .tech-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+
+      background-image:
+        linear-gradient(
+          rgba(94, 224, 255, .025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(94, 224, 255, .025) 1px,
+          transparent 1px
+        );
+
+      background-size: 90px 90px;
+
+      mask-image:
+        radial-gradient(
+          ellipse 75% 70% at 50% 45%,
+          black 10%,
+          transparent 100%
+        );
+
+      -webkit-mask-image:
+        radial-gradient(
+          ellipse 75% 70% at 50% 45%,
+          black 10%,
+          transparent 100%
+        );
+    }
+
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+
+      opacity: .20;
+      mix-blend-mode: overlay;
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.025) 0px,
+          rgba(255,255,255,.025) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+
+      opacity: .025;
+      mix-blend-mode: overlay;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+      background-size: 180px 180px;
+    }
+
+
+    /* =========================================================
+       GENERAL
+    ========================================================= */
+
+    .wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 64px);
+      position: relative;
+      z-index: 3;
+    }
+
+    section {
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+
+      color: var(--electric);
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--electric)
+        );
+    }
+
+
+    /* =========================================================
+       TICKER
+    ========================================================= */
+
+    .ticker-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+
+      z-index: 90;
+
+      height: 32px;
+      overflow: hidden;
+
+      display: flex;
+      align-items: center;
+
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+
+      background: rgba(3, 8, 22, .72);
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .ticker-track {
+      display: flex;
+      white-space: nowrap;
+
+      animation: tickerScroll 34s linear infinite;
+    }
+
+    .ticker-track span {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 0 24px;
+
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+
+      color: var(--faint);
+    }
+
+    .ticker-track span i {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+
+      background: var(--electric);
+      box-shadow: 0 0 8px var(--electric);
+    }
+
+    @keyframes tickerScroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+
+    /* =========================================================
+       NAVBAR
+    ========================================================= */
+
+    .topbar {
+      position: fixed;
+      top: 44px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      z-index: 96;
+
+      width: min(94vw, 1220px);
+
+      border-radius: 22px;
+
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+
+      background: rgba(8, 12, 26, .67);
+
+      border: 1px solid var(--line2);
+
+      box-shadow:
+        0 18px 55px -22px rgba(0,0,0,.75),
+        inset 0 1px 0 rgba(255,255,255,.05);
+
+      transition:
+        background .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
+    }
+
+    .topbar.scrolled {
+      background: rgba(5, 9, 21, .92);
+
+      border-color: rgba(94,224,255,.18);
+
+      box-shadow:
+        0 18px 55px -20px rgba(0,0,0,.9);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 9px 10px 9px 14px;
+    }
+
+    .tb-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      flex-shrink: 0;
+    }
+
+    .tb-logo-img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .tb-cell {
+      width: 30px;
+      height: 30px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 11px;
+
+      border: 1px solid var(--line3);
+
+      color: var(--electric);
+
+      background: rgba(28,57,187,.25);
+    }
+
+    .tb-words {
+      display: none;
+
+      font-family: var(--disp);
+      font-weight: 700;
+      font-size: .7rem;
+
+      color: var(--dim);
+
+      white-space: nowrap;
+    }
+
+    .tb-words b {
+      color: var(--paper);
+    }
+
+    @media (min-width:460px) {
+      .tb-words {
+        display: block;
+      }
+    }
+
+    .tb-tabs {
+      display: none;
+      gap: 2px;
+      align-items: center;
+    }
+
+    .tb-tabs a {
+      font-family: var(--ui);
+      font-weight: 600;
+      font-size: 12.5px;
+
+      color: var(--dim);
+
+      padding: 9px 12px;
+      border-radius: 14px;
+
+      transition:
+        color .25s ease,
+        background .25s ease;
+    }
+
+    .tb-tabs a:hover {
+      color: var(--paper);
+      background: rgba(94,224,255,.08);
+    }
+
+    .tb-tabs a.active {
+      color: var(--ink);
+      background: var(--electric);
+
+      box-shadow:
+        0 0 20px rgba(94,224,255,.20);
+    }
+
+    .tb-bar-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      width: 40px;
+      height: 40px;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      border: 1px solid var(--line2);
+      background: transparent;
+
+      cursor: pointer;
+
+      flex-shrink: 0;
+
+      transition:
+        border-color .3s ease,
+        background .3s ease;
+    }
+
+    .tb-bar-btn:hover {
+      border-color: var(--electric);
+      background: rgba(94,224,255,.06);
+    }
+
+    .tb-bar-btn:active {
+      transform: scale(.93);
+    }
+
+    .tb-bar-btn span {
+      width: 18px;
+      height: 2px;
+
+      background: var(--paper);
+      border-radius: 2px;
+
+      transition:
+        transform .3s ease,
+        opacity .3s ease;
+    }
+
+    .tb-bar-btn.open span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .tb-bar-btn.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .tb-bar-btn.open span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    @media (min-width:981px) {
+      .tb-tabs {
+        display: flex;
+      }
+
+      .tb-bar-btn {
+        display: none;
+      }
+    }
+
+    @media (max-width:980px) {
+      .topbar {
+        top: 40px;
+        border-radius: 20px;
+      }
+    }
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    .overlay-nav {
+      position: fixed;
+      inset: 0;
+
+      z-index: 200;
+
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+
+      background: rgba(3,6,14,.97);
+
+      clip-path: circle(
+        0% at calc(100% - 46px) 60px
+      );
+
+      transition:
+        clip-path .7s cubic-bezier(.7,0,.2,1);
+
+      pointer-events: none;
+    }
+
+    .overlay-nav.open {
+      clip-path: circle(
+        150% at calc(100% - 46px) 60px
+      );
+
+      pointer-events: all;
+    }
+
+    .overlay-grid {
+      position: absolute;
+      inset: 0;
+
+      background-image:
+        linear-gradient(
+          var(--line) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px
+        );
+
+      background-size: 64px 64px;
+      opacity: .5;
+    }
+
+    .overlay-inner {
+      position: relative;
+      z-index: 2;
+
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding:
+        110px
+        clamp(24px,7vw,110px)
+        40px;
+
+      max-width: 1000px;
+      margin: 0 auto;
+
+      overflow-y: auto;
+    }
+
+    .overlay-clock {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--dim);
+
+      letter-spacing: .14em;
+
+      margin-bottom: 30px;
+    }
+
+    .overlay-clock b {
+      display: inline-block;
+      margin-left: 10px;
+
+      font-size: 15px;
+
+      color: var(--electric);
+      font-weight: 500;
+    }
+
+    .overlay-links {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .overlay-links a {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+
+      font-family: var(--disp);
+      font-weight: 700;
+
+      font-size: clamp(1.6rem,6.4vw,2.4rem);
+
+      color: var(--faint);
+
+      padding: 11px 0;
+
+      border-bottom: 1px solid var(--line);
+
+      transition:
+        color .35s ease,
+        padding .35s ease;
+    }
+
+    .overlay-links a small {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--faint);
+
+      font-weight: 400;
+      letter-spacing: .1em;
+    }
+
+    .overlay-links a:hover,
+    .overlay-links a.active {
+      color: var(--paper);
+      padding-left: 12px;
+    }
+
+    .overlay-links a:hover small,
+    .overlay-links a.active small {
+      color: var(--electric);
+    }
+
+    .overlay-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      margin-top: 30px;
+      padding-top: 24px;
+
+      border-top: 1px solid var(--line);
+    }
+
+    .overlay-bottom .ob-col span {
+      display: block;
+
+      font-family: var(--mono);
+      font-size: 9.5px;
+      letter-spacing: .24em;
+
+      color: var(--faint);
+
+      text-transform: uppercase;
+
+      margin-bottom: 6px;
+    }
+
+    .overlay-bottom .ob-col a,
+    .overlay-bottom .ob-col p {
+      color: var(--dim);
+      font-size: .92rem;
+    }
+
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .page-hero {
+      padding:
+        175px 0
+        72px;
+
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-line {
+      width: min(800px, 90%);
+      height: 1px;
+
+      margin: 26px auto 0;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(94,224,255,.5),
+          transparent
+        );
+    }
+
+    .page-hero .kicker {
+      font-family: var(--mono);
+      font-size: 11px;
+
+      letter-spacing: .30em;
+
+      color: var(--electric);
+
+      text-transform: uppercase;
+    }
+
+    .page-hero h1 {
+      font-family: var(--disp);
+      font-weight: 800;
+
+      font-size:
+        clamp(2.2rem,6vw,4.7rem);
+
+      line-height: 1.08;
+
+      margin-top: 18px;
+
+      letter-spacing: -.035em;
+
+      text-shadow:
+        0 0 50px rgba(94,224,255,.08);
+    }
+
+    .page-hero h1 em {
+      font-style: normal;
+
+      background:
+        linear-gradient(
+          100deg,
+          var(--electric),
+          #8cbfff 45%,
+          var(--violet)
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .page-hero p {
+      margin:
+        20px auto 0;
+
+      color: var(--dim);
+
+      max-width: 620px;
+
+      font-size: 1rem;
+    }
+
+
+    /* =========================================================
+       SECTION
+    ========================================================= */
+
+    .section-block {
+      padding:
+        58px 0
+        48px;
+    }
+
+    .section-heading-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      margin-bottom: 38px;
+    }
+
+    .section-index {
+      font-family: var(--mono);
+      font-size: 9px;
+
+      letter-spacing: .25em;
+
+      color: var(--faint);
+
+      margin-bottom: 8px;
+    }
+
+    .section-heading {
+      font-family: var(--disp);
+      font-weight: 800;
+
+      font-size:
+        clamp(1.75rem,4vw,2.8rem);
+
+      position: relative;
+
+      letter-spacing: -.025em;
+    }
+
+    .section-heading::after {
+      content: '';
+
+      display: block;
+
+      width: 72px;
+      height: 2px;
+
+      margin: 15px auto 0;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--electric),
+          transparent
+        );
+
+      box-shadow:
+        0 0 14px rgba(94,224,255,.3);
+    }
+
+    .section-divider {
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--line2),
+          transparent
+        );
+    }
+
+
+    /* =========================================================
+       TEAM GRID
+    ========================================================= */
+
+    .post-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(285px,1fr)
+        );
+
+      gap: 24px;
+    }
+
+    .post-grid.core-grid {
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(300px,1fr)
+        );
+    }
+
+
+    /* =========================================================
+       TEAM CARD
+    ========================================================= */
+
+    .post-box {
+      position: relative;
+
+      height: auto;
+
+      display: flex;
+      flex-direction: column;
+
+      border-radius: 22px;
+
+      overflow: hidden;
+
+      cursor: pointer;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(20,31,72,.55),
+          rgba(5,9,22,.82)
+        );
+
+      border: 1px solid var(--line2);
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+
+      box-shadow:
+        0 20px 50px -30px rgba(0,0,0,.8),
+        inset 0 1px 0 rgba(255,255,255,.04);
+
+      transform: translateY(0);
+
+      transition:
+        transform .45s cubic-bezier(.22,1,.36,1),
+        border-color .4s ease,
+        box-shadow .4s ease;
+    }
+
+    .post-box::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+
+      height: 16px;
+
+      z-index: 2;
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(2,5,15,.30),
+          transparent
+        );
+    }
+
+    .post-box::after {
+      content: '';
+
+      position: absolute;
+
+      width: 170px;
+      height: 170px;
+
+      right: -90px;
+      top: -90px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(94,224,255,.18),
+          transparent 70%
+        );
+
+      filter: blur(10px);
+
+      opacity: 0;
+
+      transition: opacity .4s ease;
+    }
+
+    .post-box:hover {
+      transform:
+        translateY(-9px)
+        rotateX(1deg);
+
+      border-color:
+        rgba(94,224,255,.45);
+
+      box-shadow:
+        0 28px 65px -25px rgba(0,0,0,.85),
+        0 0 35px rgba(28,57,187,.18),
+        inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .post-box:hover::after {
+      opacity: 1;
+    }
+
+
+    /* =========================================================
+       CARD IMAGE
+    ========================================================= */
+
+    .box-photo-wrap {
+      position: relative;
+      width: 100%;
+
+      aspect-ratio: 16 / 9;
+      height: auto;
+
+      flex: 0 0 auto;
+
+      overflow: hidden;
+
+      border-bottom: 1px solid var(--line2);
+      background: #050b1d;
+    }
+
+    .box-photo {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      object-position: center;
+
+      transition:
+        transform .8s cubic-bezier(.22,1,.36,1),
+        filter .5s ease;
+    }
+
+    .post-box:hover .box-photo {
+      transform: scale(1.055);
+
+      filter:
+        saturate(1.12)
+        contrast(1.04);
+    }
+
+    .box-fallback {
+      width: 100%;
+      height: 100%;
+
+      background:
+        radial-gradient(
+          circle at 50% 30%,
+          rgba(94,224,255,.12),
+          transparent 35%
+        ),
+        linear-gradient(
+          145deg,
+          #0b1537,
+          #030711
+        );
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      font-family: var(--disp);
+      font-weight: 800;
+
+      font-size: 1.4rem;
+
+      color: var(--faint);
+    }
+
+
+    /* =========================================================
+       CARD TOP ROLE
+    ========================================================= */
+
+    .post-box-title {
+      position: absolute;
+
+      top: 15px;
+      left: 15px;
+
+      z-index: 5;
+
+      max-width: calc(100% - 30px);
+
+      padding: 7px 11px;
+
+      border-radius: 9px;
+
+      font-family: var(--mono);
+
+      font-size: 9px;
+      font-weight: 600;
+
+      letter-spacing: .14em;
+
+      text-transform: uppercase;
+
+      color: var(--electric);
+
+      background:
+        rgba(3,8,22,.74);
+
+      border: 1px solid
+        rgba(94,224,255,.22);
+
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      box-shadow:
+        0 8px 20px rgba(0,0,0,.25);
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+
+    /* =========================================================
+       CARD NAME AREA
+    ========================================================= */
+
+    .box-names-container {
+      position: relative;
+
+      left: auto;
+      right: auto;
+      bottom: auto;
+
+      z-index: 5;
+
+      min-height: 52px;
+      padding: 8px 14px 9px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 0;
+
+      flex-wrap: nowrap;
+
+      border-top: 1px solid var(--line2);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(3,8,22,.96),
+          rgba(3,8,22,.99)
+        );
+    }
+
+    .name-badge {
+      /* Every name gets exactly the same share of the available width. */
+      flex: 1 1 0;
+      min-width: 0;
+      width: 0;
+
+      padding: 5px 10px;
+
+      position: relative;
+
+      text-align: center;
+
+      font-family: var(--disp);
+
+      font-weight: 700;
+
+      font-size: clamp(.68rem, 1.15vw, .92rem);
+
+      line-height: 1.25;
+
+      color: var(--paper);
+
+      /* Single-line names only — long names are condensed with ellipsis. */
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      text-shadow:
+        0 2px 12px rgba(0,0,0,.7);
+    }
+
+    /* Separator sits inside the boundary, so it does NOT steal width
+       from the equal-width name columns. */
+    .name-badge:not(:last-child)::after {
+      content: '·';
+
+      position: absolute;
+
+      right: 0;
+
+      top: 50%;
+
+      transform: translate(50%, -50%);
+
+      color: var(--electric);
+
+      margin: 0;
+
+      z-index: 2;
+    }
+
+    .card-open {
+      position: absolute;
+
+      right: 14px;
+      bottom: 58px;
+
+      z-index: 7;
+
+      width: 32px;
+      height: 32px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 10px;
+
+      border: 1px solid
+        rgba(94,224,255,.28);
+
+      background:
+        rgba(3,8,22,.72);
+
+      color: var(--electric);
+
+      font-family: var(--mono);
+
+      font-size: 14px;
+
+      opacity: .72;
+
+      transition:
+        opacity .3s ease,
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease;
+    }
+
+    .post-box:hover .card-open {
+      opacity: 1;
+      transform: translateY(-2px);
+
+      background:
+        rgba(94,224,255,.10);
+
+      border-color:
+        rgba(94,224,255,.55);
+    }
+
+
+    /* =========================================================
+       REVEAL
+    ========================================================= */
+
+    .reveal {
+      opacity: 0;
+
+      transform:
+        translateY(35px)
+        scale(.985);
+
+      transition:
+        opacity .8s cubic-bezier(.16,1,.3,1),
+        transform .8s cubic-bezier(.16,1,.3,1);
+    }
+
+    .reveal.in {
+      opacity: 1;
+
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+
+    /* =========================================================
+       TEACHERS SPECIAL SECTION
+    ========================================================= */
+
+    .section-teachers .post-grid {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-teachers .post-box {
+      height: 325px;
+
+      border-color:
+        rgba(94,224,255,.28);
+    }
+
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+
+    .profile-modal {
+      position: fixed;
+      inset: 0;
+
+      z-index: 500;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 25px;
+
+      background:
+        rgba(1,4,12,.78);
+
+      backdrop-filter: blur(20px) saturate(130%);
+      -webkit-backdrop-filter: blur(20px);
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition:
+        opacity .35s ease,
+        visibility .35s ease;
+    }
+
+    .profile-modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      position: relative;
+
+      width: min(940px, 100%);
+
+      max-height:
+        min(760px, 90vh);
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(280px, 42%)
+        1fr;
+
+      overflow: hidden;
+
+      border-radius: 28px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(14,24,58,.97),
+          rgba(4,8,20,.98)
+        );
+
+      border: 1px solid
+        rgba(94,224,255,.28);
+
+      box-shadow:
+        0 40px 120px rgba(0,0,0,.75),
+        0 0 60px rgba(28,57,187,.15),
+        inset 0 1px 0 rgba(255,255,255,.07);
+
+      transform:
+        translateY(30px)
+        scale(.96);
+
+      transition:
+        transform .45s cubic-bezier(.16,1,.3,1);
+    }
+
+    .profile-modal.open .modal-card {
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+    .modal-image-area {
+      position: relative;
+
+      min-height: 430px;
+
+      overflow: hidden;
+    }
+
+    .modal-image-area::after {
+      content: '';
+
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent 45%,
+          rgba(4,8,20,.65) 100%
+        );
+    }
+
+    .modal-image {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .modal-image-fallback {
+      width: 100%;
+      height: 100%;
+
+      min-height: 430px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(94,224,255,.15),
+          transparent 45%
+        ),
+        #050b1d;
+
+      font-family: var(--disp);
+      font-size: 2rem;
+      font-weight: 800;
+
+      color: var(--faint);
+    }
+
+    .modal-content {
+      padding:
+        clamp(30px,5vw,55px);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      overflow-y: auto;
+    }
+
+    .modal-label {
+      font-family: var(--mono);
+
+      font-size: 10px;
+
+      letter-spacing: .25em;
+
+      text-transform: uppercase;
+
+      color: var(--electric);
+
+      margin-bottom: 12px;
+    }
+
+    .modal-title {
+      font-family: var(--disp);
+
+      font-size:
+        clamp(1.9rem,4vw,3rem);
+
+      line-height: 1.1;
+
+      font-weight: 800;
+
+      letter-spacing: -.03em;
+
+      margin-bottom: 18px;
+    }
+
+    .modal-names {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 7px;
+
+      margin-bottom: 25px;
+    }
+
+    .modal-name {
+      padding: 7px 11px;
+
+      border-radius: 9px;
+
+      background:
+        rgba(94,224,255,.07);
+
+      border: 1px solid
+        rgba(94,224,255,.17);
+
+      color: var(--paper);
+
+      font-size: .85rem;
+
+      font-weight: 600;
+    }
+
+    .modal-rule {
+      width: 70px;
+      height: 2px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--electric),
+          transparent
+        );
+
+      margin-bottom: 24px;
+    }
+
+    .modal-description {
+      color: var(--dim);
+
+      font-size: .98rem;
+
+      line-height: 1.8;
+
+      max-width: 550px;
+    }
+
+    .modal-description.empty::before {
+      content:
+        'Short description will appear here.';
+    }
+
+    .modal-close {
+      position: absolute;
+
+      top: 17px;
+      right: 17px;
+
+      z-index: 20;
+
+      width: 42px;
+      height: 42px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      border: 1px solid
+        rgba(255,255,255,.15);
+
+      background:
+        rgba(3,8,22,.65);
+
+      color: var(--paper);
+
+      font-size: 20px;
+
+      transition:
+        background .25s ease,
+        border-color .25s ease,
+        transform .25s ease;
+    }
+
+    .modal-close:hover {
+      background:
+        rgba(94,224,255,.12);
+
+      border-color:
+        var(--electric);
+
+      color: var(--electric);
+
+      transform: rotate(90deg);
+    }
+
+    .modal-corner {
+      position: absolute;
+
+      width: 80px;
+      height: 80px;
+
+      pointer-events: none;
+
+      opacity: .5;
+    }
+
+    .modal-corner::before,
+    .modal-corner::after {
+      content: '';
+
+      position: absolute;
+
+      background: var(--electric);
+    }
+
+    .modal-corner::before {
+      width: 100%;
+      height: 1px;
+    }
+
+    .modal-corner::after {
+      width: 1px;
+      height: 100%;
+    }
+
+    .modal-corner.top-left {
+      top: 14px;
+      left: 14px;
+    }
+
+    .modal-corner.top-left::before,
+    .modal-corner.top-left::after {
+      top: 0;
+      left: 0;
+    }
+
+    @media (max-width:760px) {
+
+      .profile-modal {
+        padding: 14px;
+      }
+
+      .modal-card {
+        grid-template-columns: 1fr;
+
+        max-height: 94vh;
+
+        overflow-y: auto;
+      }
+
+      .modal-image-area {
+        height: 310px;
+        min-height: 310px;
+      }
+
+      .modal-image-fallback {
+        min-height: 310px;
+      }
+
+      .modal-content {
+        padding: 28px 24px 34px;
+      }
+    }
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      border-top: 1px solid var(--line);
+
+      padding:
+        50px 0 30px;
+
+      position: relative;
+
+      z-index: 2;
+
+      margin-top: 50px;
+
+      background:
+        rgba(3,8,22,.65);
+
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .foot-bottom {
+      display: flex;
+
+      justify-content: space-between;
+
+      flex-wrap: wrap;
+
+      gap: 12px;
+
+      padding-top: 26px;
+
+      border-top: 1px solid var(--line);
+
+      font-family: var(--mono);
+
+      font-size: 10.5px;
+
+      color: var(--faint);
+
+      letter-spacing: .06em;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width:700px) {
+
+      .page-hero {
+        padding:
+          150px 0
+          55px;
+      }
+
+      .section-block {
+        padding:
+          42px 0
+          36px;
+      }
+
+      .post-grid,
+      .post-grid.core-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .post-box {
+        height: 325px;
+      }
+    }
+
+    @media (max-width:420px) {
+
+      .tb-words {
+        display: none;
+      }
+
+      .post-box {
+        height: 310px;
+      }
+
+      .name-badge {
+        font-size: .68rem;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+  </style>
+  <style>
+    .site-footer{position:relative;overflow:hidden;background:#01040a;padding:78px 0 28px;border-top:1px solid rgba(140,170,255,.12);}.footer-gridline{position:absolute;inset:0;pointer-events:none;opacity:.45;background-image:linear-gradient(rgba(94,224,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(94,224,255,.035) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(180deg,transparent,#000 15%,#000 85%,transparent);}.footer-main{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;position:relative;z-index:2;}.footer-wordmark{font:800 clamp(2rem,5vw,4.8rem) var(--disp);letter-spacing:-.065em;line-height:.9;margin-top:20px;}.footer-wordmark span{color:#5ee0ff;}.footer-side-note{font:9px var(--mono);letter-spacing:.22em;color:rgba(238,242,251,.3);text-align:right;max-width:250px;line-height:1.8;}.site-footer .foot-bottom{border-top:1px solid rgba(140,170,255,.12);padding-top:18px;display:flex;justify-content:space-between;gap:20px;font:8px var(--mono);letter-spacing:.13em;color:rgba(238,242,251,.28);position:relative;z-index:2;margin-top:52px;}.footer-credit{display:flex;align-items:center;gap:13px;text-align:right;color:rgba(238,242,251,.55)!important;letter-spacing:.08em!important;}.footer-credit small{font:7px var(--mono);letter-spacing:.18em;color:rgba(238,242,251,.22);}.footer-credit strong{font:500 9px var(--mono);letter-spacing:.08em;color:rgba(238,242,251,.58);}.footer-credit strong b{font-weight:600;color:#5ee0ff;text-shadow:0 0 18px rgba(94,224,255,.12);}@media(max-width:760px){.footer-main{flex-direction:column;}.footer-side-note{text-align:left;}.footer-credit{align-items:flex-start;flex-direction:column;gap:5px;text-align:left;}.site-footer .foot-bottom{flex-direction:column;line-height:1.7;}}
+  </style>
+  <style>
+    .site-footer{background:rgba(1,4,10,.62);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);}
+    .footer-main{display:flex;justify-content:space-between;align-items:end;gap:30px;padding-bottom:65px;position:relative;z-index:2;}
+    .site-footer .foot-bottom{margin-top:0;}
+    @media(max-width:760px){.footer-main{flex-direction:column;align-items:flex-start;padding-bottom:44px;}}
+  </style>
+<style id="uniform-footer">
+.site-footer{position:relative;overflow:hidden;background:rgba(1,4,10,.62);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);padding:78px 0 28px;border-top:1px solid rgba(140,170,255,.12);}.site-footer .wrap{max-width:1320px;margin:0 auto;padding:0 clamp(20px,5vw,64px);position:relative;z-index:3;}.footer-gridline{position:absolute;inset:0;pointer-events:none;opacity:.45;background-image:linear-gradient(rgba(94,224,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(94,224,255,.035) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(180deg,transparent,#000 15%,#000 85%,transparent);}.footer-main{display:flex;justify-content:space-between;align-items:end;gap:30px;padding-bottom:65px;position:relative;z-index:2;}.footer-brand-block .eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:#5ee0ff;}.footer-brand-block .eyebrow::before{content:'';width:24px;height:1px;background:linear-gradient(90deg,transparent,#5ee0ff);}.footer-wordmark{font:800 clamp(2rem,5vw,4.8rem) 'Poppins',sans-serif;letter-spacing:-.065em;line-height:.9;margin-top:20px;}.footer-wordmark span{color:#5ee0ff;}.footer-side-note{font:9px 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(238,242,251,.3);text-align:right;max-width:250px;line-height:1.8;}.site-footer .foot-bottom{border-top:1px solid rgba(140,170,255,.12);padding-top:18px;display:flex;justify-content:space-between;gap:20px;font:8px 'IBM Plex Mono',monospace;letter-spacing:.13em;color:rgba(238,242,251,.28);position:relative;z-index:2;}.footer-credit{display:flex;align-items:center;gap:13px;text-align:right;color:rgba(238,242,251,.55)!important;letter-spacing:.08em!important;}.footer-credit small{font:7px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:rgba(238,242,251,.22);}.footer-credit strong{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(238,242,251,.58);}.footer-credit strong b{font-weight:600;color:#5ee0ff;text-shadow:0 0 18px rgba(94,224,255,.12);}@media(max-width:760px){.footer-main{flex-direction:column;align-items:flex-start;padding-bottom:44px;}.footer-side-note{text-align:left;}.site-footer .foot-bottom{flex-direction:column;line-height:1.7;}.footer-credit{align-items:flex-start;flex-direction:column;gap:5px;text-align:left;}}
+</style>
+<style id="uniform-ticker">
+.ticker-bar{position:fixed;top:0;left:0;right:0;z-index:90;height:32px;overflow:hidden;backdrop-filter:blur(28px) saturate(175%);-webkit-backdrop-filter:blur(28px) saturate(175%);background:rgba(3,8,22,.46);border-bottom:1px solid rgba(140,170,255,.11);display:flex;align-items:center;}.ticker-track{display:flex;white-space:nowrap;animation:tickerScroll 34s linear infinite;}.ticker-track span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(238,242,251,.34);padding:0 24px;display:inline-flex;align-items:center;gap:10px;}.ticker-track span i{width:4px;height:4px;border-radius:50%;background:#5ee0ff;display:inline-block;}@keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+</style>
+<style id="uniform-navigation">
+.topbar{position:fixed;top:48px;left:50%;transform:translateX(-50%);z-index:90;width:min(1220px,94vw);border:1px solid rgba(140,170,255,.26);border-radius:18px;background:rgba(4,9,21,.70);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:0 18px 60px rgba(0,0,0,.35);transition:.35s;}.topbar.scrolled{background:rgba(2,5,13,.92);border-color:rgba(89,231,255,.25);}.topbar:before{content:"";position:absolute;left:20px;right:20px;top:-1px;height:1px;background:linear-gradient(90deg,transparent,#59e7ff,transparent);opacity:.55;}.topbar-inner{height:62px;padding:0 12px 0 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;}.tb-brand{display:flex;align-items:center;gap:10px;min-width:max-content;}.tb-brand img{height:36px!important;width:auto;filter:drop-shadow(0 0 12px rgba(89,231,255,.3));}.tb-words{font-family:'Poppins',sans-serif;font-size:.73rem;color:rgba(238,242,251,.62);}.tb-words b{color:#eef2fb;}.tb-tabs{display:flex;align-items:center;gap:2px;}.tb-tabs a{font-size:12px;color:rgba(238,242,251,.62);padding:8px 11px;border-radius:9px;transition:.25s;}.tb-tabs a:hover{color:#eef2fb;background:rgba(89,231,255,.07);}.tb-tabs a.active{color:#59e7ff;background:rgba(89,231,255,.08);box-shadow:inset 0 0 0 1px rgba(89,231,255,.2);}.tb-bar-btn{display:none;width:40px;height:40px;border:1px solid rgba(140,170,255,.26);background:transparent;border-radius:10px;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;}.tb-bar-btn span{width:18px;height:1px;background:#eef2fb;transition:.3s;}.tb-bar-btn.open span:nth-child(1){transform:translateY(5px) rotate(45deg);}.tb-bar-btn.open span:nth-child(2){opacity:0;}.tb-bar-btn.open span:nth-child(3){transform:translateY(-5px) rotate(-45deg);}@media(max-width:1000px){.tb-tabs{display:none;}.tb-bar-btn{display:flex;}}@media(max-width:470px){.tb-words{display:none;}.topbar-inner{padding-left:12px;}.topbar{top:42px;}}.overlay-nav{position:fixed;inset:0;z-index:200;background:rgba(1,4,12,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);opacity:0;visibility:hidden;pointer-events:none;clip-path:circle(2% at calc(100% - 42px) 66px);transition:clip-path .7s cubic-bezier(.7,0,.2,1),opacity .3s;}.overlay-nav.open{opacity:1;visibility:visible;pointer-events:auto;clip-path:circle(150% at calc(100% - 42px) 66px);}.overlay-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(140,170,255,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(140,170,255,.11) 1px,transparent 1px);background-size:64px 64px;opacity:.45;}.overlay-inner{position:relative;z-index:2;height:100%;overflow:auto;display:flex;flex-direction:column;justify-content:center;padding:110px 9vw 45px;max-width:900px;margin:auto;}.overlay-clock{font:11px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(238,242,251,.62);margin-bottom:26px;}.overlay-clock b{color:#59e7ff;font-size:15px;margin-left:10px;}.overlay-links{display:flex;flex-direction:column;}.overlay-links a{padding:9px 0;border-bottom:1px solid rgba(140,170,255,.11);font:700 clamp(1.7rem,6vw,3rem) 'Poppins',sans-serif;color:rgba(238,242,251,.34);transition:.3s;}.overlay-links a small{font:10px 'IBM Plex Mono',monospace;color:#59e7ff;margin-right:18px;}.overlay-links a:hover,.overlay-links a.active{color:#eef2fb;padding-left:10px;}
+</style>
+</head>
+
+
+<body>
+
+  <!-- =======================================================
+       BACKGROUND
+  ======================================================== -->
+
+  <canvas id="starfield"></canvas>
+
+  <div class="bg-glows">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+  </div>
+
+  <div class="tech-grid"></div>
+  <div class="scanlines"></div>
+  <div class="grain"></div>
+
+
+  <!-- =======================================================
+       TICKER
+  ======================================================== -->
+
+  <div class="ticker-bar">
+    <div class="ticker-track" id="tickerTrack">
+
+      <span>
+        <i></i>
+        DPS MEGACITY PRESENTS
+      </span>
+
+      <span>
+        <i></i>
+        CRESCOSCIENTIAM 5.0
+      </span>
+
+      <span>
+        <i></i>
+        25–26 SEPTEMBER 2026
+      </span>
+      <span><i></i>THREE THEME-WORLDS · SIXTEEN EVENTS</span>
+
+      <span>
+        <i></i>
+        DPS MEGACITY PRESENTS
+      </span>
+
+      <span>
+        <i></i>
+        CRESCOSCIENTIAM 5.0
+      </span>
+
+      <span>
+        <i></i>
+        25–26 SEPTEMBER 2026
+      </span>
+      <span><i></i>THREE THEME-WORLDS · SIXTEEN EVENTS</span>
+
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       NAVBAR
+  ======================================================== -->
+
+  <header class="topbar" id="topbar">
+
+    <div class="topbar-inner">
+
+      <a href="/" class="tb-brand">
+
+        <img
+          src="event-logos/cresco_logo.png"
+          alt="Cresco Logo"
+          class="tb-logo-img"
+          onload="this.nextElementSibling.style.display='none';"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        >
+
+        <span
+          class="tb-cell"
+          style="display:none;"
+        >
+          Cs
+        </span>
+
+        <span class="tb-words">
+          <b>Cresco</b>Scientiam 5.0
+        </span>
+
+      </a>
+
+
+      <nav class="tb-tabs">
+
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/team" class="active">Team</a>
+        <a href="/events">Events</a>
+        <a href="/schedule">Schedule</a>
+        <a href="/resources">Resources</a>
+        <a href="/sponsors">Sponsors</a>
+        <a href="/contact">Contact</a>
+
+      </nav>
+
+
+      <button
+        class="tb-bar-btn"
+        id="menuTrigger"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =======================================================
+       MOBILE NAV
+  ======================================================== -->
+
+  <nav class="overlay-nav" id="overlayNav">
+
+    <div class="overlay-grid"></div>
+
+    <div class="overlay-inner">
+
+      <div class="overlay-clock">
+        LOCAL TIME · IST
+        <b id="overlayClock">00:00:00</b>
       </div>
-      <div class="box-names-container">
-        ${badgesHtml}
-      </div>
-    </div>`;
-}
 
-function renderSection(sec){
-  return `
-    <section class="section-block ${sec.cssClass} reveal">
+      <div class="overlay-links">
+
+        <a href="/">
+          <small>01</small>
+          Home
+        </a>
+
+        <a href="/about">
+          <small>02</small>
+          About
+        </a>
+
+        <a href="/team" class="active">
+          <small>03</small>
+          Team
+        </a>
+
+        <a href="/events">
+          <small>04</small>
+          Events
+        </a>
+
+        <a href="/schedule">
+          <small>05</small>
+          Schedule
+        </a>
+
+        <a href="/resources">
+          <small>06</small>
+          Resources
+        </a>
+
+        <a href="/sponsors">
+          <small>07</small>
+          Sponsors
+        </a>
+
+        <a href="/contact">
+          <small>08</small>
+          Contact
+        </a>
+
+      </div>
+
+      <div class="overlay-bottom">
+
+        <div class="ob-col">
+          <span>Presented By</span>
+          <p>DPS Megacity, Kolkata</p>
+        </div>
+
+        <div class="ob-col">
+          <span>Social</span>
+
+          <a
+            href="https://www.instagram.com/cresco_2026/"
+            target="_blank"
+            rel="noopener"
+          >
+            @cresco_2026
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- =======================================================
+       HERO
+  ======================================================== -->
+
+  <main>
+
+    <section class="page-hero">
+
       <div class="wrap">
-        <div class="section-heading-wrap"><h2 class="section-heading">${sec.title}</h2></div>
-        <div class="post-grid ${sec.gridClass}">${sec.boxes.map(renderBox).join('')}</div>
+
+        <span class="kicker">
+          / 03 — The Collective
+        </span>
+
+        <h1>
+          The People Running
+          <em>Mission 5.0</em>
+        </h1>
+
+        <p>
+          Core Committee, Event Heads, Department Heads,
+          and the teachers guiding it all.
+        </p>
+
+        <div class="hero-line"></div>
+
       </div>
+
     </section>
-    <div class="wrap"><div class="section-divider"></div></div>`;
-}
 
-document.getElementById('teamContent').innerHTML = TEAM_SECTIONS.map(renderSection).join('');
 
-(function(){
-  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-})();
-(function(){
-  const trigger=document.getElementById('menuTrigger'),overlay=document.getElementById('overlayNav'),topbar=document.getElementById('topbar');
-  function toggle(force){const open=force!==undefined?force:!overlay.classList.contains('open');overlay.classList.toggle('open',open);trigger.classList.toggle('open',open);trigger.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':'';}
-  trigger.addEventListener('click',()=>toggle());
-  document.querySelectorAll('.overlay-links a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
-  addEventListener('keydown',e=>{if(e.key==='Escape')toggle(false);});
-  function clock(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date());document.getElementById('overlayClock').textContent=`${parts.find(p=>p.type==='hour').value}:${parts.find(p=>p.type==='minute').value}:${parts.find(p=>p.type==='second').value}`;}
-  clock();setInterval(clock,1000);
-  addEventListener('scroll',()=>topbar.classList.toggle('scrolled',scrollY>30),{passive:true});
-})();
-</script>
+    <!-- TEAM WILL BE INSERTED HERE -->
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, doc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  const firebaseConfig = { apiKey: "AIzaSyCr7RU1pUOyxV88VEAgJZwEHNupTHCnv98", authDomain: "cresco-scientiam.firebaseapp.com", projectId: "cresco-scientiam", storageBucket: "cresco-scientiam.firebasestorage.app", messagingSenderId: "102065794685", appId: "1:102065794685:web:bf1bb3506d77a722368b14", measurementId: "G-QLQSFRB8ZW" };
-  try{ const app=initializeApp(firebaseConfig); const db=getFirestore(app); setDoc(doc(db,"stats","pageViews"),{ team: increment(1) },{ merge:true }).catch(()=>{}); }catch(err){ console.warn("Firebase not initialised:",err); }
-</script>
-</body>>
+    <div id="teamContent"></div>
+
+  </main>
+
+
+  <!-- =======================================================
+       PROFILE MODAL
+  ======================================================== -->
+
+  <div
+    class="profile-modal"
+    id="profileModal"
+    aria-hidden="true"
+  >
+
+    <div class="modal-card">
+
+      <button
+        class="modal-close"
+        id="modalClose"
+        aria-label="Close profile"
+      >
+        ×
+      </button>
+
+      <div class="modal-corner top-left"></div>
+
+      <div class="modal-image-area">
+
+        <img
+          id="modalImage"
+          class="modal-image"
+          src=""
+          alt=""
+        >
+
+        <div
+          id="modalImageFallback"
+          class="modal-image-fallback"
+          style="display:none;"
+        ></div>
+
+      </div>
+
+
+      <div class="modal-content">
+
+        <div
+          class="modal-label"
+          id="modalLabel"
+        >
+          ROLE
+        </div>
+
+        <h2
+          class="modal-title"
+          id="modalTitle"
+        >
+          Team Member
+        </h2>
+
+        <div
+          class="modal-names"
+          id="modalNames"
+        ></div>
+
+        <div class="modal-rule"></div>
+
+        <p
+          class="modal-description"
+          id="modalDescription"
+        ></p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+
+  <footer class="site-footer">
+    <div class="footer-gridline" aria-hidden="true"></div>
+
+    <div class="wrap">
+
+      <div class="footer-main">
+        <div class="footer-brand-block">
+          <span class="eyebrow">Cresco Scientiam 5.0</span>
+          <div class="footer-wordmark">CRESCO<span>SCIENTIAM</span></div>
+        </div>
+        <div class="footer-side-note">DELHI PUBLIC SCHOOL MEGACITY, KOLKATA</div>
+      </div>
+      <div class="foot-bottom">
+
+        <span>
+          © 2026 CRESCO SCIENTIAM ·
+          DELHI PUBLIC SCHOOL MEGACITY, KOLKATA
+        </span>
+
+        <span class="footer-credit"><small>WEBSITE &amp; DIGITAL EXPERIENCE</small><strong>Developed by <b>Aarav Sinha</b></strong></span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =======================================================
+       STARFIELD
+  ======================================================== -->
+
+  <script>
+
+    (function () {
+
+      const canvas =
+        document.getElementById('starfield');
+
+      const ctx =
+        canvas.getContext('2d');
+
+      let width;
+      let height;
+      let stars = [];
+
+
+      function resize() {
+
+        const dpr =
+          Math.min(window.devicePixelRatio || 1, 2);
+
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+
+        ctx.setTransform(
+          dpr,
+          0,
+          0,
+          dpr,
+          0,
+          0
+        );
+      }
+
+
+      function createStars() {
+
+        stars = [];
+
+        const count =
+          Math.min(
+            120,
+            Math.floor(
+              (width * height) / 12500
+            )
+          );
+
+        for (let i = 0; i < count; i++) {
+
+          stars.push({
+
+            x: Math.random() * width,
+
+            y: Math.random() * height,
+
+            radius:
+              Math.random() * 1.3 + .25,
+
+            alpha:
+              Math.random() * .55 + .15,
+
+            speed:
+              Math.random() * .16 + .035,
+
+            color:
+              Math.random() > .42
+                ? '#5ee0ff'
+                : (
+                  Math.random() > .5
+                    ? '#315cff'
+                    : '#ffffff'
+                )
+
+          });
+
+        }
+
+      }
+
+
+      function render() {
+
+        ctx.clearRect(
+          0,
+          0,
+          width,
+          height
+        );
+
+        stars.forEach(star => {
+
+          star.y -= star.speed;
+
+          if (star.y < 0) {
+
+            star.y = height;
+
+            star.x =
+              Math.random() * width;
+
+          }
+
+          ctx.beginPath();
+
+          ctx.arc(
+            star.x,
+            star.y,
+            star.radius,
+            0,
+            Math.PI * 2
+          );
+
+          ctx.fillStyle = star.color;
+
+          ctx.globalAlpha =
+            star.alpha;
+
+          ctx.fill();
+
+        });
+
+        ctx.globalAlpha = .035;
+
+        ctx.strokeStyle =
+          '#5ee0ff';
+
+        ctx.lineWidth = .7;
+
+        for (
+          let i = 0;
+          i < stars.length;
+          i++
+        ) {
+
+          for (
+            let j = i + 1;
+            j < stars.length;
+            j++
+          ) {
+
+            const dx =
+              stars[i].x - stars[j].x;
+
+            const dy =
+              stars[i].y - stars[j].y;
+
+            const dist =
+              Math.sqrt(
+                dx * dx + dy * dy
+              );
+
+            if (dist < 90) {
+
+              ctx.beginPath();
+
+              ctx.moveTo(
+                stars[i].x,
+                stars[i].y
+              );
+
+              ctx.lineTo(
+                stars[j].x,
+                stars[j].y
+              );
+
+              ctx.stroke();
+
+            }
+
+          }
+
+        }
+
+        ctx.globalAlpha = 1;
+
+        requestAnimationFrame(render);
+
+      }
+
+
+      window.addEventListener(
+        'resize',
+        () => {
+          resize();
+          createStars();
+        }
+      );
+
+      resize();
+      createStars();
+      render();
+
+    })();
+
+  </script>
+
+
+  <!-- =======================================================
+       TEAM DATA + RENDERING
+  ======================================================== -->
+
+  <script>
+
+    const TEAM_SECTIONS = [
+
+      {
+        key: "core",
+        title: "Core Committee",
+        cssClass: "section-core",
+        gridClass: "core-grid",
+
+        boxes: [
+
+          {
+            title: "Core Committee",
+            names: ["Sanjita Kundu"],
+            img: "sanjita.jpg",
+            description: ""
+          },
+
+          {
+            title: "Core Committee",
+            names: ["Anushka Dey"],
+            img: "anushka.jpg",
+            description: ""
+          },
+
+          {
+            title: "Core Committee",
+            names: ["Animita Mukherjee"],
+            img: "animita.jpg",
+            description: ""
+          },
+
+          {
+            title: "Core Committee",
+            names: ["Shreyash Saha"],
+            img: "shreyash.jpg",
+            description: ""
+          },
+
+          {
+            title: "Core Committee",
+            names: ["Priyanshu Sarkar"],
+            img: "priyanshu.jpg",
+            description: ""
+          },
+
+          {
+            title: "Core Committee",
+            names: ["Yashika Agarwalla"],
+            img: "yashika.jpg",
+            description: ""
+          }
+
+        ]
+      },
+
+
+      {
+        key: "eventheads",
+        title: "Event Heads",
+        cssClass: "section-eventheads",
+        gridClass: "",
+
+        boxes: [
+
+          {
+            title: "Mayavi Mandala",
+            names: [
+              "Aapluta Kar",
+              "Ushika Karmakar",
+              "Debomita Biswas"
+            ],
+            img: "mayavi_mandala.jpg",
+            description: ""
+          },
+
+          {
+            title: "Chitrakatha",
+            names: [
+              "Anahita Srivastava",
+              "Sushmita Jha"
+            ],
+            img: "chitrakatha.jpg",
+            description: ""
+          },
+
+          {
+            title: "Dharmasangram",
+            names: [
+              "Prisha Arora",
+              "Shreenika Kundu"
+            ],
+            img: "dharmasangram.jpg",
+            description: ""
+          },
+
+          {
+            title: "Swaranjali",
+            names: [
+              "Spriha Das",
+              "Arya Banerjee"
+            ],
+            img: "swaranjali.jpg",
+            description: ""
+          },
+
+          {
+            title: "Lakshya Pathik",
+            names: [
+              "Aryan Sircar"
+            ],
+            img: "lakshya_pathik.jpg",
+            description: ""
+          },
+
+          {
+            title: "Chromatica",
+            names: [
+              "Shaurya Kishore",
+              "Alankrita Upadhyay"
+            ],
+            img: "chromatica.jpg",
+            description: ""
+          },
+
+          {
+            title: "Corpus Vestigium",
+            names: [
+              "Aashna Goyal",
+              "Vanshika Paul"
+            ],
+            img: "corpus_vestigium.jpg",
+            description: ""
+          },
+
+          {
+            title: "π Infinitium",
+            names: [
+              "Anshuman Sikaria",
+              "Anaya Afaaf"
+            ],
+            img: "pi_infinitium.jpg",
+            description: ""
+          },
+
+          {
+            title: "Vox Futuri",
+            names: [
+              "Vidhi Bhalotia",
+              "Sneha Panda"
+            ],
+            img: "vox_futura.jpg",
+            description: ""
+          },
+
+          {
+            title: "Astra Syntax",
+            names: [
+              "Yuvraj Chowdhury",
+              "Souhardha Kar"
+            ],
+            img: "astra_syntax.jpg",
+            description: ""
+          },
+
+          {
+            title: "Sylva Machina",
+            names: [
+              "Atri Pradhan"
+            ],
+            img: "sylva_machina.jpg",
+            description: ""
+          },
+
+          {
+            title: "Clamor Naturae",
+            names: [
+              "Riddhima Bhowmik",
+              "Adwitiyaa Chandra"
+            ],
+            img: "clamor_naturae.jpg",
+            description: ""
+          },
+
+          {
+            title: "Terra Cognitio",
+            names: [
+              "Uddalak Nandan",
+              "Attri Roy"
+            ],
+            img: "terra_cognitio.jpg",
+            description: ""
+          },
+
+          {
+            title: "Genesis Nova",
+            names: [
+              "Maisha Jalota",
+              "Meher Bhurji"
+            ],
+            img: "genesis_nova.jpg",
+            description: ""
+          },
+
+          {
+            title: "Ventus Lapidum",
+            names: [
+              "Adrija Ray",
+              "Ishaan Mukherjee"
+            ],
+            img: "ventus_lapidum.jpg",
+            description: ""
+          },
+
+          {
+            title: "Aurora Interface",
+            names: [
+              "Mansi Agarwal"
+            ],
+            img: "aurora_interface.jpg",
+            description: ""
+          }
+
+        ]
+      },
+
+
+      {
+        key: "department",
+        title: "Department Heads",
+        cssClass: "section-department",
+        gridClass: "",
+
+        boxes: [
+
+          {
+            title: "IT Head",
+            names: ["Aarav Sinha"],
+            img: "it.jpg",
+            description: ""
+          },
+
+          {
+            title: "Logistics Head",
+            names: [
+              "Subhayan Das",
+              "Nishar Ahmed",
+              "Shrinanda Nandi"
+            ],
+            img: "logistics.jpg",
+            description: ""
+          },
+
+          {
+            title: "Correspondence Head",
+            names: [
+              "Zoya Agasti",
+              "Meghna Sen"
+            ],
+            img: "correspondence.jpg",
+            description: ""
+          },
+
+          {
+            title: "Decoration Head",
+            names: [
+              "Hrishab Naskar"
+            ],
+            img: "decoration.jpg",
+            description: ""
+          },
+
+          {
+            title: "Hospitality Head",
+            names: [
+              "Aratrika Mitra",
+              "Laiba Hashmi"
+            ],
+            img: "hospitality.jpg",
+            description: ""
+          },
+
+          {
+            title: "Social Media Admin",
+            names: [
+              "Hridhan Singh",
+              "Pratirup Ghosh"
+            ],
+            img: "social_media.jpg",
+            description: ""
+          },
+
+          {
+            title: "Event Admin",
+            names: [
+              "Sushrut Banerjee"
+            ],
+            img: "event_admin.jpg",
+            description: ""
+          }
+
+        ]
+      },
+
+
+      {
+        key: "teachers",
+        title: "Teachers",
+        cssClass: "section-teachers",
+        gridClass: "",
+
+        boxes: [
+
+          {
+            title: "Teacher In-Charge",
+            names: ["Rajarshi Dasgupta"],
+            img: "rajarshi.jpg",
+            description: ""
+          },
+
+          {
+            title: "Teacher In-Charge",
+            names: ["Sanchita Nandy"],
+            img: "sanchita.jpg",
+            description: ""
+          }
+
+        ]
+      }
+
+    ];
+
+
+    /* =======================================================
+       INITIALS
+    ======================================================== */
+
+    function initials(names) {
+
+      return names
+        .map(name =>
+          name
+            .split(' ')
+            .map(word => word[0])
+            .slice(0, 2)
+            .join('')
+        )
+        .join(' & ')
+        .toUpperCase();
+
+    }
+
+
+    /* =======================================================
+       ESCAPE HTML
+    ======================================================== */
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+    }
+
+
+    /* =======================================================
+       RENDER CARD
+    ======================================================== */
+
+    function renderBox(box, sectionIndex, boxIndex) {
+
+      const badgesHtml =
+        box.names
+          .map(
+            name =>
+              `<div class="name-badge">
+                ${escapeHtml(name)}
+              </div>`
+          )
+          .join('');
+
+      return `
+
+        <article
+          class="post-box"
+          tabindex="0"
+          role="button"
+          aria-label="View ${escapeHtml(box.title)}"
+          data-section="${sectionIndex}"
+          data-box="${boxIndex}"
+        >
+
+          <div class="post-box-title">
+            ${escapeHtml(box.title)}
+          </div>
+
+
+          <div class="box-photo-wrap">
+
+            <img
+              class="box-photo"
+              src="${escapeHtml(box.img)}"
+              alt="${escapeHtml(box.title)}"
+              loading="lazy"
+              onerror="
+                this.style.display='none';
+                this.nextElementSibling.style.display='flex';
+              "
+            >
+
+            <div class="box-fallback">
+              ${escapeHtml(initials(box.names))}
+            </div>
+
+          </div>
+
+
+          <div class="box-names-container">
+
+            ${badgesHtml}
+
+          </div>
+
+
+          <div class="card-open">
+            ↗
+          </div>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =======================================================
+       RENDER SECTION
+    ======================================================== */
+
+    function renderSection(sec, sectionIndex) {
+
+      return `
+
+        <section
+          class="section-block ${sec.cssClass} reveal"
+        >
+
+          <div class="wrap">
+
+            <div class="section-heading-wrap">
+
+              <div class="section-index">
+                ${String(sectionIndex + 1).padStart(2, '0')}
+                / CRESCO COLLECTIVE
+              </div>
+
+              <h2 class="section-heading">
+                ${escapeHtml(sec.title)}
+              </h2>
+
+            </div>
+
+
+            <div class="post-grid ${sec.gridClass}">
+
+              ${sec.boxes
+                .map(
+                  (box, boxIndex) =>
+                    renderBox(
+                      box,
+                      sectionIndex,
+                      boxIndex
+                    )
+                )
+                .join('')}
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <div class="wrap">
+          <div class="section-divider"></div>
+        </div>
+
+      `;
+
+    }
+
+
+    /* =======================================================
+       INSERT TEAM
+    ======================================================== */
+
+    document.getElementById('teamContent').innerHTML =
+      TEAM_SECTIONS
+        .map(renderSection)
+        .join('');
+
+
+    /* =======================================================
+       REVEAL OBSERVER
+    ======================================================== */
+
+    (function () {
+
+      const observer =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(entry => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add('in');
+
+                observer.unobserve(
+                  entry.target
+                );
+
+              }
+
+            });
+
+          },
+          {
+            threshold: .08
+          }
+        );
+
+      document
+        .querySelectorAll('.reveal')
+        .forEach(element =>
+          observer.observe(element)
+        );
+
+    })();
+
+
+    /* =======================================================
+       PROFILE MODAL
+    ======================================================== */
+
+    const profileModal =
+      document.getElementById('profileModal');
+
+    const modalImage =
+      document.getElementById('modalImage');
+
+    const modalImageFallback =
+      document.getElementById(
+        'modalImageFallback'
+      );
+
+    const modalLabel =
+      document.getElementById('modalLabel');
+
+    const modalTitle =
+      document.getElementById('modalTitle');
+
+    const modalNames =
+      document.getElementById('modalNames');
+
+    const modalDescription =
+      document.getElementById(
+        'modalDescription'
+      );
+
+    const modalClose =
+      document.getElementById('modalClose');
+
+
+    function openProfile(sectionIndex, boxIndex) {
+
+      const box =
+        TEAM_SECTIONS[
+          sectionIndex
+        ].boxes[
+          boxIndex
+        ];
+
+      if (!box) return;
+
+
+      /* ROLE */
+
+      modalLabel.textContent =
+        box.title;
+
+
+      /* TITLE */
+
+      modalTitle.textContent =
+        box.title;
+
+
+      /* NAMES */
+
+      modalNames.innerHTML =
+        box.names
+          .map(
+            name =>
+              `<span class="modal-name">
+                ${escapeHtml(name)}
+              </span>`
+          )
+          .join('');
+
+
+      /* DESCRIPTION */
+
+      modalDescription.textContent =
+        box.description || '';
+
+      modalDescription.classList.toggle(
+        'empty',
+        !box.description
+      );
+
+
+      /* IMAGE */
+
+      modalImageFallback.textContent =
+        initials(box.names);
+
+      modalImageFallback.style.display =
+        'none';
+
+      modalImage.style.display =
+        'block';
+
+      modalImage.src =
+        box.img;
+
+      modalImage.alt =
+        box.title;
+
+      modalImage.onerror = function () {
+
+        this.style.display =
+          'none';
+
+        modalImageFallback.style.display =
+          'flex';
+
+      };
+
+
+      /* OPEN */
+
+      profileModal.classList.add(
+        'open'
+      );
+
+      profileModal.setAttribute(
+        'aria-hidden',
+        'false'
+      );
+
+      document.body.style.overflow =
+        'hidden';
+
+    }
+
+
+    function closeProfile() {
+
+      profileModal.classList.remove(
+        'open'
+      );
+
+      profileModal.setAttribute(
+        'aria-hidden',
+        'true'
+      );
+
+      document.body.style.overflow =
+        '';
+
+    }
+
+
+    /* CARD CLICK */
+
+    document
+      .getElementById('teamContent')
+      .addEventListener(
+        'click',
+        event => {
+
+          const card =
+            event.target.closest(
+              '.post-box'
+            );
+
+          if (!card) return;
+
+          openProfile(
+            Number(card.dataset.section),
+            Number(card.dataset.box)
+          );
+
+        }
+      );
+
+
+    /* KEYBOARD ACCESSIBILITY */
+
+    document
+      .getElementById('teamContent')
+      .addEventListener(
+        'keydown',
+        event => {
+
+          if (
+            event.key !== 'Enter' &&
+            event.key !== ' '
+          ) {
+            return;
+          }
+
+          const card =
+            event.target.closest(
+              '.post-box'
+            );
+
+          if (!card) return;
+
+          event.preventDefault();
+
+          openProfile(
+            Number(card.dataset.section),
+            Number(card.dataset.box)
+          );
+
+        }
+      );
+
+
+    modalClose.addEventListener(
+      'click',
+      closeProfile
+    );
+
+
+    profileModal.addEventListener(
+      'click',
+      event => {
+
+        if (
+          event.target ===
+          profileModal
+        ) {
+          closeProfile();
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      'keydown',
+      event => {
+
+        if (
+          event.key === 'Escape' &&
+          profileModal.classList.contains(
+            'open'
+          )
+        ) {
+          closeProfile();
+        }
+
+      }
+    );
+
+
+    /* =======================================================
+       NAVIGATION
+    ======================================================== */
+
+    (function () {
+
+      const trigger =
+        document.getElementById(
+          'menuTrigger'
+        );
+
+      const overlay =
+        document.getElementById(
+          'overlayNav'
+        );
+
+      const topbar =
+        document.getElementById(
+          'topbar'
+        );
+
+
+      function toggle(force) {
+
+        const open =
+          force !== undefined
+            ? force
+            : !overlay.classList.contains(
+                'open'
+              );
+
+        overlay.classList.toggle(
+          'open',
+          open
+        );
+
+        trigger.classList.toggle(
+          'open',
+          open
+        );
+
+        trigger.setAttribute(
+          'aria-expanded',
+          String(open)
+        );
+
+        document.body.style.overflow =
+          open ? 'hidden' : '';
+
+      }
+
+
+      trigger.addEventListener(
+        'click',
+        () => toggle()
+      );
+
+
+      document
+        .querySelectorAll(
+          '.overlay-links a'
+        )
+        .forEach(link => {
+
+          link.addEventListener(
+            'click',
+            () => toggle(false)
+          );
+
+        });
+
+
+      document.addEventListener(
+        'keydown',
+        event => {
+
+          if (
+            event.key === 'Escape'
+          ) {
+            toggle(false);
+          }
+
+        }
+      );
+
+
+      function clock() {
+
+        const parts =
+          new Intl.DateTimeFormat(
+            'en-GB',
+            {
+              timeZone: 'Asia/Kolkata',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false
+            }
+          ).formatToParts(
+            new Date()
+          );
+
+        const hour =
+          parts.find(
+            part => part.type === 'hour'
+          ).value;
+
+        const minute =
+          parts.find(
+            part => part.type === 'minute'
+          ).value;
+
+        const second =
+          parts.find(
+            part => part.type === 'second'
+          ).value;
+
+        document.getElementById(
+          'overlayClock'
+        ).textContent =
+          `${hour}:${minute}:${second}`;
+
+      }
+
+
+      clock();
+
+      setInterval(
+        clock,
+        1000
+      );
+
+
+      window.addEventListener(
+        'scroll',
+        () => {
+
+          topbar.classList.toggle(
+            'scrolled',
+            window.scrollY > 30
+          );
+
+        },
+        {
+          passive: true
+        }
+      );
+
+    })();
+
+  </script>
+
+
+  <!-- =======================================================
+       FIREBASE
+  ======================================================== -->
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      increment
+    } from
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyCr7RU1pUOyxV88VEAgJZwEHNupTHCnv98",
+
+      authDomain:
+        "cresco-scientiam.firebaseapp.com",
+
+      projectId:
+        "cresco-scientiam",
+
+      storageBucket:
+        "cresco-scientiam.firebasestorage.app",
+
+      messagingSenderId:
+        "102065794685",
+
+      appId:
+        "1:102065794685:web:bf1bb3506d77a722368b14",
+
+      measurementId:
+        "G-QLQSFRB8ZW"
+
+    };
+
+
+    try {
+
+      const app =
+        initializeApp(
+          firebaseConfig
+        );
+
+      const db =
+        getFirestore(app);
+
+      setDoc(
+        doc(
+          db,
+          "stats",
+          "pageViews"
+        ),
+        {
+          team: increment(1)
+        },
+        {
+          merge: true
+        }
+      ).catch(
+        () => {}
+      );
+
+    } catch (err) {
+
+      console.warn(
+        "Firebase not initialised:",
+        err
+      );
+
+    }
+
+  </script>
+
+</body>
 </html>
