@@ -119,15 +119,16 @@ p{color:var(--dim);margin-top:10px;font-size:.9rem;}
     if (!user) return;
     setLoading(true);
     try {
-      const snap = await getDoc(doc(db, "admins", user.email));
-      if (snap.exists()) {
-        statusMsg.textContent = 'Access granted — redirecting...';
-        statusMsg.classList.add('info');
-        setTimeout(() => { window.location.href = '/admin'; }, 500);
-      } else {
+      // Only allow the authorized admin email
+      const AUTHORIZED_ADMIN = "aaravhfs@gmail.com";
+      if (user.email !== AUTHORIZED_ADMIN) {
         setLoading(false);
         deniedBox.classList.add('show');
         document.getElementById('deniedEmail').textContent = user.email;
+      } else {
+        statusMsg.textContent = 'Access granted — redirecting...';
+        statusMsg.classList.add('info');
+        setTimeout(() => { window.location.href = '/admin-x7q/'; }, 500);
       }
     } catch (err) {
       setLoading(false);
@@ -136,5 +137,5 @@ p{color:var(--dim);margin-top:10px;font-size:.9rem;}
     }
   });
 </script>
-</body>>
+</body>
 </html>

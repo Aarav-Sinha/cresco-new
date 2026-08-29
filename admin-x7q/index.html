@@ -144,7 +144,7 @@ label{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
     <div class="denied-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg></div>
     <h1>Access Denied</h1>
     <p id="deniedEmail" style="margin-top:6px;font-family:var(--mono);font-size:12px;"></p>
-    <p style="margin-top:14px;">This Google account isn't on the admin allow-list.</p>
+    <p style="margin-top:14px;">This Google account is not authorized as an admin. Only <b>aaravhfs@gmail.com</b> has access to Mission Control.</p>
     <button class="btn btn-full" id="deniedSignOut" style="margin-top:18px;">Sign Out &amp; Try Another Account</button>
   </div>
 </div>
@@ -338,21 +338,19 @@ let recentLogsCache = [];
 let CURRENT_USER = null;
 
 /* ================= AUTH GATE — step 1 for this page ================= */
+const AUTHORIZED_ADMIN = "aaravhfs@gmail.com";
+
 onAuthStateChanged(auth, async (user) => {
   document.getElementById('loadingGate').style.display = 'none';
   if (!user) { window.location.href = '/login'; return; }
-  try {
-    const snap = await getDoc(doc(db, "admins", user.email));
-    if (!snap.exists()) {
-      document.getElementById('deniedGate').style.display = 'flex';
-      document.getElementById('deniedEmail').textContent = user.email;
-      return;
-    }
-  } catch (err) {
+  
+  // Only allow the authorized admin email
+  if (user.email !== AUTHORIZED_ADMIN) {
     document.getElementById('deniedGate').style.display = 'flex';
-    document.getElementById('deniedEmail').textContent = user.email + ' — could not verify access.';
+    document.getElementById('deniedEmail').textContent = user.email;
     return;
   }
+  
   CURRENT_USER = user;
   document.getElementById('adminUserEmail').textContent = user.email;
   document.getElementById('app').style.display = 'block';
@@ -561,8 +559,7 @@ document.getElementById('qrPrintBtn').addEventListener('click', ()=>{
   const win = window.open('', '_blank');
   const name = qrDisplayTarget?.name || '', qrId = qrDisplayTarget?.qrId || '';
   const imgHtml = document.getElementById('qrDisplayCode').innerHTML;
-  win.document.write(`<html><head><title>QR - ${name}</title><style>body{font-family:sans-serif;text-align:center;padding:40px;}h2{margin-bottom:4px;}p{color:#666;font-family:monospace;margin-top:0;}</style></head><body><h2>${name}</h2><p>${qrId}</p>${imgHtml} <script src='https://www.noupe.com/embed/01a02f963bd07000894d31b38b04f87f02b0.js'></script>
-</body>></html>`);
+  win.document.write(`<html><head><title>QR - ${name}</title><style>body{font-family:sans-serif;text-align:center;padding:40px;}h2{margin-bottom:4px;}p{color:#666;font-family:monospace;margin-top:0;}</style></head><body><h2>${name}</h2><p>${qrId}</p>${imgHtml}</body></html>`);
   win.document.close(); setTimeout(()=>win.print(), 400);
 });
 
@@ -622,5 +619,5 @@ document.getElementById('resetAttendanceBtn').addEventListener('click', async ()
   catch(e){ toast('Failed: '+e.message, 'error'); }
 });
 </script>
-</body>>
+</body>
 </html>

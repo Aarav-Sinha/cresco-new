@@ -1844,6 +1844,225 @@
 <style id="uniform-navigation">
 .topbar{position:fixed;top:48px;left:50%;transform:translateX(-50%);z-index:90;width:min(1220px,94vw);border:1px solid rgba(140,170,255,.26);border-radius:18px;background:rgba(4,9,21,.70);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:0 18px 60px rgba(0,0,0,.35);transition:.35s;}.topbar.scrolled{background:rgba(2,5,13,.92);border-color:rgba(89,231,255,.25);}.topbar:before{content:"";position:absolute;left:20px;right:20px;top:-1px;height:1px;background:linear-gradient(90deg,transparent,#59e7ff,transparent);opacity:.55;}.topbar-inner{height:62px;padding:0 12px 0 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;}.tb-brand{display:flex;align-items:center;gap:10px;min-width:max-content;}.tb-brand img{height:36px!important;width:auto;filter:drop-shadow(0 0 12px rgba(89,231,255,.3));}.tb-words{font-family:'Poppins',sans-serif;font-size:.73rem;color:rgba(238,242,251,.62);}.tb-words b{color:#eef2fb;}.tb-tabs{display:flex;align-items:center;gap:2px;}.tb-tabs a{font-size:12px;color:rgba(238,242,251,.62);padding:8px 11px;border-radius:9px;transition:.25s;}.tb-tabs a:hover{color:#eef2fb;background:rgba(89,231,255,.07);}.tb-tabs a.active{color:#59e7ff;background:rgba(89,231,255,.08);box-shadow:inset 0 0 0 1px rgba(89,231,255,.2);}.tb-bar-btn{display:none;width:40px;height:40px;border:1px solid rgba(140,170,255,.26);background:transparent;border-radius:10px;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;}.tb-bar-btn span{width:18px;height:1px;background:#eef2fb;transition:.3s;}.tb-bar-btn.open span:nth-child(1){transform:translateY(5px) rotate(45deg);}.tb-bar-btn.open span:nth-child(2){opacity:0;}.tb-bar-btn.open span:nth-child(3){transform:translateY(-5px) rotate(-45deg);}@media(max-width:1000px){.tb-tabs{display:none;}.tb-bar-btn{display:flex;}}@media(max-width:470px){.tb-words{display:none;}.topbar-inner{padding-left:12px;}.topbar{top:42px;}}.overlay-nav{position:fixed;inset:0;z-index:200;background:rgba(1,4,12,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);opacity:0;visibility:hidden;pointer-events:none;clip-path:circle(2% at calc(100% - 42px) 66px);transition:clip-path .7s cubic-bezier(.7,0,.2,1),opacity .3s;}.overlay-nav.open{opacity:1;visibility:visible;pointer-events:auto;clip-path:circle(150% at calc(100% - 42px) 66px);}.overlay-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(140,170,255,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(140,170,255,.11) 1px,transparent 1px);background-size:64px 64px;opacity:.45;}.overlay-inner{position:relative;z-index:2;height:100%;overflow:auto;display:flex;flex-direction:column;justify-content:center;padding:110px 9vw 45px;max-width:900px;margin:auto;}.overlay-clock{font:11px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(238,242,251,.62);margin-bottom:26px;}.overlay-clock b{color:#59e7ff;font-size:15px;margin-left:10px;}.overlay-links{display:flex;flex-direction:column;}.overlay-links a{padding:9px 0;border-bottom:1px solid rgba(140,170,255,.11);font:700 clamp(1.7rem,6vw,3rem) 'Poppins',sans-serif;color:rgba(238,242,251,.34);transition:.3s;}.overlay-links a small{font:10px 'IBM Plex Mono',monospace;color:#59e7ff;margin-right:18px;}.overlay-links a:hover,.overlay-links a.active{color:#eef2fb;padding-left:10px;}
 </style>
+
+<style id="mobile-card-and-background-upgrade">
+  /* =========================================================
+     MOBILE CARD FIX
+     Removes the empty block below the names on phones.
+     The card now grows exactly to the image + name strip.
+     ========================================================= */
+  @media (max-width: 700px) {
+    .post-box,
+    .section-teachers .post-box {
+      height: auto !important;
+      min-height: 0 !important;
+    }
+
+    .box-photo-wrap {
+      aspect-ratio: 16 / 9;
+      height: auto !important;
+      flex: 0 0 auto;
+    }
+
+    .box-names-container {
+      min-height: 0 !important;
+      padding: 7px 12px 8px !important;
+    }
+
+    .card-open {
+      bottom: 52px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .post-box,
+    .section-teachers .post-box {
+      height: auto !important;
+      min-height: 0 !important;
+    }
+
+    .box-names-container {
+      padding: 6px 9px 7px !important;
+    }
+
+    .name-badge {
+      padding-top: 4px !important;
+      padding-bottom: 4px !important;
+    }
+  }
+
+  /* =========================================================
+     MORE CINEMATIC / SCI-FI BACKGROUND
+     Keeps the existing starfield but adds depth, orbital
+     geometry, moving light and subtle atmospheric layers.
+     ========================================================= */
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -25%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .48;
+    background:
+      radial-gradient(
+        ellipse 35% 22% at 18% 18%,
+        rgba(94,224,255,.13),
+        transparent 72%
+      ),
+      radial-gradient(
+        ellipse 28% 25% at 82% 30%,
+        rgba(139,108,255,.12),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 34% 20% at 52% 82%,
+        rgba(49,92,255,.12),
+        transparent 72%
+      );
+    filter: blur(10px);
+    animation: atmosphericDrift 18s ease-in-out infinite alternate;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .22;
+    background:
+      linear-gradient(
+        115deg,
+        transparent 0%,
+        rgba(94,224,255,.045) 38%,
+        transparent 55%
+      ),
+      linear-gradient(
+        295deg,
+        transparent 0%,
+        rgba(139,108,255,.035) 45%,
+        transparent 68%
+      );
+    background-size: 180% 180%, 160% 160%;
+    animation: lightSweep 20s linear infinite;
+  }
+
+  .bg-glows {
+    overflow: hidden;
+  }
+
+  .bg-glows::before,
+  .bg-glows::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 43%;
+    width: min(92vw, 1050px);
+    height: min(92vw, 1050px);
+    border: 1px solid rgba(94,224,255,.075);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotate(-18deg);
+    box-shadow:
+      0 0 55px rgba(94,224,255,.035),
+      inset 0 0 55px rgba(49,92,255,.025);
+    animation: orbitFloat 24s ease-in-out infinite alternate;
+  }
+
+  .bg-glows::after {
+    width: min(64vw, 720px);
+    height: min(28vw, 310px);
+    border-color: rgba(139,108,255,.085);
+    transform: translate(-50%, -50%) rotate(-24deg);
+    animation-duration: 17s;
+    animation-direction: alternate-reverse;
+  }
+
+  .tech-grid {
+    opacity: .7;
+    background-size: 76px 76px;
+    mask-image:
+      radial-gradient(
+        ellipse 78% 72% at 50% 48%,
+        black 5%,
+        rgba(0,0,0,.8) 38%,
+        transparent 100%
+      );
+    -webkit-mask-image:
+      radial-gradient(
+        ellipse 78% 72% at 50% 48%,
+        black 5%,
+        rgba(0,0,0,.8) 38%,
+        transparent 100%
+      );
+  }
+
+  @keyframes atmosphericDrift {
+    0% {
+      transform: translate3d(-2%, -1%, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(2%, 2%, 0) scale(1.06);
+    }
+    100% {
+      transform: translate3d(-1%, 3%, 0) scale(1.02);
+    }
+  }
+
+  @keyframes lightSweep {
+    0% {
+      background-position: 0% 50%, 100% 50%;
+    }
+    50% {
+      background-position: 100% 45%, 0% 55%;
+    }
+    100% {
+      background-position: 0% 50%, 100% 50%;
+    }
+  }
+
+  @keyframes orbitFloat {
+    0% {
+      transform: translate(-50%, -50%) rotate(-18deg) scale(.96);
+      opacity: .48;
+    }
+    50% {
+      opacity: .9;
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(-7deg) scale(1.035);
+      opacity: .55;
+    }
+  }
+
+  @media (max-width: 700px) {
+    body::before {
+      opacity: .58;
+    }
+
+    .bg-glows::before {
+      width: 125vw;
+      height: 125vw;
+      top: 38%;
+    }
+
+    .bg-glows::after {
+      width: 90vw;
+      height: 42vw;
+      top: 42%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body::before,
+    body::after,
+    .bg-glows::before,
+    .bg-glows::after {
+      animation: none !important;
+    }
+  }
+</style>
+
 </head>
 
 
