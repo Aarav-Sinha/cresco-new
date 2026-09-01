@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/dist/html5-qrcode.min.js"></script>
 <style>
 :root{
   --ink:#030816;--navy:#060f2c;--panel:rgba(13,20,38,.55);--panel-solid:#0b1120;
@@ -300,19 +300,7 @@ input:focus,select:focus{border-color:var(--electric);}
   <div class="modal-box glass">
     <button class="modal-close" id="scanModalClose">&#10005;</button>
     <div class="modal-title">Scan QR Code</div>
-    <div id="qrReaderWrap">
-      <video id="scanVideo" playsinline muted autoplay></video>
-      <canvas id="scanCanvas" style="display:none;"></canvas>
-      <div class="scan-loading" id="scanLoading"><div class="spinner-lg" style="margin:0;"></div><span style="font-family:var(--mono);font-size:10.5px;color:var(--dim);">Starting camera&hellip;</span></div>
-      <div class="scan-overlay" id="scanOverlay" style="display:none;">
-        <div class="scan-frame">
-          <div class="scan-corner tl"></div><div class="scan-corner tr"></div><div class="scan-corner bl"></div><div class="scan-corner br"></div>
-          <div class="scan-line"></div>
-        </div>
-      </div>
-      <div class="scan-status" id="scanStatus" style="display:none;">Point camera at QR code</div>
-      <div class="scan-flash" id="scanFlash"></div>
-    </div>
+    <div id="qrReaderWrap" style="width:100%;border-radius:16px;overflow:hidden;background:#000;min-height:300px;"></div>
     <div class="scanner-controls">
       <button class="btn btn-icon" id="switchCameraBtn" title="Switch Camera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 2l4 4-4 4M3 6h18M7 22l-4-4 4-4M21 18H3"/></svg></button>
       <button class="btn btn-icon" id="torchBtn" title="Flashlight"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.5.4.9 1 .9 1.6V17h6.2v-.7c0-.6.4-1.2.9-1.6A7 7 0 0 0 12 2Z"/></svg></button>
@@ -390,9 +378,12 @@ onAuthStateChanged(auth, async (user) => {
 
   if (!user) { document.getElementById('authGate').style.display = 'flex'; return; }
 
+  // Allow both admins AND security volunteers to access
   try {
-    const snap = await getDoc(doc(db, "admins", user.email));
-    if (!snap.exists()) {
+    const volunteerSnap = await getDoc(doc(db, "volunteers", user.email));
+    const adminSnap = await getDoc(doc(db, "admins", user.email));
+    
+    if (!volunteerSnap.exists() && !adminSnap.exists()) {
       document.getElementById('deniedGate').style.display = 'flex';
       document.getElementById('deniedEmail').textContent = user.email;
       return;
@@ -571,19 +562,6 @@ let usingFacingMode = 'environment';
 let torchOn = false;
 let scanLocked = false; // prevents double-fires while we're closing/handling a result
 
-function scannerConfig(){
-  return {
-    fps: 12,
-    qrbox: (viewfinderWidth, viewfinderHeight) => {
-      const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-      const size = Math.floor(minEdge * 0.72); // large box: tolerant of distance
-      return { width: size, height: size };
-    },
-    aspectRatio: 1.0,
-    disableFlip: false
-  };
-}
-
 document.getElementById('openScanBtn').addEventListener('click', startScanner);
 document.getElementById('manualEntryBtn').addEventListener('click', startScanner);
 document.getElementById('scanModalClose').addEventListener('click', stopScanner);
@@ -592,32 +570,72 @@ document.getElementById('stopScanBtn').addEventListener('click', stopScanner);
 function startScanner(){
   scanLocked = false;
   openModal('scanModal');
-  document.getElementById('scanLoading').classList.remove('hide');
-  document.getElementById('scanOverlay').style.display = 'none';
-  document.getElementById('scanStatus').style.display = 'none';
-
+  
   if(typeof Html5Qrcode === 'undefined'){
-    toast('QR scanner library failed to load — check your internet connection or use manual entry.', 'error');
+    toast('QR scanner library not loaded — check internet connection', 'error');
+    console.error('Html5Qrcode not available');
     return;
   }
-  html5QrCode = new Html5Qrcode("qrReader", {
-    formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ],
+  
+  // Show loading state
+  const wrap = document.getElementById('qrReaderWrap');
+  wrap.innerHTML = `
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:rgba(0,0,0,.5);z-index:10;">
+      <div class="spinner-lg" style="margin:0;"></div>
+      <span style="font-family:var(--mono);font-size:10.5px;color:var(--dim);">Starting camera…</span>
+    </div>
+  `;
+  
+  console.log('Starting QR scanner with facing mode:', usingFacingMode);
+  html5QrCode = new Html5Qrcode("qrReaderWrap", {
+    formatsToSupport: [ 'QR_CODE' ],
     experimentalFeatures: { useBarCodeDetectorIfSupported: true },
     verbose: false
   });
 
+  const config = {
+    fps: 15,
+    qrbox: { width: 250, height: 250 },
+    aspectRatio: 1.0,
+    disableFlip: false
+  };
+
+  const constraints = { 
+    facingMode: { ideal: usingFacingMode }
+  };
+
   html5QrCode.start(
-    { facingMode: usingFacingMode },
-    scannerConfig(),
+    constraints,
+    config,
     onScanSuccess,
     onScanFailure
   ).then(()=>{
-    document.getElementById('scanLoading').classList.add('hide');
-    document.getElementById('scanOverlay').style.display = 'flex';
-    document.getElementById('scanStatus').style.display = 'block';
+    console.log('Scanner started successfully');
+    // Clear loading and add overlay
+    wrap.innerHTML = `
+      <div style="position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:3;">
+        <div style="position:relative;width:64%;aspect-ratio:1;">
+          <div style="position:absolute;inset:0;width:26px;height:26px;top:0;left:0;border-color:var(--electric);border-style:solid;border-width:3px 0 0 3px;border-radius:8px 0 0 0;filter:drop-shadow(0 0 4px rgba(94,224,255,.6));"></div>
+          <div style="position:absolute;inset:0;width:26px;height:26px;top:0;right:0;border-color:var(--electric);border-style:solid;border-width:3px 3px 0 0;border-radius:0 8px 0 0;filter:drop-shadow(0 0 4px rgba(94,224,255,.6));"></div>
+          <div style="position:absolute;inset:0;width:26px;height:26px;bottom:0;left:0;border-color:var(--electric);border-style:solid;border-width:0 0 3px 3px;border-radius:0 0 0 8px;filter:drop-shadow(0 0 4px rgba(94,224,255,.6));"></div>
+          <div style="position:absolute;inset:0;width:26px;height:26px;bottom:0;right:0;border-color:var(--electric);border-style:solid;border-width:0 3px 3px 0;border-radius:0 0 8px 0;filter:drop-shadow(0 0 4px rgba(94,224,255,.6));"></div>
+          <div style="position:absolute;left:2%;right:2%;height:2px;background:linear-gradient(90deg,transparent,var(--electric) 20%,var(--electric) 80%,transparent);box-shadow:0 0 8px var(--electric);animation:scanLineMove 1.8s ease-in-out infinite;top:4%;"></div>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;z-index:3;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--electric);text-shadow:0 0 8px rgba(0,0,0,.8);">Point camera at QR code</div>
+      <div style="position:absolute;inset:0;background:var(--good);opacity:0;z-index:5;pointer-events:none;" id="scanFlash"></div>
+    `;
+    toast('Camera ready — point at QR code', 'info');
   }).catch(err=>{
-    document.getElementById('scanLoading').classList.add('hide');
-    toast('Could not start camera: ' + err + ' — try Manual QR Entry below.', 'error');
+    console.error('Scanner start error:', err);
+    wrap.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;color:var(--alert);">
+      <div>
+        <div style="font-weight:bold;margin-bottom:10px;">Camera Error</div>
+        <div style="font-size:0.85rem;margin-bottom:15px;">${err.message || err}</div>
+        <div style="font-size:0.8rem;color:var(--dim);">Use Manual QR Entry instead</div>
+      </div>
+    </div>`;
+    toast('Could not start camera: ' + (err.message || err) + ' — use Manual QR Entry', 'error');
   });
 }
 
@@ -639,18 +657,16 @@ function stopScanner(){
 }
 
 document.getElementById('switchCameraBtn').addEventListener('click', async ()=>{
+  if(!html5QrCode){ toast('Start the camera first', 'info'); return; }
   usingFacingMode = (usingFacingMode === 'environment') ? 'user' : 'environment';
-  toast('Switching camera...', 'info');
-  if(html5QrCode){
-    try{ await html5QrCode.stop(); await html5QrCode.clear(); }catch(e){}
-  }
-  html5QrCode = new Html5Qrcode("qrReader", {
-    formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ],
-    experimentalFeatures: { useBarCodeDetectorIfSupported: true },
-    verbose: false
-  });
-  html5QrCode.start({ facingMode: usingFacingMode }, scannerConfig(), onScanSuccess, onScanFailure)
-    .catch(err=> toast('Could not switch camera: '+err, 'error'));
+  toast(`Switching to ${usingFacingMode === 'environment' ? 'back' : 'front'} camera...`, 'info');
+  try{ 
+    await html5QrCode.stop(); 
+    await html5QrCode.clear();
+  }catch(e){console.warn('Stop error:', e);}
+  
+  html5QrCode = null;
+  setTimeout(()=>{ startScanner(); }, 500);
 });
 document.getElementById('torchBtn').addEventListener('click', async ()=>{
   if(!html5QrCode){ toast('Start the camera first', 'info'); return; }
@@ -735,5 +751,5 @@ async function confirmCheckpoint(p, wasOverride){
   }catch(e){ toast('Failed to update: '+e.message, 'error'); }
 }
 </script>
-</body>>
+</body>
 </html>

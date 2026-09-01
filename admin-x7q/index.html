@@ -322,9 +322,18 @@ const firebaseConfig = {
   appId: "1:102065794685:web:bf1bb3506d77a722368b14",
   measurementId: "G-QLQSFRB8ZW"
 };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+
+let app, auth, db;
+try {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  console.log("Firebase initialized successfully");
+} catch (err) {
+  console.error("Firebase initialization error:", err);
+  document.getElementById('loadingGate').innerHTML = '<div style="text-align:center;color:#ef4a5a;"><h2>Connection Error</h2><p>Failed to initialize Firebase. Check browser console.</p></div>';
+  throw err;
+}
 
 const CHECKPOINTS = ["checkin","bagcheck","food","checkout"];
 const CP_LABELS = {checkin:"Check-In", bagcheck:"Bag Check", food:"Food Distribution", checkout:"Checkout"};
@@ -339,22 +348,45 @@ let CURRENT_USER = null;
 
 /* ================= AUTH GATE — step 1 for this page ================= */
 const AUTHORIZED_ADMIN = "aaravhfs@gmail.com";
+let authTimeout = setTimeout(() => {
+  console.warn("Auth check timeout - user may not be authenticated");
+  document.getElementById('loadingGate').innerHTML = '<div style="text-align:center;color:#ef4a5a;"><h2>Auth Timeout</h2><p>Checking credentials took too long. <a href="/login" style="color:#5ee0ff;text-decoration:underline;">Try login again</a></p></div>';
+}, 8000);
 
 onAuthStateChanged(auth, async (user) => {
-  document.getElementById('loadingGate').style.display = 'none';
-  if (!user) { window.location.href = '/login'; return; }
+  clearTimeout(authTimeout);
+  console.log("Auth state changed. User:", user?.email || "none");
+  
+  const loadingGate = document.getElementById('loadingGate');
+  
+  if (!user) {
+    console.log("No user logged in, redirecting to login");
+    loadingGate.style.display = 'none';
+    window.location.href = '/login';
+    return;
+  }
+  
+  console.log("User logged in:", user.email);
   
   // Only allow the authorized admin email
   if (user.email !== AUTHORIZED_ADMIN) {
+    console.log("User not authorized:", user.email);
+    loadingGate.style.display = 'none';
     document.getElementById('deniedGate').style.display = 'flex';
     document.getElementById('deniedEmail').textContent = user.email;
     return;
   }
   
+  console.log("Authorization successful");
   CURRENT_USER = user;
   document.getElementById('adminUserEmail').textContent = user.email;
+  loadingGate.style.display = 'none';
   document.getElementById('app').style.display = 'block';
   initData();
+}, (err) => {
+  clearTimeout(authTimeout);
+  console.error("Auth error:", err);
+  document.getElementById('loadingGate').innerHTML = '<div style="text-align:center;color:#ef4a5a;"><h2>Auth Error</h2><p>' + err.message + '</p><p><a href="/login" style="color:#5ee0ff;text-decoration:underline;">Back to login</a></p></div>';
 });
 document.getElementById('deniedSignOut').addEventListener('click', () => signOut(auth).then(()=>window.location.href='/login'));
 document.getElementById('signOutBtn').addEventListener('click', () => signOut(auth).then(()=>window.location.href='/login'));
@@ -389,6 +421,8 @@ function matchesQuery(p, q){
 }
 
 function initData(){
+  console.log("Initializing data listeners");
+  
   onSnapshot(SETTINGS_REF, snap=>{
     if(snap.exists()) SETTINGS = Object.assign(SETTINGS, snap.data());
     else setDoc(SETTINGS_REF, SETTINGS).catch(()=>{});
@@ -396,18 +430,29 @@ function initData(){
     document.getElementById('settingCurrentDay').value = SETTINGS.currentDay || 'day1';
     document.getElementById('firebaseStatusBox').innerHTML = '<span style="color:var(--good);">&#9679;</span> Connected — settings synced live';
     renderAdminStats();
-  }, err=>{ document.getElementById('firebaseStatusBox').innerHTML = '<span style="color:var(--alert);">&#9679;</span> Connection error: '+err.message; });
+  }, err=>{ 
+    console.error("Settings listener error:", err);
+    document.getElementById('firebaseStatusBox').innerHTML = '<span style="color:var(--alert);">&#9679;</span> Connection error: '+err.message; 
+  });
 
   onSnapshot(PARTICIPANTS_COL, snap=>{
     PARTICIPANTS = []; snap.forEach(d=>PARTICIPANTS.push({id:d.id, ...d.data()}));
+    console.log("Loaded participants:", PARTICIPANTS.length);
     renderAdminParticipants(); renderAdminSchools(); renderAdminStats();
-  }, err=>{ console.warn(err); });
+  }, err=>{ 
+    console.error("Participants listener error:", err);
+    toast('Failed to load participants: ' + err.message, 'error');
+  });
 
   onSnapshot(query(LOGS_COL), snap=>{
     recentLogsCache = []; snap.forEach(d=>recentLogsCache.push({id:d.id, ...d.data()}));
     recentLogsCache.sort((a,b)=>(b.timestamp?.seconds||0)-(a.timestamp?.seconds||0));
+    console.log("Loaded logs:", recentLogsCache.length);
     renderAdminLogs();
-  }, err=>{ console.warn(err); });
+  }, err=>{ 
+    console.error("Logs listener error:", err);
+    toast('Failed to load logs: ' + err.message, 'error');
+  });
 }
 
 /* ================= STATS ================= */
