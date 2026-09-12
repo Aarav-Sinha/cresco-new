@@ -772,6 +772,7 @@
 
 <script>
 /* ================= SCHEDULE DATA ================= */
+/* ================= SCHEDULE DATA ================= */
 const DAYS = {
   1: {
     label: "DAY 01", date: "25 Sept", start: 7.5, end: 17.5,
@@ -779,14 +780,14 @@ const DAYS = {
       {time:"07:30", title:"Reporting Time", venue:"Hall 1", world:"arrival"},
       {time:"07:30", end:"08:30", title:"Registration", venue:"Hall 1", world:"arrival"},
       {time:"09:00", end:"10:00", title:"Inaugural Ceremony", venue:"Hall 1", world:"core"},
-      {time:"10:30", end:"14:00", title:"Clamor Naturae", venue:"Hostel Building - Ground Floor", world:"environment"},
-      {time:"10:30", end:"14:00", title:"Genesis Nova", venue:"Classroom 12 B", world:"environment"},
+      {time:"10:30", end:"14:00", title:"Clamor Naturae", venue:"Hostel Building Lobby", world:"environment"},
+      {time:"10:30", end:"14:00", title:"Genesis Nova", venue:"12B", world:"environment"},
       {time:"10:30", end:"14:00", title:"Vox Futuri", venue:"Aerobay Lab", world:"cosmos"},
-      {time:"10:30", end:"14:00", title:"Aurora Interface", venue:"Senior Computer Lab 1", world:"environment"},
-      {time:"10:30", end:"14:00", title:"Lakshya Pathik", venue:"AI & Robotics Lab", world:"myth"},
-      {time:"10:30", end:"13:30", title:"Ventus Lapidum", venue:"Senior Physics Lab", world:"environment"},
-      {time:"10:30", end:"13:30", title:"Corpus Vestigium", venue:"Classroom 12 C", world:"cosmos"},
-      {time:"11:00", end:"13:30", title:"Mayavi Mandala", venue:"Senior Computer Lab 2", world:"myth"},
+      {time:"10:30", end:"14:00", title:"Aurora Interface", venue:"COMP LAB 1", world:"environment"},
+      {time:"10:30", end:"14:00", title:"Lakshya Pathik", venue:"11A", world:"myth"},
+      {time:"10:30", end:"13:30", title:"Ventus Lapidum", venue:"Physics Lab", world:"environment"},
+      {time:"10:30", end:"13:30", title:"Corpus Vestigium", venue:"12C", world:"cosmos"},
+      {time:"11:00", end:"13:30", title:"Mayavi Mandala", venue:"COMP LAB 2", world:"myth"},
       {time:"11:30", end:"14:00", title:"Terra Cognitio", venue:"Hall 1", world:"environment"}
     ]
   },
@@ -794,13 +795,13 @@ const DAYS = {
     label: "DAY 02", date: "26 Sept", start: 8.0, end: 18,
     events: [
       {time:"08:00", title:"Reporting Time", venue:"Hall 1", world:"arrival"},
-      {time:"09:00", end:"12:30", title:"Chromatica", venue:"Senior Physics Lab", world:"cosmos"},
-      {time:"09:00", end:"12:30", title:"Dharmasangram", venue:"Senior Library", world:"myth"},
-      {time:"09:00", end:"12:30", title:"Swaranjali", venue:"Junior Playroom", world:"myth"},
-      {time:"09:00", end:"12:30", title:"Astra Syntax", venue:"Senior Computer Lab 1", world:"cosmos"},
-      {time:"09:00", end:"12:30", title:"π·Infinitum", venue:"Classroom 12 C", world:"cosmos"},
-      {time:"09:00", end:"12:30", title:"Chitrakatha", venue:"Classroom 12 A", world:"myth"},
-      {time:"09:00", end:"12:30", title:"Sylva Machina", venue:"TBD", world:"cosmos"},
+      {time:"09:00", end:"11:30", title:"Chromatica", venue:"Chemistry Lab", world:"cosmos"},
+      {time:"09:00", end:"12:00", title:"Dharmasangram", venue:"Library", world:"myth"},
+      {time:"09:00", end:"12:00", title:"Swaranjali", venue:"Hall 2", world:"myth"},
+      {time:"09:00", end:"12:00", title:"Astra Syntax", venue:"COMP LAB 1", world:"cosmos"},
+      {time:"09:00", end:"12:00", title:"π·Infinitum", venue:"12C", world:"cosmos"},
+      {time:"09:00", end:"12:00", title:"Sylva Machina", venue:"Robotics Lab", world:"cosmos"},
+      {time:"10:00", end:"12:00", title:"Chitrakatha", venue:"12A", world:"myth"},
       {time:"13:30", title:"Closing Ceremony & Prize Distribution", venue:"Hall 1", world:"core"}
     ]
   }
@@ -808,7 +809,6 @@ const DAYS = {
 const WNAMES={arrival: 'Arrival',core:'Ceremony',myth:'Mythology',cosmos:'Cosmos',environment:'Environment'};
 const RING_ORDER=['core','myth','environment','cosmos']; // innermost to outermost
 const RING_RADII=[70,120,170,220];
-
 /* ================= HELPERS ================= */
 function timeToHours(t){ const [h,m]=t.split(':').map(Number); return h + m/60; }
 function polar(cx,cy,r,angleDeg){

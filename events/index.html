@@ -421,6 +421,21 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
   color: var(--amber);
   opacity: 1;
 }
+/* ---------- Event Video (only shows if a video file is actually present) ---------- */
+.modal-video-wrap{
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line2);
+  background: #000;
+  box-shadow: 0 18px 40px -20px rgba(0,0,0,.7);
+}
+.modal-video{
+  width: 100%;
+  max-height: 380px;
+  display: block;
+  background: #000;
+  outline: none;
+}
 .modal-heads{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
 .modal-head-pill{font-family:var(--mono);font-size:10.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line2);color:var(--dim);}
 
@@ -587,6 +602,12 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
       <div class="modal-section"><h4>About This Event</h4><p class="modal-desc" id="modalDesc"></p></div>
       <div class="modal-section" id="modalHeadsSection" style="display:none;"><h4>Event Heads</h4><div class="modal-heads" id="modalHeads"></div></div>
       <div class="modal-section"><h4>Rules &amp; Regulations</h4><ol class="modal-rules" id="modalRules"></ol></div>
+      <div class="modal-section" id="modalVideoSection" style="display:none;">
+        <h4>Event Video</h4>
+        <div class="modal-video-wrap">
+          <video class="modal-video" id="modalVideo" controls playsinline preload="metadata"></video>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -621,15 +642,15 @@ const DEFAULT_CONTENT = {
       slug: "mayavi-mandala",
       title: "Mayavi Mandala",
       team: "2 members",
-      dur: "3 hours",
-      venue: "Senior Computer Lab 1",
+      dur: "Day 1 | 11:00 AM - 01:30 PM (2 hours 30 minutes)",
+      venue: "Senior Computer Lab 2",
       logo: "event-logos/mayavi-mandala-logo.png",
       box: "event-box-bg/mayavi-mandala-box.jpg",
       desc: "Mayavi Mandala invites participants to blend science, technology and imagination through pixels and grids. This event tests creativity, originality and effective use of a limited colour palette and challenges young artists to transform futuristic visions into visually captivating creations.",
       rules: [
         "Open to students of Classes VIII to XII.",
         "Each school may participate with one team of two participants.",
-        "Each team must bring one laptop for the competition. No other electronic devices will be permitted.",
+        "No electronic devices will be permitted.",
         "The topic will be revealed on the spot at the beginning of the event.",
         "The total duration of the competition will be 2 hours, comprising: 30 minutes for brainstorming and conceptualisation (participants may not begin creating artwork during this period) and 1 hour 30 minutes for creating the final artwork.",
         "Mobile phones must remain inside participants' bags for the entire duration of the event and may not be used.",
@@ -645,8 +666,8 @@ const DEFAULT_CONTENT = {
       slug: "chitrakatha",
       title: "Chitrakatha",
       team: "2 members",
-      dur: "2 hours",
-      venue: "12 A",
+      dur: "Day 2 | 10:00 AM - 12:00 PM (2 hours)",
+      venue: "Classroom 12 A",
       logo: "event-logos/chitrakatha-logo.png",
       box: "event-box-bg/chitrakatha-box.jpg",
       desc: "Chitrakatha is a fast-paced STEM Pictionary challenge where teams communicate using only scientific symbols, navigate chaotic drawing protocols like sabotage and rapid relays to decode complex concepts before the clock runs out.",
@@ -668,7 +689,7 @@ const DEFAULT_CONTENT = {
       slug: "dharmasangram",
       title: "Dharmasangram",
       team: "2 members",
-      dur: "3 hours",
+      dur: "Day 2 | 09:00 AM - 12:00 PM (3 hours)",
       venue: "Senior Library",
       logo: "event-logos/dharmasangram-logo.png",
       box: "event-box-bg/dharmasangram-box.jpg",
@@ -677,10 +698,12 @@ const DEFAULT_CONTENT = {
         "Open to students of Classes IX-XII.",
         "Each school may register one team of two participants.",
         "The debate will be conducted in the Oxford Debate format.",
-        "Debate topics will be science-themed and will be announced during the School Representatives' Meeting.",
+        "Debate topics will be science-themed and will be announced on-spot. They will be given 40 minutes time to prepare their speech.",
         "Each speaker will be allotted 3 minutes for their speech, followed by a 1-minute rebuttal.",
         "Time limits will be strictly enforced. Exceeding the allotted time will result in a deduction of points.",
         "The use of props, visual aids, or written notes during the speech is strictly prohibited.",
+        "The use of electronic devices, including mobile phones, is not allowed during the event.",
+        "Use of internet during the event is strictly prohibited. Participants must rely solely on their knowledge and reasoning skills.",
         "Participants must be dressed in their respective school uniforms throughout the event.",
         "Parliamentary language and decorum must be maintained at all times.",
         "The decision of the judges shall be final and binding."
@@ -693,7 +716,7 @@ const DEFAULT_CONTENT = {
       slug: "swaranjali",
       title: "Swaranjali",
       team: "Up to 5 members",
-      dur: "3 hours",
+      dur: "Day 2 | 09:00 AM - 12:00 PM (3 hours)",
       venue: "Hall 2",
       logo: "event-logos/swaranjali-logo.png",
       box: "event-box-bg/swaranjali-box.jpg",
@@ -704,7 +727,7 @@ const DEFAULT_CONTENT = {
         "Participation is limited to the first 10 schools to submit the registration form.",
         "Participants must perform in their respective school uniforms.",
         "Each performance must be completed within 6 minutes, with an additional 2 minutes allotted for setup.",
-        "At the Representatives' Meet (7 days prior to the event), each school will be assigned a Western music genre and one scientific words/phrases through a lucky draw. Also, a respected Musical Scale will be provided to them. The assigned genre and scientific word/phrase must be incorporated into the performance.",
+        "After registration each school will be assigned a Western music genre and one scientific words/phrase. The assigned genre and scientific word/phrase must be incorporated into their performance.",
         "Teams must compose and perform an original song incorporating the allotted scientific word/phrase. Failure to do so will result in disqualification.",
         "A surprise challenge will be revealed on the day of the event. Teams will be given 1 hour to incorporate it into their performance.",
         "A drum kit, microphones, and power supply for electronic instruments will be provided. Any damage to the equipment must be compensated by the respective school.",
@@ -718,8 +741,8 @@ const DEFAULT_CONTENT = {
       slug: "lakshya-pathik",
       title: "Lakshya Pathik",
       team: "Up to 3 members",
-      dur: "3 hours",
-      venue: "LAB 1",
+      dur: "Day 1 | 10:30 AM - 02:00 PM (3 hours 30 minutes)",
+      venue: "Classroom 11 A",
       logo: "event-logos/lakshya-pathik-logo.png",
       box: "event-box-bg/lakshya-pathik-box.jpg",
       desc: "Lakshya Pathik is a robotics and embedded systems challenge. Teams are tasked with designing and programming an autonomous robot using limited hardware to navigate complex pathways with extreme precision and speed.",
@@ -748,18 +771,18 @@ const DEFAULT_CONTENT = {
       num: "06",
       slug: "chromatica",
       title: "Chromatica",
-      team: "3 members",
-      dur: "2 hours 30 minutes",
-      venue: "TBD",
+      team: "2 members",
+      dur: "Day 2 | 09:00 AM - 11:30 AM (2 hours 30 minutes)",
+      venue: "Chemistry Lab",
       logo: "event-logos/chromatica-logo.png",
       box: "event-box-bg/chromatica-box.jpg",
       desc: "Chromatica is an art-based event where participants will be given a topic on spot, where they have to use their creativity and chemistry-related insight to display paintings using the resources provided. The artworks will be judged on the basis of uniqueness, relevance to the topic and their expert use of the provided materials.",
       rules: [
         "Open to classes IX to XII.",
-        "Each team may consist of 3 participants from each school.",
+        "Each team may consist of 2 participants from each school.",
         "Participants will have to create paintings using pH papers and reagents of varying pH levels instead of conventional paints.",
-        "They must creatively generate multiple shades using the reagents provided. It is mandatory to make at least 3 visibly distinct colours or shades.",
-        "Only the materials provided may be used. External paints, markers, or colours are strictly prohibited. Supplies like paintbrushes, stationary, SAFETY GEARS etc. should be brought by the participants themselves.",
+        "They must creatively generate multiple shades using the reagents provided. Participants are recommended to bring fine tipped brushes for better detailing.",
+        "Only the materials provided may be used. External paints, markers, or colours are strictly prohibited. Supplies like paintbrushes, stationary, SAFETY GEARS etc. should be brought by the participants themselves. Gloves will be provided to all the participants.",
         "A basic demo will be provided regarding the procedure that are to be carried out in the course of the event before the event starts.",
         "The theme/topic for artwork will be announced on the spot."
       ]
@@ -771,8 +794,8 @@ const DEFAULT_CONTENT = {
       slug: "corpus-vestigium",
       title: "Corpus Vestigium",
       team: "2 members",
-      dur: "3 hours",
-      venue: "12 C",
+      dur: "Day 1 | 10:30 AM - 01:30 PM (3 hours)",
+      venue: "Classroom 12 C",
       logo: "event-logos/corpus-vestigium-logo.png",
       box: "event-box-bg/corpus-vestigium-box.jpg",
       desc: "Corpus Vestigium is an investigative event. The participating teams will have to submit a report based on the investigation they do during the respective rounds. They will be judged on their analysis of the situation and their technique to solve the case.",
@@ -795,8 +818,8 @@ const DEFAULT_CONTENT = {
       slug: "pi-infinitium",
       title: "π Infinitium",
       team: "Up to 2 members",
-      dur: "3 hours",
-      venue: "Room 12C",
+      dur: "Day 2 | 09:00 AM - 12:00 PM (3 hours)",
+      venue: "Classroom 12 C",
       logo: "event-logos/pi-infinitium-logo.png",
       box: "event-box-bg/pi-infinitium-box.jpg",
       desc: "πInfinitium is a mathematics-based competition that combines logical reasoning, speed, strategy, and analytical thinking through a series of innovative and challenging rounds. Participants will solve mathematical puzzles, recognize patterns, interpret graphical concepts, and make strategic decisions to maximize their scores.",
@@ -818,7 +841,7 @@ const DEFAULT_CONTENT = {
       slug: "vox-futuri",
       title: "Vox Futuri",
       team: "2 members",
-      dur: "3 hours 30 minutes",
+      dur: "Day 1 | 10:30 AM - 02:00 PM (3 hours 30 minutes)",
       venue: "Aerobay Lab",
       logo: "event-logos/vox-futura-logo.png",
       box: "event-box-bg/vox-futura-box.jpg",
@@ -839,8 +862,8 @@ const DEFAULT_CONTENT = {
       slug: "astra-syntax",
       title: "Astra Syntax",
       team: "2 members",
-      dur: "3 hours",
-      venue: "Lab 2",
+      dur: "Day 2 | 09:00 AM - 12:00 PM (3 hours)",
+      venue: "Senior Computer Lab 1",
       logo: "event-logos/astra-syntax-logo.png",
       box: "event-box-bg/astra-syntax-box.jpg",
       desc: "Astra Syntax is a high-intensity competitive programming event where teams compete to solve challenging algorithmic problems under strict time constraints. Participants will demonstrate their coding proficiency, logical reasoning, and optimization skills by tackling concepts ranging from Dynamic Programming and Graph Theory to Data Structures, using C++, Java, or Python to climb the leaderboard before time runs out.",
@@ -860,7 +883,7 @@ const DEFAULT_CONTENT = {
       slug: "sylva-machina",
       title: "Sylva Machina",
       team: "Up to 3 members",
-      dur: "3 hours",
+      dur: "Day 2 | 09:00 AM - 12:00 PM (3 hours)",
       venue: "Robotics Lab",
       logo: "event-logos/sylva-machina-logo.png",
       box: "event-box-bg/sylva-machina-box.jpg",
@@ -889,8 +912,8 @@ const DEFAULT_CONTENT = {
       slug: "clamor-naturae",
       title: "Clamor Naturae",
       team: "8 members",
-      dur: "3 hours 30 minutes",
-      venue: "Hostel Building Lobby",
+      dur: "Day 1 | 10:30 AM - 02:00 PM (3 hours 30 minutes)",
+      venue: "Hostel Building Lobby - Ground Floor",
       logo: "event-logos/clamor-naturae-logo.png",
       box: "event-box-bg/clamor-naturae-box.jpg",
       desc: "Clamor Naturae is a dynamic Nukkad Natak (Street Play) competition reviving the raw energy of open-air theatre. Teams must captivate a live audience using only their voices, bodies, and live acoustic rhythms to deliver impactful, theme-driven narratives. This event tests dramatic expression, vocal projection, and teamwork, providing a powerful platform for students to advocate for meaningful social change.",
@@ -913,7 +936,7 @@ const DEFAULT_CONTENT = {
       slug: "terra-cognitio",
       title: "Terra Cognitio",
       team: "3 members",
-      dur: "2 hours 30 minutes",
+      dur: "Day 1 | 11:30 AM - 02:00 PM (2 hours 30 minutes)",
       venue: "Hall 1",
       logo: "event-logos/terra-cognitio-logo.png",
       box: "event-box-bg/terra-cognitio-box.jpg",
@@ -936,8 +959,8 @@ const DEFAULT_CONTENT = {
       slug: "genesis-nova",
       title: "Genesis Nova",
       team: "2 members",
-      dur: "3 hours 30 minutes",
-      venue: "12 B",
+      dur: "Day 1 | 10:30 AM - 02:00 PM (3 hours 30 minutes)",
+      venue: "Classroom 12 B",
       logo: "event-logos/genesis-nova-logo.png",
       box: "event-box-bg/genesis-nova-box.jpg",
       desc: "Genesis Nova is a strategy-based evolution challenge where teams design their own species, compete in a trait auction, and prove that their creation can survive and thrive in a randomly assigned habitat.",
@@ -959,7 +982,7 @@ const DEFAULT_CONTENT = {
       slug: "ventus-lapidum",
       title: "Ventus Lapidum",
       team: "2 members",
-      dur: "3 hours",
+      dur: "Day 1 | 10:30 AM - 01:30 PM (3 hours)",
       venue: "Senior Physics Lab",
       logo: "event-logos/ventus-lapidum-logo.png",
       box: "event-box-bg/ventus-lapidum-box.jpg",
@@ -984,8 +1007,8 @@ const DEFAULT_CONTENT = {
       slug: "aurora-interface",
       title: "Aurora Interface",
       team: "2 members",
-      dur: "3 hours 30 minutes",
-      venue: "Lab 2",
+      dur: "Day 1 | 10:30 AM - 02:00 PM (3 hours 30 minutes)",
+      venue: "Senior Computer Lab 1",
       logo: "event-logos/aurora-interface-logo.png",
       box: "event-box-bg/aurora-interface-box.jpg",
       desc: "Aurora Interface is an AI-integrated web development challenge where participants create responsive websites featuring at least one AI-powered feature. Teams will showcase their creativity, design skills, and technical expertise through a final presentation to the judges.",
@@ -993,7 +1016,6 @@ const DEFAULT_CONTENT = {
         "Open to students of Classes IX to XII.",
         "Each school may participate with one team of 2 participants.",
         "Teams will be given a surprise theme at the beginning of the event, based on which they must design and develop a complete web application.",
-        "The first 30 minutes will be dedicated to wireframing, layout planning and user-flow mapping. Coding may not begin during this period.",
         "Teams must complete the entire development process within the allotted 3 hours. Late submissions will not be considered.",
         "All coding must be done during the competition. The use of pre-written code will result in disqualification.",
         "Open-source libraries and frameworks may be used. Teams may also use open-source graphics, images and text content.",
@@ -1169,11 +1191,35 @@ function openModal(ev) {
     </li>
   `).join('');
 
+  /* ---- Event Video: only shown if the file actually exists in the deployment ---- */
+  const videoSection = document.getElementById('modalVideoSection');
+  const videoEl = document.getElementById('modalVideo');
+  const videoSrc = ev.video || `event-videos/${ev.slug}.mp4`;
+
+  videoEl.pause();
+  videoEl.removeAttribute('src');
+  videoEl.load();
+  videoSection.style.display = 'none';
+
+  videoEl.onloadedmetadata = () => {
+    videoSection.style.display = 'block';
+  };
+  videoEl.onerror = () => {
+    videoSection.style.display = 'none';
+  };
+
+  videoEl.src = videoSrc;
+  videoEl.load();
+
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
+  const videoEl = document.getElementById('modalVideo');
+  videoEl.pause();
+  videoEl.removeAttribute('src');
+  videoEl.load();
   modal.classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -1188,5 +1234,5 @@ function setupModal() {
   });
 }
 </script>
-</body>>
+</body>
 </html>
