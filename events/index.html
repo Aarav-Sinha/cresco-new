@@ -421,6 +421,88 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
   color: var(--amber);
   opacity: 1;
 }
+
+/* Nested rule support:
+   Any rule may be either a normal string or:
+   { text: "Main rule", subRules: ["Sub-rule 1", "Sub-rule 2"] }
+*/
+.modal-rules li.has-subrules {
+  padding-bottom: 14px;
+}
+
+.modal-rules .rule-main {
+  display: block;
+}
+
+.modal-subrules {
+  list-style: none;
+  margin: 11px 0 0;
+  padding: 0 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.modal-subrules li {
+  position: relative;
+  padding: 0 0 0 18px;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-size: .91rem;
+  color: var(--faint);
+  line-height: 1.55;
+  backdrop-filter: none;
+  transition: color .25s;
+}
+
+.modal-subrules li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--electric);
+  font-weight: 700;
+}
+
+.modal-subrules li:hover {
+  background: transparent;
+  border: 0;
+  border-left: 0;
+  color: var(--paper);
+  transform: none;
+}
+
+/* Optional nested sub-rules: any rule may use { text, subRules: [] } */
+.modal-rules .rule-text{display:block;}
+.modal-rules .sub-rules{
+  margin:10px 0 0;
+  padding:0 0 0 22px;
+  list-style:disc;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.modal-rules .sub-rules li{
+  background:transparent;
+  border:0;
+  border-left:0;
+  border-radius:0;
+  padding:0;
+  font-size:.91rem;
+  color:var(--dim);
+  line-height:1.55;
+  backdrop-filter:none;
+  transition:none;
+}
+.modal-rules .sub-rules li::before{content:none;}
+.modal-rules .sub-rules li:hover{
+  background:transparent;
+  border-color:transparent;
+  color:var(--paper);
+  transform:none;
+}
 /* ---------- Event Video (only shows if a video file is actually present) ---------- */
 .modal-video-wrap{
   border-radius: 14px;
@@ -650,13 +732,13 @@ const DEFAULT_CONTENT = {
       rules: [
         "Open to students of Classes VIII to XII.",
         "Each school may participate with one team of two participants.",
-        "No electronic devices will be permitted.",
+        "No electronic devices will be permitted. Mobile phones must remain inside participants' bags for the entire duration of the event and may not be used.",
+        "Each team will be provided with one computer system.",
         "The topic will be revealed on the spot at the beginning of the event.",
-        "The total duration of the competition will be 2 hours, comprising: 30 minutes for brainstorming and conceptualisation (participants may not begin creating artwork during this period) and 1 hour 30 minutes for creating the final artwork.",
-        "Mobile phones must remain inside participants' bags for the entire duration of the event and may not be used.",
-        "Each team must have the offline version of Microsoft Excel installed on their laptop.",
+        "The total duration of the competition will be 2 hours, comprising: 30 minutes for brainstorming and conceptualization (participants may not begin creating artwork during this period) and 1 hour 30 minutes for creating the final artwork.",
         "The artwork must be created exclusively by colouring individual cells/pixels. The use of gradients is strictly prohibited.",
-        "The artwork must be created on a 100 × 100 cell grid."
+        "The artwork must be created on a 100 × 100 cell grid.",
+        "Judging Criteria - Creativity & Originality; Interpretation of the theme; Excel Skills and Technical Execution; Composition and Aesthetic Appeal; Neatness, Combination & Detailing;"
       ]
     },
     {
@@ -696,17 +778,16 @@ const DEFAULT_CONTENT = {
       desc: "Dharmasangram is a science-themed Oxford-style debate that challenges participants to present logical arguments, defend their stance, and respond effectively to opposing viewpoints. The event emphasizes critical thinking, persuasive communication, and scientific reasoning.",
       rules: [
         "Open to students of Classes IX-XII.",
-        "Each school may register one team of two participants.",
+        "Each school may register one team comprising two participants.",
         "The debate will be conducted in the Oxford Debate format.",
-        "Debate topics will be science-themed and will be announced on-spot. They will be given 40 minutes time to prepare their speech.",
-        "Each speaker will be allotted 3 minutes for their speech, followed by a 1-minute rebuttal.",
-        "Time limits will be strictly enforced. Exceeding the allotted time will result in a deduction of points.",
+        "The debate topics will be science-themed and will be announced on-spot. The participants will be given 45 minutes to prepare their speeches.",
+        "Each speaker will be allotted 3 minutes for their speech, followed by 1 minute for rebuttal.",
+        /* Time limits will be strictly enforced. Exceeding the allotted time will result in a deduction of points. */
         "The use of props, visual aids, or written notes during the speech is strictly prohibited.",
-        "The use of electronic devices, including mobile phones, is not allowed during the event.",
-        "Use of internet during the event is strictly prohibited. Participants must rely solely on their knowledge and reasoning skills.",
-        "Participants must be dressed in their respective school uniforms throughout the event.",
+        "The use of electronic devices is strictly prohibited during the event.",
         "Parliamentary language and decorum must be maintained at all times.",
-        "The decision of the judges shall be final and binding."
+        "The decision of the judges shall be final and binding.",
+        "Judging Criteria - Content & Arguments; Organization & Structure; Delivery & Style; Rebuttal & Responsiveness; Teamwork & Originality;"
       ]
     },
     {
@@ -723,15 +804,12 @@ const DEFAULT_CONTENT = {
       desc: "Swaranjali is a music-based competition where participants blend scientific concepts with Western music to create original and engaging performances. Teams will be judged on creativity, musicality, thematic integration and stage presence.",
       rules: [
         "Open to students of Classes VIII to XII.",
-        "Each school may register one team of up to five participants.",
-        "Participation is limited to the first 10 schools to submit the registration form.",
-        "Participants must perform in their respective school uniforms.",
+        "Each school may register one team comprising up to five participants.",
         "Each performance must be completed within 6 minutes, with an additional 2 minutes allotted for setup.",
-        "After registration each school will be assigned a Western music genre and one scientific words/phrase. The assigned genre and scientific word/phrase must be incorporated into their performance.",
+        "During the Representatives' Meeting, each school will be assigned a Western music genre and one scientific words/phrase. Both the assigned genre and scientific word/phrase must be incorporated into their performance.",
         "Teams must compose and perform an original song incorporating the allotted scientific word/phrase. Failure to do so will result in disqualification.",
         "A surprise challenge will be revealed on the day of the event. Teams will be given 1 hour to incorporate it into their performance.",
-        "A drum kit, microphones, and power supply for electronic instruments will be provided. Any damage to the equipment must be compensated by the respective school.",
-        "Any form of unfair means will result in immediate disqualification."
+        "A drum kit, microphones, and power supply for electronic instruments will be provided. Any damage to the equipment must be compensated for by the respective school."
       ]
     },
     {
@@ -747,20 +825,22 @@ const DEFAULT_CONTENT = {
       box: "event-box-bg/lakshya-pathik-box.jpg",
       desc: "Lakshya Pathik is a robotics and embedded systems challenge. Teams are tasked with designing and programming an autonomous robot using limited hardware to navigate complex pathways with extreme precision and speed.",
       rules: [
-        "The objective is to design and program an autonomous robot that follows the designated track from the start line to the finish line in the shortest possible time.",
-        "Open to students of Classes VIII to XII.",
+        "The event is open to students of Classes VIII to XII.",
         "Each school may register one team of up to three participants.",
-        "The robot must navigate the track completely autonomously, without any manual intervention once the run begins.",
-        "The robot must not exceed 20 cm × 20 cm in length and width. Height is unrestricted unless specified otherwise.",
-        "The maximum permissible weight of the robot, including batteries, is 2 kg.",
-        "The robot must be capable of following the designated track, which may include straight paths, curves, and sharp turns.",
-        "Participants must place the robot behind the start line and initiate it using an on-board physical button or a referee-approved starting mechanism.",
-        "Each team will be given a maximum of 3 minutes to complete the course.",
-        "Each team will be provided with a fixed number of attempts, with the fastest successful run considered for the final ranking.",
-        "Remote controls, Wi-Fi, Bluetooth, external laptop connections, or any form of manual guidance during the run are strictly prohibited.",
-        "Manual interference with the robot or track after the run has started will result in immediate disqualification.",
-        "Robots that fail to comply with the prescribed size or weight limits during technical inspection will be disqualified.",
-        "Designs that may damage the track or arena, or use hazardous, combustible, or corrosive materials, are strictly prohibited."
+        "The robot must operate completely autonomously after the run begins.",
+        "The robot must not exceed 20 cm × 20 cm in length and width, and must weigh no more than 2 kg, including batteries.",
+        "The robot must be capable of following a track containing straight paths, curves, and sharp turns.",
+        "The robot must be placed behind the start line and started using an on-board button or referee-approved mechanism.",
+        "Each team will be given 15 minutes to make final adjustments to their robot. After calibration, each robot will undergo a technical inspection to verify compliance with the event rules.",
+        "Each team will be given 3 attempts. The fastest valid run, after penalties, will be considered for ranking.",
+        "Remote controls, Wi-Fi, Bluetooth, laptops, or any form of manual control are strictly prohibited.",
+        "If the robot leaves the track, a standard time penalty of +5 seconds will be added.",
+        "If the robot requires a participant or official to place it back on the track, an additional human intervention penalty of +5 seconds will be added.",
+        "The robot may recover from going off-track by itself, but the applicable off-track penalty will still be imposed.",
+        "Touching or manually guiding the robot without permission will result in disqualification.",
+        "Pre-built robot kits or any LEGO kits are not permitted. The robot must be designed and assembled by the participating team.",
+        "The team's final score will be calculated as: Final Time = Recorded Completion Time + Off-Track Penalties + Human-Intervention Penalties",
+        "The team with the lowest final time will receive the highest ranking."
       ]
     },
 
@@ -778,13 +858,13 @@ const DEFAULT_CONTENT = {
       box: "event-box-bg/chromatica-box.jpg",
       desc: "Chromatica is an art-based event where participants will be given a topic on spot, where they have to use their creativity and chemistry-related insight to display paintings using the resources provided. The artworks will be judged on the basis of uniqueness, relevance to the topic and their expert use of the provided materials.",
       rules: [
-        "Open to classes IX to XII.",
-        "Each team may consist of 2 participants from each school.",
-        "Participants will have to create paintings using pH papers and reagents of varying pH levels instead of conventional paints.",
-        "They must creatively generate multiple shades using the reagents provided. Participants are recommended to bring fine tipped brushes for better detailing.",
-        "Only the materials provided may be used. External paints, markers, or colours are strictly prohibited. Supplies like paintbrushes, stationary, SAFETY GEARS etc. should be brought by the participants themselves. Gloves will be provided to all the participants.",
-        "A basic demo will be provided regarding the procedure that are to be carried out in the course of the event before the event starts.",
-        "The theme/topic for artwork will be announced on the spot."
+        "The event is open to students of Classes IX to XII.",
+        "Each school may register one team comprising two participants.",
+        "Participants will create paintings using pH papers and reagents of varying pH levels instead of conventional paints.",
+        "The theme/topic for the artwork will be announced on the spot.",
+        "Participants must creatively generate multiple shades using the reagents provided. The use of fine-tipped brushes is recommended for intricate detailing.",
+        "Only the materials provided by the organisers may be used. External paints, markers, colours, or any other colouring materials are strictly prohibited. Participants must bring their own paintbrushes, stationery, and required safety gear. Gloves will be provided to all participants.",
+        "Judging Criteria: pH Colours; Blacklight Border; Relevance to Theme; Visual Appeal; Neatness"
       ]
     },
     {
@@ -800,8 +880,8 @@ const DEFAULT_CONTENT = {
       box: "event-box-bg/corpus-vestigium-box.jpg",
       desc: "Corpus Vestigium is an investigative event. The participating teams will have to submit a report based on the investigation they do during the respective rounds. They will be judged on their analysis of the situation and their technique to solve the case.",
       rules: [
-        "Open to students of Classes IX-XII.",
-        "Each school may register one team of two participants.",
+        "The event is open to students of Classes IX-XII.",
+        "Each school may register one team comprising two participants.",
         "The event will consist of two rounds.",
         "Each team may avail up to two hints during the event. Additional hints may be taken at the cost of a score penalty.",
         "All teams will compete in the first round. The first five teams to solve the case and submit their investigative report within the allotted time will qualify for the final round.",
@@ -850,7 +930,7 @@ const DEFAULT_CONTENT = {
         "Open to students from classes VIII-XII.",
         "Each School may register one team of two participants.",
         "The event shall consist of two rounds. The first round may serve as an elimination round based on the number of teams participating.",
-        "In round one, students are to give their news report with the help of a presentation based on the topic which would be provided on the day of the rep meet. Time allotted for their presentation and speech will be 2 minutes.",
+        "In round one, students are to give their news report with the help of a presentation based on the topic which would be provided on the day of the rep meet. Time allotted for their presentation and speech will be 4 minutes.",
         "Qualified teams shall proceed to round 2 where they would choose a topic from the topic bowl and would be given 30 minutes to prepare and then present their news report based on the topic that they have received. Time allotted for presentation would be 10 minutes in between which the event heads will introduce a breaking update which has to be incorporated into their report.",
         "The decision of the judges shall be final and binding."
       ]
@@ -868,12 +948,21 @@ const DEFAULT_CONTENT = {
       box: "event-box-bg/astra-syntax-box.jpg",
       desc: "Astra Syntax is a high-intensity competitive programming event where teams compete to solve challenging algorithmic problems under strict time constraints. Participants will demonstrate their coding proficiency, logical reasoning, and optimization skills by tackling concepts ranging from Dynamic Programming and Graph Theory to Data Structures, using C++, Java, or Python to climb the leaderboard before time runs out.",
       rules: [
-        "Open to students of Classes IX to XII.",
-        "Format: 3 Rounds | The lowest-scoring team will be eliminated after Round 1.",
-        "Round 1 (Debugging): Identify and fix common programming errors. Focus areas include off-by-one errors, 32-bit integer overflow, edge cases, and floating-point precision.",
-        "Round 2 (Speed Coding Challenge): 6-10 short coding problems of easy to medium difficulty. The fastest correct submissions earn highest points. Both speed and accuracy evaluated. Live leaderboard may be displayed.",
-        "Round 3 (Competitive Coding): 5 programming problems based on school-level competitive programming concepts (LeetCode Medium-Hard, ZCO and IARCS-style problems). Participants are advised to read all five problems before beginning.",
-        "Allowed Languages: Round 1 & Round 2: C++, Java, Python. Round 3: Java and Python only."
+        "Eligibility: Open to students of Classes IX–XII. Each team must consist of 2 participants.",
+        "Equipment: Each team will be provided with one computer. Participants must use only the permitted systems and resources.",
+        {
+          text: "Contest Format: The competition will consist of 3 rounds. The lowest-scoring team after Round 1 will be eliminated.",
+          subRules: [
+            "Round 1 – Debugging (35 minutes): Identify and fix common programming errors. Focus may include off-by-one errors, 32-bit integer overflow, edge cases, and floating-point precision.",
+            "Round 2 – Speed Coding Challenge (35 minutes): 6–10 short coding problems of easy to medium difficulty. Speed and accuracy will be evaluated, with faster correct submissions receiving higher scores.",
+            "Round 3 – Competitive Coding (1 hour 30 minutes): 5 programming problems based on school-level competitive programming concepts. Problems may follow the style of LeetCode (medium to hard difficulty), ZCO, and IARCS."
+          ]
+        },
+        "Programming Languages: C++, Java, and Python are permitted in Rounds 1 and 2. Java and Python are permitted in Round 3.",
+        "Submissions & Scoring: Solutions must be submitted within the allotted time and satisfy the required test cases. Points will be awarded based on correctness and, where applicable, submission speed.",
+        "Ranking: Teams will be ranked in the following order: Points → Time Taken → Time Complexity → Space Complexity.",
+        "Teamwork: Team members may freely discuss and work together using their respective computers. Communication or sharing of solutions with other teams is prohibited.",
+        "Unauthorised Assistance: Use of AI coding assistants, online solution generators, solution repositories, or other external assistance is prohibited and will result in disqualification."
       ]
     },
     {
@@ -1185,11 +1274,21 @@ function openModal(ev) {
   const accentColor = ev.world === 'myth' ? 'var(--myth)' : (ev.world === 'cosmos' ? 'var(--cosmos)' : 'var(--eco)');
 
   const rulesList = document.getElementById('modalRules');
-  rulesList.innerHTML = ev.rules.map(rule => `
-    <li style="border-left-color: ${accentColor};">
-      ${rule}
-    </li>
-  `).join('');
+  rulesList.innerHTML = ev.rules.map(rule => {
+    // Rules can be simple strings OR objects with optional subRules.
+    // This keeps manual editing flexible for every event.
+    const text = typeof rule === 'string' ? rule : rule.text;
+    const subRules = typeof rule === 'object' && Array.isArray(rule.subRules) ? rule.subRules : [];
+    const nested = subRules.length
+      ? `<ul class="sub-rules">${subRules.map(sub => `<li>${sub}</li>`).join('')}</ul>`
+      : '';
+    return `
+      <li style="border-left-color: ${accentColor};">
+        <span class="rule-text">${text}</span>
+        ${nested}
+      </li>
+    `;
+  }).join('');
 
   /* ---- Event Video: only shown if the file actually exists in the deployment ---- */
   const videoSection = document.getElementById('modalVideoSection');

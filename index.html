@@ -1534,6 +1534,9 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
 @media(max-width:470px){.tb-words{display:none;}.topbar-inner{padding-left:12px;}.topbar{top:42px;}}
 .overlay-nav{position:fixed;inset:0;z-index:200;background:rgba(1,4,12,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);opacity:0;visibility:hidden;pointer-events:none;clip-path:circle(2% at calc(100% - 42px) 66px);transition:clip-path .7s cubic-bezier(.7,0,.2,1),opacity .3s;}
 .overlay-nav.open{opacity:1;visibility:visible;pointer-events:auto;clip-path:circle(150% at calc(100% - 42px) 66px);}
+.overlay-close{position:absolute;top:18px;right:18px;z-index:10;width:40px;height:40px;background:transparent;border:1px solid rgba(140,170,255,.26);border-radius:8px;color:#eef2fb;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .3s,background .3s,transform .2s;font-weight:300;line-height:1;}
+.overlay-close:hover{border-color:#5ee0ff;background:rgba(94,224,255,.07);}
+.overlay-close:active{transform:scale(.95);}
 .overlay-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(140,170,255,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(140,170,255,.11) 1px,transparent 1px);background-size:64px 64px;opacity:.45;}
 .overlay-inner{position:relative;z-index:2;height:100%;overflow:auto;display:flex;flex-direction:column;justify-content:center;padding:110px 9vw 45px;max-width:900px;margin:auto;}
 .overlay-clock{font:11px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(238,242,251,.62);margin-bottom:26px;}.overlay-clock b{color:#59e7ff;font-size:15px;margin-left:10px;}
@@ -1572,6 +1575,7 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
 
 <nav class="overlay-nav" id="overlayNav">
   <div class="overlay-grid"></div>
+  <button class="overlay-close" id="overlayClose" aria-label="Close navigation">✕</button>
   <div class="overlay-inner">
     <div class="overlay-clock">LOCAL TIME &middot; IST <b id="overlayClock">00:00:00</b></div>
     <div class="overlay-links">
@@ -2246,9 +2250,10 @@ renderSite();
   });
 })();
 (function(){
-  const trigger=document.getElementById('menuTrigger'),overlay=document.getElementById('overlayNav');
+  const trigger=document.getElementById('menuTrigger'),overlay=document.getElementById('overlayNav'),closeBtn=document.getElementById('overlayClose');
   function toggle(force){const open=force!==undefined?force:!overlay.classList.contains('open');overlay.classList.toggle('open',open);trigger.classList.toggle('open',open);trigger.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':'';}
   trigger.addEventListener('click',()=>toggle());
+  closeBtn.addEventListener('click',()=>toggle(false));
   document.querySelectorAll('.overlay-links a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
   addEventListener('keydown',e=>{if(e.key==='Escape')toggle(false);});
   function clock(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date());document.getElementById('overlayClock').textContent=`${parts.find(p=>p.type==='hour').value}:${parts.find(p=>p.type==='minute').value}:${parts.find(p=>p.type==='second').value}`;}
