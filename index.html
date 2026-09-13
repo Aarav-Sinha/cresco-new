@@ -208,16 +208,17 @@ h1.decode .num{color:var(--amber);}
 .hlr-row::before{content:'';position:absolute;left:-22px;top:50%;width:16px;height:1px;background:linear-gradient(90deg,var(--electric),transparent);opacity:.45;}
 .hlr-row::after{content:'';position:absolute;left:-25px;top:calc(50% - 2px);width:4px;height:4px;border-radius:50%;background:var(--electric);box-shadow:0 0 10px rgba(94,224,255,.65);opacity:.8;}
 .hlr-row:last-child{margin-bottom:0;}
-.hlogo-cell{position:relative;width:clamp(58px,7.2vw,76px);height:clamp(78px,9.6vw,100px);cursor:pointer;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.22,1,.36,1),filter .45s ease;flex-shrink:0;filter:drop-shadow(0 14px 24px rgba(0,0,0,.3));}
-.hlogo-cell.flipped{transform:rotateY(180deg);}
-.hlogo-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:10px;border:1px solid var(--line3);overflow:hidden;display:flex;flex-direction:column;}
-.hlogo-front{background:linear-gradient(160deg,rgba(16,23,42,.94),rgba(3,6,14,.98));padding:6px 7px;justify-content:space-between;}
+.hlogo-cell{position:relative;width:clamp(58px,7.2vw,76px);height:clamp(78px,9.6vw,100px);cursor:pointer;flex-shrink:0;filter:drop-shadow(0 14px 24px rgba(0,0,0,.3));perspective:900px;}
+.hlogo-cell-inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.22,1,.36,1);}
+.hlogo-cell.flipped .hlogo-cell-inner{transform:rotateY(180deg);}
+.hlogo-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:10px;border:1px solid var(--line3);overflow:hidden;display:flex;flex-direction:column;}
+.hlogo-front{transform:rotateY(0deg);background:linear-gradient(160deg,rgba(16,23,42,.94),rgba(3,6,14,.98));padding:6px 7px;justify-content:space-between;}
 .hlogo-front::before{content:'';position:absolute;inset:0;opacity:.65;background:radial-gradient(circle at 30% 20%,var(--cell-glow),transparent 65%);pointer-events:none;}
 .hlogo-mass-row{display:flex;justify-content:flex-end;font-family:var(--mono);font-size:clamp(7px,1vw,9px);color:var(--faint);position:relative;z-index:1;}
 .hlogo-num-row{display:flex;justify-content:flex-start;margin-top:auto;font-family:var(--mono);font-size:clamp(7px,1vw,9px);color:var(--faint);position:relative;z-index:1;}
 .hlogo-sym{flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:clamp(1.35rem,3.4vw,1.85rem);color:var(--paper);position:relative;z-index:1;text-shadow:0 0 18px var(--cell-glow);}
 .hlogo-back{transform:rotateY(180deg);background:radial-gradient(circle,rgba(16,23,42,.98),rgba(3,6,14,.99));align-items:center;justify-content:center;}
-.hlogo-orbit-svg{width:84%;height:84%;}
+.hlogo-orbit-svg{width:88%;height:88%;overflow:visible;}
 
 .hlogo-cell[data-el="cr"], .hlogo-cell[data-el="es"], .hlogo-cell[data-el="co"]{--cell-glow:rgba(94,224,255,.5);}
 .llt-line{font-family:var(--disp);font-weight:700;font-size:clamp(1.1rem,2.6vw,1.55rem);color:rgba(238,242,251,.58);white-space:nowrap;letter-spacing:-.015em;text-shadow:0 4px 18px rgba(0,0,0,.4);}
@@ -1614,22 +1615,28 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
           <div class="logo-lockup" id="heroLogoStack">
             <div class="hlr-row" data-el="cr">
               <div class="hlogo-cell" data-el="cr" tabindex="0" role="button" aria-label="Cr — CReate. Tap to view electron shells.">
-                <div class="hlogo-face hlogo-front"><div class="hlogo-mass-row">51.9</div><div class="hlogo-sym">Cr</div><div class="hlogo-num-row">24</div></div>
-                <div class="hlogo-face hlogo-back"><svg viewBox="0 0 120 120" class="hlogo-orbit-svg" data-shells="2,8,13,1" data-color="#5ee0ff"></svg></div>
+                <div class="hlogo-cell-inner">
+                  <div class="hlogo-face hlogo-front"><div class="hlogo-mass-row">51.9</div><div class="hlogo-sym">Cr</div><div class="hlogo-num-row">24</div></div>
+                  <div class="hlogo-face hlogo-back"><svg viewBox="0 0 120 120" class="hlogo-orbit-svg" data-shells="2,8,13,1" data-color="#5ee0ff"></svg></div>
+                </div>
               </div>
               <div class="llt-line"><b>CR</b>eate</div>
             </div>
             <div class="hlr-row" data-el="es">
               <div class="hlogo-cell" data-el="es" tabindex="0" role="button" aria-label="Es — EStablish. Tap to view electron shells.">
-                <div class="hlogo-face hlogo-front"><div class="hlogo-mass-row">252</div><div class="hlogo-sym">Es</div><div class="hlogo-num-row">99</div></div>
-                <div class="hlogo-face hlogo-back"><svg viewBox="0 0 120 120" class="hlogo-orbit-svg" data-shells="2,8,18,32,25,8,2" data-color="#5ee0ff"></svg></div>
+                <div class="hlogo-cell-inner">
+                  <div class="hlogo-face hlogo-front"><div class="hlogo-mass-row">252</div><div class="hlogo-sym">Es</div><div class="hlogo-num-row">99</div></div>
+                  <div class="hlogo-face hlogo-back"><svg viewBox="0 0 120 120" class="hlogo-orbit-svg" data-shells="2,8,18,32,25,8,2" data-color="#5ee0ff"></svg></div>
+                </div>
               </div>
               <div class="llt-line"><b>ES</b>tablish</div>
             </div>
             <div class="hlr-row" data-el="co">
               <div class="hlogo-cell" data-el="co" tabindex="0" role="button" aria-label="Co — COmpete. Tap to view electron shells.">
-                <div class="hlogo-face hlogo-front"><div class="hlogo-mass-row">58.9</div><div class="hlogo-sym">Co</div><div class="hlogo-num-row">27</div></div>
-                <div class="hlogo-face hlogo-back"><svg viewBox="0 0 120 120" class="hlogo-orbit-svg" data-shells="2,8,15,2" data-color="#5ee0ff"></svg></div>
+                <div class="hlogo-cell-inner">
+                  <div class="hlogo-face hlogo-front"><div class="hlogo-mass-row">58.9</div><div class="hlogo-sym">Co</div><div class="hlogo-num-row">27</div></div>
+                  <div class="hlogo-face hlogo-back"><svg viewBox="0 0 120 120" class="hlogo-orbit-svg" data-shells="2,8,15,2" data-color="#5ee0ff"></svg></div>
+                </div>
               </div>
               <div class="llt-line"><b>CO</b>mpete</div>
             </div>
@@ -1684,7 +1691,6 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
         <div class="sig-panel" data-verb="create" data-mono="Cr">
           <div class="sig-panel-no">01</div>
           <div class="sig-orbit" aria-hidden="true"><svg viewBox="0 0 220 220"></svg></div>
-          <span class="sig-idx">TX&middot;01</span>
           <h3 class="sig-word"><b>CR</b>eate</h3>
           <p class="sig-desc">CrescoScientiam began as a single-day science meet at DPS Megacity — one idea, one campus, one afternoon.</p>
           <div class="sig-meter" data-value="1"><i></i><i></i><i></i><i></i><i></i></div>
@@ -1693,7 +1699,6 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
         <div class="sig-panel" data-verb="establish" data-mono="Es">
           <div class="sig-panel-no">02</div>
           <div class="sig-orbit" aria-hidden="true"><svg viewBox="0 0 220 220"></svg></div>
-          <span class="sig-idx">TX&middot;02</span>
           <h3 class="sig-word"><b>ES</b>tablish</h3>
           <p class="sig-desc">What started small now spans three theme-worlds and sixteen events — from chess to genetic engineering.</p>
           <div class="sig-meter" data-value="3"><i></i><i></i><i></i><i></i><i></i></div>
@@ -1702,7 +1707,6 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
         <div class="sig-panel" data-verb="compete" data-mono="Co">
           <div class="sig-panel-no">03</div>
           <div class="sig-orbit" aria-hidden="true"><svg viewBox="0 0 220 220"></svg></div>
-          <span class="sig-idx">TX&middot;03</span>
           <h3 class="sig-word"><b>CO</b>mpete</h3>
           <p class="sig-desc">Five editions strong and counting — students returning each year to defend what they won the year before.</p>
           <div class="sig-meter" data-value="5"><i></i><i></i><i></i><i></i><i></i></div>
