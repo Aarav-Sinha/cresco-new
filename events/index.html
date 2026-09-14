@@ -1282,7 +1282,14 @@ const modalClose = document.getElementById('modalClose');
 function openModal(ev) {
   document.getElementById('modalHero').style.backgroundImage = `url('${ev.box}')`;
   document.getElementById('modalIcon').innerHTML = `<img src="${ev.logo}" alt="${ev.title} logo" onerror="this.style.display='none'">`;
-  document.getElementById('modalTag').innerText = `WORLD — ${ev.world.toUpperCase()}`;
+  const worldNames = {
+  myth: "Mythology",
+  cosmos: "Cosmos",
+  eco: "Environment"
+};
+
+document.getElementById('modalTag').innerText =
+  `WORLD — ${worldNames[ev.world] || ev.world}`;
   document.getElementById('modalTitle').innerText = ev.title;
   document.getElementById('modalSub').innerText = ev.sub || '';
   document.getElementById('modalTeam').innerText = ev.team;
