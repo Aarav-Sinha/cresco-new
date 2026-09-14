@@ -973,8 +973,9 @@
 
       height: auto;
 
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto auto;
 
       border-radius: 22px;
 
@@ -1079,6 +1080,7 @@
     .box-photo-wrap {
       position: relative;
       width: 100%;
+      grid-row: 2;
 
       aspect-ratio: 16 / 9;
       height: auto;
@@ -1145,48 +1147,59 @@
        CARD TOP ROLE
     ========================================================= */
 
+    /* =========================================================
+       CARD TITLE — ABOVE IMAGE
+       The event/role name is now a dedicated grid item above
+       the photograph, never overlaid on the photograph.
+       ========================================================= */
+
     .post-box-title {
-      position: absolute;
+      position: relative;
+      order: 0;
+      grid-row: 1;
+      width: 100%;
 
-      top: 15px;
-      left: 15px;
+      padding: 15px 16px 12px;
 
-      z-index: 5;
+      font-family: var(--disp);
+      font-size: clamp(.82rem, 1.25vw, 1rem);
+      font-weight: 700;
+      line-height: 1.25;
 
-      max-width: calc(100% - 30px);
+      letter-spacing: .01em;
+      text-transform: none;
+      text-align: center;
 
-      padding: 7px 11px;
-
-      border-radius: 9px;
-
-      font-family: var(--mono);
-
-      font-size: 9px;
-      font-weight: 600;
-
-      letter-spacing: .14em;
-
-      text-transform: uppercase;
-
-      color: var(--electric);
+      color: var(--paper);
 
       background:
-        rgba(3,8,22,.74);
+        linear-gradient(
+          180deg,
+          rgba(13,23,52,.78),
+          rgba(7,13,31,.92)
+        );
 
-      border: 1px solid
-        rgba(94,224,255,.22);
-
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-
-      box-shadow:
-        0 8px 20px rgba(0,0,0,.25);
+      border-bottom: 1px solid var(--line2);
 
       white-space: nowrap;
-
       overflow: hidden;
-
       text-overflow: ellipsis;
+
+      text-shadow: 0 2px 14px rgba(0,0,0,.55);
+
+      transition:
+        color .3s ease,
+        background .3s ease;
+    }
+
+    .post-box:hover .post-box-title {
+      color: var(--electric);
+      background:
+        linear-gradient(
+          180deg,
+          rgba(16,30,68,.88),
+          rgba(7,13,31,.94)
+        );
     }
 
 
@@ -1196,6 +1209,7 @@
 
     .box-names-container {
       position: relative;
+      grid-row: 3;
 
       left: auto;
       right: auto;
@@ -1282,7 +1296,7 @@
       position: absolute;
 
       right: 14px;
-      bottom: 58px;
+      bottom: 14px;
 
       z-index: 7;
 
@@ -1792,7 +1806,7 @@
       }
 
       .post-box {
-        height: 325px;
+        height: auto;
       }
     }
 
@@ -1803,7 +1817,7 @@
       }
 
       .post-box {
-        height: 310px;
+        height: auto;
       }
 
       .name-badge {
@@ -1870,7 +1884,7 @@
     }
 
     .card-open {
-      bottom: 52px;
+      bottom: 12px;
     }
   }
 
@@ -2646,42 +2660,42 @@
           {
             title: "Core Committee",
             names: ["Sanjita Kundu"],
-            img: "sanjita.jpg",
+            img: "team/teamPhoto/sanjita.jpg",
             description: ""
           },
 
           {
             title: "Core Committee",
             names: ["Anushka Dey"],
-            img: "anushka.jpg",
+            img: "team/teamPhoto/anushka.jpg",
             description: ""
           },
 
           {
             title: "Core Committee",
             names: ["Animita Mukherjee"],
-            img: "animita.jpg",
+            img: "team/teamPhoto/animita.jpg",
             description: ""
           },
 
           {
             title: "Core Committee",
             names: ["Shreyash Saha"],
-            img: "shreyash.jpg",
+            img: "team/teamPhoto/shreyash.jpg",
             description: ""
           },
 
           {
             title: "Core Committee",
             names: ["Priyanshu Sarkar"],
-            img: "priyanshu.jpg",
+            img: "team/teamPhoto/priyanshu.jpg",
             description: ""
           },
 
           {
             title: "Core Committee",
             names: ["Yashika Agarwalla"],
-            img: "yashika.jpg",
+            img: "team/teamPhoto/yashika.jpg",
             description: ""
           }
 
@@ -2704,17 +2718,17 @@
               "Ushika Karmakar",
               "Debomita Biswas"
             ],
-            img: "mayavi_mandala.jpg",
+            img: "team/teamPhoto/mayavi_mandala.jpg",
             description: ""
           },
 
           {
             title: "Chitrakatha",
             names: [
-              "Anahita Srivastava",
-              "Sushmita Jha"
+              "Sushmita Jha",
+              "Anahita Srivastava"
             ],
-            img: "chitrakatha.jpg",
+            img: "team/teamPhoto/chitrakatha.jpg",
             description: ""
           },
 
@@ -2724,7 +2738,7 @@
               "Prisha Arora",
               "Shreenika Kundu"
             ],
-            img: "dharmasangram.jpg",
+            img: "team/teamPhoto/dharmasangram.jpg",
             description: ""
           },
 
@@ -2734,7 +2748,7 @@
               "Spriha Das",
               "Arya Banerjee"
             ],
-            img: "swaranjali.jpg",
+            img: "team/teamPhoto/swaranjali.jpg",
             description: ""
           },
 
@@ -2743,7 +2757,7 @@
             names: [
               "Aryan Sircar"
             ],
-            img: "lakshya_pathik.jpg",
+            img: "team/teamPhoto/lakshya_pathik.jpg",
             description: ""
           },
 
@@ -2753,17 +2767,17 @@
               "Shaurya Kishore",
               "Alankrita Upadhyay"
             ],
-            img: "chromatica.jpg",
+            img: "team/teamPhoto/chromatica.jpg",
             description: ""
           },
 
           {
             title: "Corpus Vestigium",
             names: [
-              "Aashna Goyal",
-              "Vanshika Paul"
+              "Vanshika Paul",
+              "Aashna Goyal"
             ],
-            img: "corpus_vestigium.jpg",
+            img: "team/teamPhoto/corpus_vestigium.jpg",
             description: ""
           },
 
@@ -2773,7 +2787,7 @@
               "Anshuman Sikaria",
               "Anaya Afaaf"
             ],
-            img: "pi_infinitium.jpg",
+            img: "team/teamPhoto/pi_infinitium.jpg",
             description: ""
           },
 
@@ -2783,7 +2797,7 @@
               "Vidhi Bhalotia",
               "Sneha Panda"
             ],
-            img: "vox_futura.jpg",
+            img: "team/teamPhoto/vox_futura.jpg",
             description: ""
           },
 
@@ -2793,7 +2807,7 @@
               "Yuvraj Chowdhury",
               "Souhardha Kar"
             ],
-            img: "astra_syntax.jpg",
+            img: "team/teamPhoto/astra_syntax.jpg",
             description: ""
           },
 
@@ -2802,7 +2816,7 @@
             names: [
               "Atri Pradhan"
             ],
-            img: "sylva_machina.jpg",
+            img: "team/teamPhoto/sylva_machina.jpg",
             description: ""
           },
 
@@ -2812,7 +2826,7 @@
               "Riddhima Bhowmik",
               "Adwitiyaa Chandra"
             ],
-            img: "clamor_naturae.jpg",
+            img: "team/teamPhoto/clamor_naturae.jpg",
             description: ""
           },
 
@@ -2822,7 +2836,7 @@
               "Uddalak Nandan",
               "Attri Roy"
             ],
-            img: "terra_cognitio.jpg",
+            img: "team/teamPhoto/terra_cognitio.jpg",
             description: ""
           },
 
@@ -2832,7 +2846,7 @@
               "Maisha Jalota",
               "Meher Bhurji"
             ],
-            img: "genesis_nova.jpg",
+            img: "team/teamPhoto/genesis_nova.jpg",
             description: ""
           },
 
@@ -2842,7 +2856,7 @@
               "Adrija Ray",
               "Ishaan Mukherjee"
             ],
-            img: "ventus_lapidum.jpg",
+            img: "team/teamPhoto/ventus_lapidum.jpg",
             description: ""
           },
 
@@ -2851,7 +2865,7 @@
             names: [
               "Mansi Agarwal"
             ],
-            img: "aurora_interface.jpg",
+            img: "team/teamPhoto/aurora_interface.jpg",
             description: ""
           }
 
@@ -2870,7 +2884,7 @@
           {
             title: "IT Head",
             names: ["Aarav Sinha"],
-            img: "it.jpg",
+            img: "team/teamPhoto/it.jpg",
             description: ""
           },
 
@@ -2880,7 +2894,7 @@
               "Subhayan Das",
               "Shrinanda Nandi"
             ],
-            img: "logistics.jpg",
+            img: "team/teamPhoto/logistics.jpg",
             description: ""
           },
 
@@ -2889,7 +2903,7 @@
             names: [
               "Zoya Agasti"
             ],
-            img: "correspondence.jpg",
+            img: "team/teamPhoto/correspondence.jpg",
             description: ""
           },
 
@@ -2898,7 +2912,7 @@
             names: [
               "Hrishab Naskar"
             ],
-            img: "decoration.jpg",
+            img: "team/teamPhoto/decoration.jpg",
             description: ""
           },
 
@@ -2907,7 +2921,7 @@
             names: [
               "Kimaya Bhagtani"
             ],
-            img: "hospitality.jpg",
+            img: "team/teamPhoto/hospitality.jpg",
             description: ""
           },
 
@@ -2917,7 +2931,7 @@
               "Hridhan Singh",
               "Pratirup Ghosh"
             ],
-            img: "social_media.jpg",
+            img: "team/teamPhoto/social_media.jpg",
             description: ""
           },
 
@@ -2926,7 +2940,7 @@
             names: [
               "Sushrut Banerjee"
             ],
-            img: "event_admin.jpg",
+            img: "team/teamPhoto/event_admin.jpg",
             description: ""
           }
 
@@ -2945,14 +2959,14 @@
           {
             title: "Teacher In-Charge",
             names: ["Rajarshi Dasgupta"],
-            img: "rajarshi.jpg",
+            img: "team/teamPhoto/rajarshi.jpg",
             description: ""
           },
 
           {
             title: "Teacher In-Charge",
             names: ["Sanchita Nandy"],
-            img: "sanchita.jpg",
+            img: "team/teamPhoto/sanchita.jpg",
             description: ""
           }
 
