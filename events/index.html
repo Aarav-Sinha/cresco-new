@@ -503,20 +503,99 @@ a{color:inherit;text-decoration:none;} img{max-width:100%;display:block;} ul,ol{
   color:var(--paper);
   transform:none;
 }
-/* ---------- Event Video (only shows if a video file is actually present) ---------- */
+/* ---------- Event Video: portrait 9:16 frame ---------- */
 .modal-video-wrap{
-  border-radius: 14px;
+  width: min(100%, 360px);
+  aspect-ratio: 9 / 16;
+  margin: 0 auto;
+  position: relative;
   overflow: hidden;
-  border: 1px solid var(--line2);
+  border: 1px solid rgba(94,224,255,.28);
+  border-radius: 16px;
   background: #000;
-  box-shadow: 0 18px 40px -20px rgba(0,0,0,.7);
+  box-shadow:
+    0 0 0 1px rgba(94,224,255,.04),
+    0 22px 55px rgba(0,0,0,.5),
+    0 0 42px rgba(94,224,255,.06);
+}
+.modal-video-wrap::before{
+  content:"";
+  position:absolute;
+  inset:10px;
+  z-index:2;
+  pointer-events:none;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;
+}
+.modal-video-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(94,224,255,.18) 1px,transparent 1px) 0 0/18px 18px,
+    linear-gradient(rgba(94,224,255,.18) 1px,transparent 1px) 0 0/18px 18px;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.2),transparent 22%,transparent 78%,rgba(0,0,0,.2));
+  opacity:.08;
 }
 .modal-video{
   width: 100%;
-  max-height: 380px;
+  height: 100%;
   display: block;
+  object-fit: contain;
   background: #000;
   outline: none;
+}
+.modal-video-wrap .video-frame-corner{
+  position:absolute;
+  z-index:5;
+  width:18px;
+  height:18px;
+  pointer-events:none;
+}
+.modal-video-wrap .video-frame-corner.tl{top:8px;left:8px;border-top:1px solid var(--electric);border-left:1px solid var(--electric);}
+.modal-video-wrap .video-frame-corner.tr{top:8px;right:8px;border-top:1px solid var(--electric);border-right:1px solid var(--electric);}
+.modal-video-wrap .video-frame-corner.bl{bottom:8px;left:8px;border-bottom:1px solid var(--electric);border-left:1px solid var(--electric);}
+.modal-video-wrap .video-frame-corner.br{bottom:8px;right:8px;border-bottom:1px solid var(--electric);border-right:1px solid var(--electric);}
+.modal-video-play{
+  position:absolute;
+  z-index:6;
+  left:50%;
+  top:50%;
+  width:68px;
+  height:68px;
+  transform:translate(-50%,-50%);
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.32);
+  border-radius:50%;
+  background:rgba(3,8,22,.55);
+  color:#fff;
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:transform .3s,background .3s,border-color .3s,opacity .3s;
+}
+.modal-video-play::before{
+  content:"";
+  position:absolute;
+  inset:-9px;
+  border:1px solid rgba(94,224,255,.2);
+  border-radius:50%;
+  animation:videoPlayPulse 2s ease-out infinite;
+}
+.modal-video-play:hover{
+  transform:translate(-50%,-50%) scale(1.08);
+  background:rgba(94,224,255,.12);
+  border-color:var(--electric);
+}
+.modal-video-play span{margin-left:4px;font-size:16px;}
+.modal-video-wrap.is-playing .modal-video-play{opacity:0;pointer-events:none;}
+.modal-video-wrap.is-playing:hover .modal-video-play{opacity:.72;}
+@keyframes videoPlayPulse{0%{transform:scale(.85);opacity:.7;}100%{transform:scale(1.25);opacity:0;}}
+@media(max-width:560px){
+  .modal-video-wrap{width:min(100%,320px);}
 }
 .modal-heads{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
 .modal-head-pill{font-family:var(--mono);font-size:10.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line2);color:var(--dim);}
@@ -686,8 +765,13 @@ footer{border-top:1px solid var(--line);padding:80px 0 30px;position:relative;z-
       <div class="modal-section"><h4>Rules &amp; Regulations</h4><ol class="modal-rules" id="modalRules"></ol></div>
       <div class="modal-section" id="modalVideoSection" style="display:none;">
         <h4>Event Video</h4>
-        <div class="modal-video-wrap">
-          <video class="modal-video" id="modalVideo" controls playsinline preload="metadata"></video>
+        <div class="modal-video-wrap" id="modalVideoWrap">
+          <span class="video-frame-corner tl"></span>
+          <span class="video-frame-corner tr"></span>
+          <span class="video-frame-corner bl"></span>
+          <span class="video-frame-corner br"></span>
+          <video class="modal-video" id="modalVideo" playsinline preload="metadata" controls></video>
+          <button class="modal-video-play" id="modalVideoPlay" type="button" aria-label="Play event video"><span>▶</span></button>
         </div>
       </div>
     </div>
@@ -891,7 +975,7 @@ const DEFAULT_CONTENT = {
         "The event is open to students of Classes IX–XII.",
         "Each school may register one team comprising two participants.",
         "The event will consist of two rounds.",
-        "Each team can avail of upto three hints during the event. Additional hints may be taken at the cost of a score penalty.",
+        "Each team can avail of upto three hints and each hint will cause a 5 minute deduction in time and may also affect the final score.",
         "All teams will compete in the first round. The first five teams to solve the case and submit their investigative report within the allotted time will qualify for the final round.",
         "In the final round, the first three teams to solve the case and submit their case files will secure the podium positions.",
         "Participants are expected to possess basic knowledge of forensic science. A demonstration of the required experimental procedures will be conducted before the event, and all necessary equipment will be provided by the organisers.",
@@ -1316,14 +1400,17 @@ document.getElementById('modalTag').innerText =
     `;
   }).join('');
 
-  /* ---- Event Video: only shown if the file actually exists in the deployment ---- */
+  /* ---- Event Video: portrait frame only ---- */
   const videoSection = document.getElementById('modalVideoSection');
   const videoEl = document.getElementById('modalVideo');
+  const videoWrap = document.getElementById('modalVideoWrap');
+  const videoPlay = document.getElementById('modalVideoPlay');
   const videoSrc = ev.video || `event-videos/${ev.slug}.mp4`;
 
   videoEl.pause();
   videoEl.removeAttribute('src');
   videoEl.load();
+  videoWrap.classList.remove('is-playing');
   videoSection.style.display = 'none';
 
   videoEl.onloadedmetadata = () => {
@@ -1331,6 +1418,24 @@ document.getElementById('modalTag').innerText =
   };
   videoEl.onerror = () => {
     videoSection.style.display = 'none';
+  };
+
+  videoEl.onplay = () => {
+    videoWrap.classList.add('is-playing');
+  };
+  videoEl.onpause = () => {
+    videoWrap.classList.remove('is-playing');
+  };
+  videoEl.onended = () => {
+    videoWrap.classList.remove('is-playing');
+  };
+
+  videoPlay.onclick = () => {
+    if (videoEl.paused) {
+      videoEl.play().catch(() => {});
+    } else {
+      videoEl.pause();
+    }
   };
 
   videoEl.src = videoSrc;
@@ -1342,9 +1447,11 @@ document.getElementById('modalTag').innerText =
 
 function closeModal() {
   const videoEl = document.getElementById('modalVideo');
+  const videoWrap = document.getElementById('modalVideoWrap');
   videoEl.pause();
   videoEl.removeAttribute('src');
   videoEl.load();
+  videoWrap.classList.remove('is-playing');
   modal.classList.remove('open');
   document.body.style.overflow = '';
 }

@@ -1142,16 +1142,11 @@
       color: var(--faint);
     }
 
-
-    /* =========================================================
-       CARD TOP ROLE
-    ========================================================= */
-
     /* =========================================================
        CARD TITLE — ABOVE IMAGE
-       The event/role name is now a dedicated grid item above
+       The event/role name is a dedicated grid item above
        the photograph, never overlaid on the photograph.
-       ========================================================= */
+    ========================================================= */
 
     .post-box-title {
       position: relative;
@@ -1385,7 +1380,7 @@
 
 
     /* =========================================================
-       MODAL
+       MODAL  (updated: long descriptions, scrolling, uncropped photo)
     ========================================================= */
 
     .profile-modal {
@@ -1420,19 +1415,20 @@
       visibility: visible;
     }
 
+    /* Fixed-height card: the photo stays whole, the text column scrolls. */
     .modal-card {
       position: relative;
 
-      width: min(940px, 100%);
-
-      max-height:
-        min(760px, 90vh);
+      width: min(980px, 100%);
+      height: min(720px, 88vh);
 
       display: grid;
 
       grid-template-columns:
         minmax(280px, 42%)
-        1fr;
+        minmax(0, 1fr);
+
+      grid-template-rows: minmax(0, 1fr);
 
       overflow: hidden;
 
@@ -1467,41 +1463,90 @@
         scale(1);
     }
 
+    /* ---------- PHOTO PANEL ---------- */
+
     .modal-image-area {
       position: relative;
 
-      min-height: 430px;
+      min-height: 0;
+      height: 100%;
 
       overflow: hidden;
+
+      background: #050b1d;
+
+      border-right: 1px solid var(--line2);
     }
 
+    /* Soft blurred copy of the same photo fills any empty space,
+       so a full uncropped photo never sits on flat black bars. */
+    .modal-image-area::before {
+      content: '';
+
+      position: absolute;
+      inset: -40px;
+
+      background-image: var(--photo);
+      background-size: cover;
+      background-position: center;
+
+      filter:
+        blur(30px)
+        saturate(1.25)
+        brightness(.45);
+
+      transform: scale(1.1);
+    }
+
+    /* Edge blend into the text panel */
     .modal-image-area::after {
       content: '';
 
       position: absolute;
       inset: 0;
 
+      z-index: 2;
+      pointer-events: none;
+
       background:
         linear-gradient(
           90deg,
-          transparent 45%,
-          rgba(4,8,20,.65) 100%
+          transparent 70%,
+          rgba(4,8,20,.55) 100%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(4,8,20,.25),
+          transparent 22%,
+          transparent 78%,
+          rgba(4,8,20,.35)
         );
     }
 
     .modal-image {
+      position: relative;
+      z-index: 1;
+
       width: 100%;
       height: 100%;
 
-      object-fit: cover;
-      object-position: center top;
+      padding: 20px;
+
+      /* Whole photo is always visible — nothing is cropped */
+      object-fit: contain;
+      object-position: center;
+
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.55));
     }
 
     .modal-image-fallback {
+      position: relative;
+      z-index: 1;
+
       width: 100%;
       height: 100%;
 
-      min-height: 430px;
+      min-height: 0;
 
       display: flex;
       align-items: center;
@@ -1522,15 +1567,31 @@
       color: var(--faint);
     }
 
+    /* ---------- TEXT PANEL ---------- */
+
     .modal-content {
+      position: relative;
+
+      min-height: 0;
+
       padding:
-        clamp(30px,5vw,55px);
+        clamp(30px, 4.4vw, 50px)
+        clamp(24px, 3.6vw, 42px)
+        0;
 
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
 
-      overflow-y: auto;
+      /* Header stays pinned; only the description scrolls */
+      overflow: hidden;
+    }
+
+    .modal-label,
+    .modal-title,
+    .modal-names,
+    .modal-rule {
+      flex-shrink: 0;
     }
 
     .modal-label {
@@ -1551,7 +1612,7 @@
       font-family: var(--disp);
 
       font-size:
-        clamp(1.9rem,4vw,3rem);
+        clamp(1.7rem, 3.2vw, 2.55rem);
 
       line-height: 1.1;
 
@@ -1559,7 +1620,7 @@
 
       letter-spacing: -.03em;
 
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .modal-names {
@@ -1569,7 +1630,7 @@
 
       gap: 7px;
 
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
 
     .modal-name {
@@ -1601,17 +1662,78 @@
           transparent
         );
 
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
+    /* ---------- DESCRIPTION (scrollable, multi-paragraph) ---------- */
+
     .modal-description {
+      flex: 1 1 auto;
+      min-height: 0;
+
+      max-width: none;
+
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+
+      padding: 0 16px 44px 0;
+
       color: var(--dim);
 
       font-size: .98rem;
 
       line-height: 1.8;
 
-      max-width: 550px;
+      scrollbar-width: thin;
+      scrollbar-color:
+        rgba(94,224,255,.32)
+        transparent;
+
+      /* Soft fade at the bottom hints that there is more to read */
+      -webkit-mask-image:
+        linear-gradient(
+          180deg,
+          #000 calc(100% - 40px),
+          transparent
+        );
+
+      mask-image:
+        linear-gradient(
+          180deg,
+          #000 calc(100% - 40px),
+          transparent
+        );
+    }
+
+    .modal-description p {
+      margin: 0 0 1.2em;
+    }
+
+    .modal-description p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Opening paragraph reads slightly brighter as a lead-in */
+    .modal-description p:first-child {
+      color: rgba(238,242,251,.86);
+    }
+
+    .modal-description::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .modal-description::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .modal-description::-webkit-scrollbar-thumb {
+      background: rgba(94,224,255,.28);
+      border-radius: 10px;
+    }
+
+    .modal-description::-webkit-scrollbar-thumb:hover {
+      background: rgba(94,224,255,.55);
     }
 
     .modal-description.empty::before {
@@ -1672,6 +1794,8 @@
       width: 80px;
       height: 80px;
 
+      z-index: 6;
+
       pointer-events: none;
 
       opacity: .5;
@@ -1707,31 +1831,49 @@
       left: 0;
     }
 
+    /* ---------- MODAL — MOBILE ---------- */
+
     @media (max-width:760px) {
 
       .profile-modal {
         padding: 14px;
       }
 
+      /* On phones the whole card scrolls; photo stays uncropped */
       .modal-card {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
 
+        height: auto;
         max-height: 94vh;
 
         overflow-y: auto;
+        overscroll-behavior: contain;
       }
 
       .modal-image-area {
-        height: 310px;
-        min-height: 310px;
+        height: min(56vh, 420px);
+        min-height: 260px;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--line2);
       }
 
       .modal-image-fallback {
-        min-height: 310px;
+        min-height: 260px;
       }
 
       .modal-content {
-        padding: 28px 24px 34px;
+        overflow: visible;
+        padding: 26px 22px 34px;
+      }
+
+      .modal-description {
+        overflow: visible;
+        padding: 0;
+
+        -webkit-mask-image: none;
+        mask-image: none;
       }
     }
 
@@ -2391,10 +2533,12 @@
 
         <div class="modal-rule"></div>
 
-        <p
+        <!-- div (not p) so it can hold multiple <p> paragraphs -->
+        <div
           class="modal-description"
           id="modalDescription"
-        ></p>
+          tabindex="0"
+        ></div>
 
       </div>
 
@@ -2643,6 +2787,15 @@
 
   <!-- =======================================================
        TEAM DATA + RENDERING
+
+       DESCRIPTIONS: use backticks and leave a BLANK LINE between
+       paragraphs, e.g.
+
+         description: `First paragraph.
+
+         Second paragraph.
+
+         Third paragraph.`
   ======================================================== -->
 
   <script>
@@ -2658,45 +2811,45 @@
         boxes: [
 
           {
-            title: "Core Committee",
-            names: ["Sanjita Kundu"],
-            img: "team/teamPhoto/sanjita.jpg",
-            description: ""
-          },
-
-          {
-            title: "Core Committee",
-            names: ["Anushka Dey"],
-            img: "team/teamPhoto/anushka.jpg",
-            description: ""
-          },
-
-          {
-            title: "Core Committee",
-            names: ["Animita Mukherjee"],
-            img: "team/teamPhoto/animita.jpg",
-            description: ""
-          },
-
-          {
-            title: "Core Committee",
+            title: "President",
             names: ["Shreyash Saha"],
             img: "team/teamPhoto/shreyash.jpg",
             description: ""
           },
 
           {
-            title: "Core Committee",
-            names: ["Priyanshu Sarkar"],
-            img: "team/teamPhoto/priyanshu.jpg",
+            title: "Vice President",
+            names: ["Animita Mukherjee"],
+            img: "team/teamPhoto/animita.jpg",
+            description: `Meet Animita, a girl equally comfortable expressing herself through classical dance and pages of poetry (and yes, there’s enough of it to publish a small library). When she’s not writing, reading, or sketching, she’s exploring tech, obsessing over cars, fighter jets, and action movies, or standing on somebody’s head (on Roblox). A JEE aspirant by day and music enthusiast by night, her playlists go from Lana Del Rey and Indian classical to Western classical and rock bands like Fossils and Aftermath, because apparently, one genre wasn’t enough. A perfectionist powered by chaos, she’s determined to have everything figured out while having absolutely no idea what’s happening. \n Introducing Animita Mukherjee, because if anyone can handle the worst cases, serve "looks like could kill you, would kill you" and still crave tiramisu mid-crisis, it’s her.`
+          },
+
+          {
+            title: "Supervising Director",
+            names: ["Sanjita Kundu"],
+            img: "team/teamPhoto/sanjita.jpg",
             description: ""
           },
 
           {
-            title: "Core Committee",
+            title: "Director",
+            names: ["Anushka Dey"],
+            img: "team/teamPhoto/anushka.jpg",
+            description: "Anushka is an energetic and passionate person who enjoys taking on new challenges and making the most of every opportunity. She is confident in expressing her ideas and naturally connects with people around her. Her spontaneous and sociable nature helps her adapt easily to new situations. She takes her responsibilities seriously and remains persistent when pursuing something she truly cares about. She is also empathetic and considerate, making her someone who values both her goals and the people around her."
+          },
+
+          {
+            title: "Secretary",
+            names: ["Priyanshu Sarkar"],
+            img: "team/teamPhoto/priyanshu.jpg",
+            description: "Meet Priyanshu Sarkar – core member and orchestrator of this year’s Scientiam. He is not only your go-to solution for every tech problem but also a true innovator at heart. His passion for science is relentless, just like his rank-push sessions. If he is not busy writing some code for his upcoming project, you will probably find him grinding his Elo on chess (although it never reached four digits). His metaphysical knowledge and gentleness make him instantly likeable, but do not let his nice face and curly hair fool you; once he switches to his alter ego, it’s probably over for you. He spends half of his day contemplating his muscle hypertrophy and the rest ruminating about his neuroplasticity. Unfortunately, his relationships are a hit-and-miss, unlike his aim with an assault rifle. Ultimately, his irrepressible curiosity, coupled with his unparalleled pursuit of science and an amiable nature, brings to the table a unique cocktail of ambition, academia and dedication that strives towards nothing but progress and perfection."
+          },
+
+          {
+            title: "PR Officer",
             names: ["Yashika Agarwalla"],
             img: "team/teamPhoto/yashika.jpg",
-            description: ""
+            description: `Meet Yashika, who might seem rude at first, but is actually one of the sweetest people you’ll meet here. She tries to be good at everything, from public speaking and acing every sport (especially basketball) to being an academic weapon, while claiming she didn’t study the night before exams, though eleventh grade is making her suffer HARD. Outside fests, you’ll find her listening to house music on her performative wired earphones or living by her motto, “do it for the plot,” with a bottle of Mogu Mogu in hand. She’s also a terrible texter, so if she hasn’t replied, assume she’s busy living her best life. As Haley Dunphy says, “I’m not saying I’m perfect, but I’m pretty close.” Yashika is definitely going to make Cresco your favourite memory.`
           }
 
         ]
@@ -2719,18 +2872,18 @@
               "Debomita Biswas"
             ],
             img: "team/teamPhoto/mayavi_mandala.jpg",
-            description: ""
+            description: "Meet Aapluta Kar, event head of Mayavi Mandala. Besides being a motivated and responsible individual, Aapluta has a keen interest in literature and creative projects. She aspires to become a confident and well-rounded individual who embraces every opportunity to learn, grow, and explore new possibilities. She also has a great passion for watching anime and reading manga, particularly Blue Lock, Jujutsu Kaisen, Demon Slayer, Haikyuu!!, and Attack on Titan, which she enjoys in her free time. Apart from this, she is a violinist with a deep appreciation for music and a keen sense of musical taste. \n \n Ushika is easily one of the most creative people you’ll ever meet. Naturally gifted at art, even her notebooks aren’t safe from her random doodles. Her creativity gets an additional boost when she listens to The Neighbourhood, which apparently helps her get into the zone. \n Apart from being “pocket-sized,” she strongly believes she can win just about any F1 bet because, of course, Antonelli would win. The logic is impeccable and the confidence is unmatched. \n A caffeine addict with a desperate need for a cat, she’s also a massive Bungo Stray Dogs fan who firmly believes Soukoku is the best duo (and she’s right). \n Between music, fiction, and caffeine, Ushika somehow manages to keep the chaos going. \n \n Meet Debomita, an 11th grader surviving the JEE grind while somehow being the event head for a pixel art competition. Basically, I’m balancing academics, responsibilities, and my questionable sleep schedule like it’s a full-time job. I’m a certified Taylor Swift addict, so naturally, I have a song for every minor inconvenience and major life crisis. Personality-wise, I’m literally Monica from Friends—competitive, organised, lowkey controlling, and absolutely obsessed with getting things done RIGHT. I love being creative, taking charge, and pretending I have my life together. JEE + events + Taylor Swift = my current character arc. "
           },
 
           {
             title: "Chitrakatha",
-            names: [
-              "Sushmita Jha",
-              "Anahita Srivastava"
-            ],
-            img: "team/teamPhoto/chitrakatha.jpg",
-            description: ""
-          },
+          names: [
+            "Sushmita Jha",
+            "Anahita Srivastava"
+          ],
+          img: "team/teamPhoto/chitrakatha.jpg",
+          description: `Meet Sushmita Jha, Event Head of Chitrakatha. An ambitious JEE aspirant who thrives on cracking problems, sharing a love-hate bond with mathematics — dreading it as a beginner, loving it once mastered — channeling Rancho's "All is Well" spirit through the struggle. When challenges hit, she channels her inner Eren with a cry of "Tatakae!", keeping Chitrakatha organized as Captain Levi. A fiercely independent spirit, she's also a foodie devoted to biryani and puchkas, with a playlist looping endless Hindi tracks. Adventurous enough to travel, yet content staying home all day, she remains a proud, loyal Samsung user in an era of iphone duos. \n \n Meet Anahita Srivastava, a JEE aspirant with a vivacious nature who applies the sharp discipline of a karate black belt to complex calculus, though she still looks at a solved equation hoping for a victorious ‘Bazinga!’ moment. While she has stepped back from the competitive swimming circuit, she remains an avid swimmer at heart - even if the only deep end she’s diving into these days is a sea of mock tests. \n She brings that same infectious energy into every marathon study session, powering through late nights by keeping 10 Things I Hate About You and The Big Bang Theory on repeat to keep her spirits high. \n Yet, no matter how much she claims to despise the endless grind, every time she opens her HC Verma textbook, Kat’s iconic poem echoes in her mind: “I hate the way I don’t hate you, not even a little bit, not even at all.”`
+},
 
           {
             title: "Dharmasangram",
@@ -2739,7 +2892,7 @@
               "Shreenika Kundu"
             ],
             img: "team/teamPhoto/dharmasangram.jpg",
-            description: ""
+            description: "Meet *Prisha Arora* — bringing energy, confidence and beautifully organized chaos wherever she goes.  Unapologetically herself, she’s a certified yapper (nonchalant is just not in her dictionary) who can turn a “Hi” into her entire life story — and somehow, a random conversation into a full-blown debate. If feminism comes up, prepare for a crash course in real feminism. *Hazelnut coffee, blueberries, Rachel Green energy and Michael Jackson on repeat* — basically, the essentials.  If Donna Paulsen and Mal Bertha had a daughter, you’d probably get her. While she waits for *USPA* to realize sponsoring her is clearly their next best business decision, she’ll continue being her wonderfully chaotic, unapologetic self. \n \n Meet Shreenika Kundu, our dynamic Event Head of Debate. Shreenika is a confident, forward-thinking leader who is always ready to embrace new challenges with poise. Renowned for her exceptional multitasking abilities, she remains composed under pressure, handling even the most demanding situations with utmost politeness and grace. Her core strengths lie in strategic planning and seamless organization, ensuring every debate session is executed flawlessly. With an unyielding drive and sharp analytical mind, Shreenika is set to elevate this year’s event to new heights. Join us in welcoming a leader who truly embodies excellence !"
           },
 
           {
@@ -2749,7 +2902,8 @@
               "Arya Banerjee"
             ],
             img: "team/teamPhoto/swaranjali.jpg",
-            description: ""
+            description: `Meet Spriha Das, event head of Swaranjali. \n "With great power comes great responsibility." Well I just came here to play the keyboard. But somehow I ended up hosting the entire music event. \n That's la peace`
+
           },
 
           {
@@ -2768,7 +2922,7 @@
               "Alankrita Upadhyay"
             ],
             img: "team/teamPhoto/chromatica.jpg",
-            description: ""
+            description: `Meet Shaurya Kishore—Event Head of Chromatica at Cresco Scientiam 2026, unapologetic bio freak, and future surgeon. He never runs out of ATP, whether he’s smashing aces on the tennis court, grinding through NEET prep, or baking treats that turn out “morphologically bad.” \n Don't let his calm pianist exterior fool you. While he looks like he's in perfect resting potential at the keys, his synapses are firing like a high-speed centrifuge. A maestro catalyzing science and creativity, he orchestrates this fest with a surgeon's precision. Genetically wired for excellence, this catalytic force brings a highly infectious, dominant pulse to Chromatica! \n \n Alankrita is an ambitious, curious student who genuinely enjoys learning, especially Biology, and tends to throw herself wholeheartedly into whatever interests her. Naturally caring and fond of animals, she has a soft spot for the people and things she holds close. Her creative side finds expression in art and a modest attempt at guitar, while badminton and ENHYPEN occupy their own cherished corners of her world. Bypassing unnecessary overthinking, she remains a captivating individual who is undeniably beautiful both inside and out. Effortlessly pretty and occasionally slipping in a “nuh uh" in conversations, she is warm, passionate and delightfully chaotic, leaving her spark wherever she goes`
           },
 
           {
@@ -2778,7 +2932,7 @@
               "Aashna Goyal"
             ],
             img: "team/teamPhoto/corpus_vestigium.jpg",
-            description: ""
+            description: `Meet Vanshika: football obsessive, self-appointed photographer, guitar enthusiast, and full-time chaos, all rolled into one delightfully unpredictable package. As the event head of Forensics, she’s the definition of brains, talent, and aggressively good music taste, with Green Day and System of a Down permanently on her playlist. She’ll casually play a guitar cover of your favourite song just because she can—and because she’s cool like that. Shillong has her heart, and she’ll somehow bring it up no matter the topic. Give her a PS controller and she’s gone for hours, especially if RDR2 or Uncharted is involved. Her comfort-watch lineup includes Modern Family and House M.D. She can turn anything into a challenge, from sports to seeing how much spicy ramen she can survive before her eyes start watering. She’s also an unapologetic ragebaiter. Beneath all the chaos, she’s genuinely one of the sweetest and most dependable people around. \n \n Meet Aashna, she may look like a cinnamon roll, but don't get it twisted, she could absolutely kill you. Nonchalant and unbothered, she's intimidating without even trying, living by the wise words of Phil Dunphy. She's that brutally honest friend with zero filters (Jake Peralta who?). A sushi lover mildly obsessed with new Red Bull and Ben & Jerry's flavors, always nose-deep in a fantasy novel. Part-time poet, full-time hopeless romantic; her life advice is usually just "whatever floats your boat." Listens to Prateek Kuhad and Taylor Swift religiously, yaps about Lewis Hamilton nonstop, and can turn any chat into a full-blown debate.`
           },
 
           {
@@ -2788,7 +2942,7 @@
               "Anaya Afaaf"
             ],
             img: "team/teamPhoto/pi_infinitium.jpg",
-            description: ""
+            description: `Anshuman Sikaria is the Event Head of πINFINITIUM, a mathematics competition built to challenge participants beyond conventional classroom problem-solving. With a strong passion for mathematics and a fascination for unconventional, creative problems, Anshuman has played a central role in shaping the event’s structure, questions, and competitive spirit. His approach combines mathematical rigor with originality, aiming to make every round intellectually demanding while remaining engaging and accessible. Through πINFINITIUM, he seeks to create an environment where participants are encouraged to think differently, approach problems from multiple perspectives, and discover the deeper beauty of mathematics beyond formulas and routine methods. \n \n Meet Anaya Afaaf, the Event Head of Pi-Infinitium -who has the combined interests of a grandmother, a typical teen and a 9 year old child. You will either find her tangled with yarns and needles, submerged in the deep depths of fiction tucked between the pages of Harry Potter, Inheritance Games, Percy Jackson and anything and everything fantastical, or creating some or the other medley using paper, glue, pipes and colours. \n Her dream city being New York, her love for Marvel is indeed a questionable choice but equally enthralling. Being a die-hard fan of Stranger Things , she plays her favourite songs on loop just like Max! \n She may or may not snooze her alarms 15 times a day but still manage to complete her assignments on time-perfectionist and procrastinator- deadly combo for sure. \n Underestimated quite many times, she is armed with willpower,big dreams and musical instruments (both physically and metaphorically;) ). `
           },
 
           {
@@ -2798,7 +2952,7 @@
               "Sneha Panda"
             ],
             img: "team/teamPhoto/vox_futura.jpg",
-            description: ""
+            description: "Meet Vidhi Bhalotia, the kind of person who can turn even the most ordinary conversation into the funniest interaction ever. Equal parts chaotic and funny, she’s that one F.R.I.E.N.D. who will be there for you, no matter what. A massive Stranger Things fan and the biggest Swiftie you’ll ever meet, she lives by rom-coms and niche tv shows. When not discussing her favourite shows, she’s making playlists for situations that absolutely didn't need one. \n Her essentials, however, remain bhujia, suhali and Diet Coke, because apparently Diet Coke > oxygen. \n From coding as a hobby to painting, and bringing her digicam to every occasion, she’s always finding something new to get obsessed with. As the Event Head of Vox Futuri, Vidhi handles everything effortlessly. What, like it's hard? \n \n Sneha Panda, as the name suggests, is like a panda! She loves sleeping and lazing around. A lover of romcoms, sitcoms and horror movies, she enjoys getting lost in different worlds. Fluent in “brain-rot” since 2010, she can turn anything into brain-rot. Her obsession with Diet Coke, Ice Cream and Sushi is slightly concerning. She is, admittedly, a little narcissistic, but finds herself too entertaining to not be obsessed with herself. She tries to act nonchalant, but miserably fails every time. Her midnight yap sessions are incomplete without her “melodious” laugh (a personality trait of its own). Her music taste is questionable. When not reading or shooting hoops, she is an orator, debater and doing things “just for the plot.” As Event Head of Vox Futuri, she brings chaos and creativity."
           },
 
           {
@@ -2817,17 +2971,17 @@
               "Atri Pradhan"
             ],
             img: "team/teamPhoto/sylva_machina.jpg",
-            description: ""
+            description: "Meet Atri Pradhan, the Event Head for Sylva Machina at Cresco Scientiam 2026. A JEE aspirant by day and a 3 AM guitarist by night, he somehow finds time to build robots, build himself at the gym, and build everyone’s patience. When he’s not debugging machines or being cranky, he’s deep into MUN, books capable of ruining lives, the Constitution, or admiring himself—an activity he apparently considers self-care. His playlists range from Dave Mustaine and Western classical to Fossils and Shironamhin, because apparently even his music needs an identity crisis. A fan of *Mission: Impossible* and *10 Things I Hate About You*, Atri can handle anything—even a robot’s ESP dying minutes before competition, fuelled by nothing but Monster, questionable health choices, and sheer audacity."
           },
 
           {
             title: "Clamor Naturae",
             names: [
-              "Riddhima Bhowmik",
-              "Adwitiyaa Chandra"
+              "Adwitiyaa Chandra",
+              "Riddhima Bhowmik"
             ],
             img: "team/teamPhoto/clamor_naturae.jpg",
-            description: ""
+            description: "Meet Adwitiyaa Chandra, Event Head of Clamour Nature. Intelligent, quick-witted, and a learner, she is a whirlwind of creativity, energy, and enthusiasm. A JEE aspirant, professional violinist, political aficionado, and three-time Shotokan Karate Gold Medallist, she embodies artistic finesse and physical strength. She was also given the opportunity of participating in an inter-house swimming competition back in middle school.She has also earned awards in skating, racing, and tennis. An avid mystery reader, she has participated in multiple English Olympiads and is writing her second mystery novel. Inspired by Swami Vivekananda’s words, “Arise, awake, and do not stop until the goal is reached,” she strives for excellence. \n \n Riddhima Bhowmik, Event Head of Clamor Naturae, is a transcendent polymath whose commanding vocal prowess, artistic finesse in drawing, & versatile intellectual depth exert an indelible impression.\n Her distinct professional ethos is defined by uncompromising candor — wielding sharp acumen to elevate standards, remaining impervious to detraction, & extending benevolent encouragement to peers.Beyond a remarkable background in Karate, Bharatanatyam, & a passion for reading & singing, she brings inspiring leadership & creative vision to her role. Also been a vocalist in the school choir, she has distinguished herself across numerous events as a singer & in diverse creative disciplines, & is a three-time Gold Medalist in Drawing. Grounded & hardworking, she approaches every duty with gravitas, striving to become her best self & contribute for nation's betterment. She does not merely command the stage; she redefines it."
           },
 
           {
@@ -2847,7 +3001,7 @@
               "Meher Bhurji"
             ],
             img: "team/teamPhoto/genesis_nova.jpg",
-            description: ""
+            description: "Meet Maisha Jalota, self-proclaimed Assistant (to the) Regional Manager, and Event Head of Genesis Nova. When she’s not writing articles on neuroscience or working on becoming multilingual before she even hits legal age, you’ll find her reviewing a movie on her meticulously curated Letterboxd. While some people may call her a hoarder, she calls it being a “collector” — she has a concerning tendency to assign sentimental value to completely useless objects. Smart, funny (so she thinks), and always ready to nerd out, she cares deeply about the people she loves — the only inconvenience is that she’s left-handed. \n “gà chết” \n \n Meet Meher Bhurji, lead vocalist of Afterglow and Event Head of Genesis Nova. A huge Marvel nerd, with comic panels practically imprinted inside her head, there's very little you can get past her. When she's not on stage, she's usually practicing the violin or working on yet another unfinished draft on Substack. With a room full of posters ranging from Bowie to the Arctic Monkeys, she can almost always be found humming a guitar riff under her breath. A longtime true crime enthusiast with a keen interest in genetics, she aims to seek out a career in forensics and anything that involves the unsolved and unknown. Always standing out in a room — but really that's because she's 5'9 — she adapts to her surroundings and aims to keep evolving every day, much like the participants of this event will be expected to do."
           },
 
           {
@@ -2857,7 +3011,7 @@
               "Ishaan Mukherjee"
             ],
             img: "team/teamPhoto/ventus_lapidum.jpg",
-            description: ""
+            description: "Introducing Ishaan Mukherjee, the Event Head for Ventus Lapidum — the guy whom you’ll find one moment offering his age-old wisdom and the next making the most deadpan joke known to mankind. \n Curious, intellectual, versatile, and a Culer for life, Ishaan thrives in the understated second half — “though oftentimes better than a master of one” — of the famous proverb. With a fondness for physics and computers, he enjoys solving problems almost as much as questioning why they exist. On his day off, he’s probably listening to David Gilmour on the guitar or watching a movie with four plot twists. A semi-pro at everything from music production to German, he believes getting good at any of it is too much effort. At some point, a man has to say, “lyadh lagche boss.”"
           },
 
           {
@@ -2866,7 +3020,7 @@
               "Mansi Agarwal"
             ],
             img: "team/teamPhoto/aurora_interface.jpg",
-            description: ""
+            description: "Meet Mansi Agarwal, the Event Head of Aurora Interface! \n Give her enough motivation and she’ll pick up almost anything at an alarmingly fast pace. She loves going out, chasing new experiences, and travelling absolutely anywhere, even if she’s constantly torn between “let’s go!” and “I’m too lazy to get up.” \n Thrill rides? Absolutely. The more terrifying, the better—especially with that completely unhinged smile. She lives by “it seemed like a good idea at the time” and has mastered the art of going with it. \n Her watchlist is a mix of Young Sheldon, Modern Fanily, and the occasional 2000s classic, while her music taste is a little bit of everything. She can sleep practically anywhere, but surviving the heat? Absolutely not."
           }
 
         ]
@@ -2895,7 +3049,7 @@
               "Shrinanda Nandi"
             ],
             img: "team/teamPhoto/logistics.jpg",
-            description: ""
+            description: "Introducing Shrinanda Nandi, the logistics head with a sense of humour defined by pure sarcasm and deadpan delivery. Ever the friend who has your back at all times, she brings determination and grit to every room she walks into. As a hardcore fan of ZNMD and the thrill of travel, she loves to create. From heartwarming essays to mindblowing poems, and pure excellence both on and beyond the sports field, she is literally the jack-of-all-trades in Cresco. \n Inspiring, funny, and passionate, Shrinanda is your no-nonsense chief who somehow manages to have everything under control, a completed to-do list, and a coffee on her desk waiting for her next challenge. \n Inspiring, funny, and passionate, Shrinanda is your no-nonsense chief who somehow manages to have everything under control, a completed to-do list, and a coffee on her desk waiting for her next challenge."
           },
 
           {
@@ -2904,7 +3058,7 @@
               "Zoya Agasti"
             ],
             img: "team/teamPhoto/correspondence.jpg",
-            description: ""
+            description: `Meet Zoya, the Correspondence Head of Cresco ! \n Give her a conversation and she’ll probably turn it into a full-fledged discussion before you know it. She loves meeting people, talking to just about anyone, and somehow always has something to say. When she’s not enthusiastically socialising, she can be found making reels, scrolling through her phone, or enjoying her favourite activity—doing absolutely nothing. \n A proud fan of "Yeh Jawaani Hai Deewani", she’s all for friendship, adventures, and making memories. She may be a little lazy and exceptionally picky about food, but her energy, creativity, and enthusiasm make her hard to miss.`
           },
 
           {
@@ -2922,13 +3076,12 @@
               "Kimaya Bhagtani"
             ],
             img: "team/teamPhoto/hospitality.jpg",
-            description: ""
+            description: "Meet Kimaya Bhagtani, Stepping into the role of Hospitality Head for an event we’ve been working towards! Excited to welcome, coordinate, and make this experience memorable. Here’s to the hard work, the chaos, the teamwork, and an amazing event ahead!"
           },
 
           {
             title: "Social Media Admin",
             names: [
-              "Hridhan Singh",
               "Pratirup Ghosh"
             ],
             img: "team/teamPhoto/social_media.jpg",
@@ -2941,7 +3094,7 @@
               "Sushrut Banerjee"
             ],
             img: "team/teamPhoto/event_admin.jpg",
-            description: ""
+            description: `Introducing Sushrut Banerjee, the Event Admin of Cresco. One of the biggest nerds in cresco, if he isnt boring you out with his extensive knowledge on Marvel or with his corny jokes you will find him solving hammering his head over complex maths problems. As an overachiever he lives by the lines "Reach for the stars so if you fall you land on a cloud." said by his favourite artist Kanye West. Outside of academics you'll find that he's a techie with a keen ear for good music, a knack for collecting odd things and an unhealthy addiction to valorant as well as coffee. However dont ask about his skills in sports because according to him some battles are meant to be lost......`
           }
 
         ]
@@ -3220,6 +3373,9 @@
     const modalClose =
       document.getElementById('modalClose');
 
+    const modalCard =
+      profileModal.querySelector('.modal-card');
+
 
     function openProfile(sectionIndex, boxIndex) {
 
@@ -3258,15 +3414,30 @@
           .join('');
 
 
-      /* DESCRIPTION */
+      /* DESCRIPTION — a blank line starts a new paragraph */
 
-      modalDescription.textContent =
-        box.description || '';
+      const paragraphs =
+        (box.description || '')
+          .split(/\n\s*\n/)
+          .map(part => part.trim())
+          .filter(Boolean);
+
+      modalDescription.innerHTML =
+        paragraphs
+          .map(
+            part =>
+              `<p>${escapeHtml(part).replace(/\n/g, '<br>')}</p>`
+          )
+          .join('');
 
       modalDescription.classList.toggle(
         'empty',
-        !box.description
+        paragraphs.length === 0
       );
+
+      /* Always start reading from the top */
+      modalDescription.scrollTop = 0;
+      modalCard.scrollTop = 0;
 
 
       /* IMAGE */
@@ -3285,6 +3456,12 @@
 
       modalImage.alt =
         box.title;
+
+      /* Blurred backdrop behind the uncropped photo */
+      modalImage.parentElement.style.setProperty(
+        '--photo',
+        `url("${box.img}")`
+      );
 
       modalImage.onerror = function () {
 
