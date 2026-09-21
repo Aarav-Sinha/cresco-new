@@ -2219,6 +2219,90 @@
   }
 </style>
 
+<!-- =========================================================
+     INTERACTIVE MODAL NAMES
+     Names in the profile window are tabs. Clicking a name
+     shows that person's own description.
+========================================================== -->
+<style id="interactive-modal-names">
+  .name-badge {
+    cursor: pointer;
+    transition: color .25s ease;
+  }
+
+  .name-badge:hover {
+    color: var(--electric);
+  }
+
+  .modal-name {
+    font-family: inherit;
+    cursor: pointer;
+
+    transition:
+      background .25s ease,
+      border-color .25s ease,
+      color .25s ease,
+      transform .2s ease,
+      box-shadow .25s ease;
+  }
+
+  span.modal-name.solo {
+    cursor: default;
+  }
+
+  button.modal-name {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  button.modal-name:hover {
+    background: rgba(94,224,255,.14);
+    border-color: rgba(94,224,255,.45);
+    transform: translateY(-1px);
+  }
+
+  button.modal-name:focus-visible {
+    outline: 2px solid var(--electric);
+    outline-offset: 2px;
+  }
+
+  button.modal-name.active {
+    background: var(--electric);
+    border-color: var(--electric);
+    color: var(--ink);
+    box-shadow: 0 0 22px rgba(94,224,255,.28);
+  }
+
+  .modal-hint {
+    flex-shrink: 0;
+
+    margin: -10px 0 20px;
+
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+
+    color: var(--faint);
+  }
+
+  .modal-description.swap {
+    animation: bioIn .45s cubic-bezier(.16,1,.3,1);
+  }
+
+  @keyframes bioIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
 </head>
 
 
@@ -2526,9 +2610,16 @@
           Team Member
         </h2>
 
+        <!-- Names are tabs when a box has more than one person -->
         <div
           class="modal-names"
           id="modalNames"
+        ></div>
+
+        <div
+          class="modal-hint"
+          id="modalHint"
+          hidden
         ></div>
 
         <div class="modal-rule"></div>
@@ -2537,6 +2628,7 @@
         <div
           class="modal-description"
           id="modalDescription"
+          role="tabpanel"
           tabindex="0"
         ></div>
 
@@ -2796,6 +2888,14 @@
          Second paragraph.
 
          Third paragraph.`
+
+       BOXES WITH SEVERAL PEOPLE (event heads):
+       put each person's description in the same string, separated
+       by a blank line (or "\n \n"). Each person's text must mention
+       their name — it is matched to the name buttons automatically.
+       If you ever need full control, add an optional field:
+
+         bios: { "Full Name": "their description" }
   ======================================================== -->
 
   <script>
@@ -3039,7 +3139,7 @@
             title: "IT Head",
             names: ["Aarav Sinha"],
             img: "team/teamPhoto/it.jpg",
-            description: ""
+            description: "Meet Aarav Sinha, the IT Head of Cresco Scientiam 2026 - a tech enthusiast with an uncanny ability to make complicated code look almost suspiciously easy. When he’s not buried in lines of code, solving problems or keeping Cresco’s digital side from falling apart, you’ll probably find him enjoying food, cricket  or simply being his effortlessly goofy self. Sharp, dependable  and endlessly creative, Aarav is the kind of person you can count on when technology decides to stop cooperating five minutes before a deadline. Whether he’s debugging a programme, fixing a crisis or making everyone laugh at exactly the right moment, Aarav brings equal parts brilliance, humour, and calm chaos to everything he does."
           },
 
           {
@@ -3171,11 +3271,13 @@
 
     function renderBox(box, sectionIndex, boxIndex) {
 
+      // Each badge carries its index so a click on a name on the
+      // card can open the profile on that exact person.
       const badgesHtml =
         box.names
           .map(
-            name =>
-              `<div class="name-badge">
+            (name, nameIndex) =>
+              `<div class="name-badge" data-name="${nameIndex}">
                 ${escapeHtml(name)}
               </div>`
           )
@@ -3365,6 +3467,9 @@
     const modalNames =
       document.getElementById('modalNames');
 
+    const modalHint =
+      document.getElementById('modalHint');
+
     const modalDescription =
       document.getElementById(
         'modalDescription'
@@ -3377,48 +3482,145 @@
       profileModal.querySelector('.modal-card');
 
 
-    function openProfile(sectionIndex, boxIndex) {
+    /* -------------------------------------------------------
+       SPLIT ONE DESCRIPTION INTO PER-PERSON BIOS
+    -------------------------------------------------------- */
 
-      const box =
-        TEAM_SECTIONS[
-          sectionIndex
-        ].boxes[
-          boxIndex
-        ];
+    function escapeRegex(value) {
 
-      if (!box) return;
+      return value.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        '\\$&'
+      );
 
+    }
 
-      /* ROLE */
+    function getBios(box) {
 
-      modalLabel.textContent =
-        box.title;
+      const names = box.names;
 
+      const bios = names.map(() => '');
 
-      /* TITLE */
+      // Optional override:  bios: { "Full Name": "text" }
+      if (box.bios) {
 
-      modalTitle.textContent =
-        box.title;
+        names.forEach((name, i) => {
 
+          if (box.bios[name]) {
+            bios[i] = box.bios[name];
+          }
 
-      /* NAMES */
+        });
 
-      modalNames.innerHTML =
-        box.names
-          .map(
-            name =>
-              `<span class="modal-name">
-                ${escapeHtml(name)}
-              </span>`
-          )
-          .join('');
+        return bios;
 
+      }
 
-      /* DESCRIPTION — a blank line starts a new paragraph */
+      const raw =
+        (box.description || '').trim();
 
-      const paragraphs =
-        (box.description || '')
+      if (!raw) return bios;
+
+      // One person: the whole description is theirs
+      if (names.length === 1) {
+
+        bios[0] = raw;
+
+        return bios;
+
+      }
+
+      // Several people: a blank line separates one person from the
+      // next. Each chunk goes to whichever name appears first in it.
+      const chunks =
+        raw
           .split(/\n\s*\n/)
+          .map(part => part.trim())
+          .filter(Boolean);
+
+      const used = new Set();
+      const leftover = [];
+
+      chunks.forEach(chunk => {
+
+        let best = -1;
+        let bestPos = Infinity;
+
+        names.forEach((name, i) => {
+
+          if (used.has(i)) return;
+
+          const first = name.split(' ')[0];
+
+          const positions =
+            [name, first]
+              .map(term =>
+                chunk.search(
+                  new RegExp(
+                    '\\b' + escapeRegex(term) + '\\b',
+                    'i'
+                  )
+                )
+              )
+              .filter(pos => pos >= 0);
+
+          if (!positions.length) return;
+
+          const pos = Math.min(...positions);
+
+          if (pos < bestPos) {
+            bestPos = pos;
+            best = i;
+          }
+
+        });
+
+        if (best >= 0) {
+
+          bios[best] = chunk;
+          used.add(best);
+
+        } else {
+
+          leftover.push(chunk);
+
+        }
+
+      });
+
+      // A chunk with no recognisable name fills the next empty slot
+      leftover.forEach(chunk => {
+
+        const free =
+          bios.findIndex(bio => !bio);
+
+        if (free >= 0) {
+          bios[free] = chunk;
+        }
+
+      });
+
+      return bios;
+
+    }
+
+
+    /* -------------------------------------------------------
+       MODAL STATE
+    -------------------------------------------------------- */
+
+    let activeBox = null;
+    let activeBios = [];
+    let activeName = 0;
+
+
+    function renderBio(text, animate) {
+
+      // Every line break starts a new paragraph.
+      // *text* is shown as italics.
+      const paragraphs =
+        (text || '')
+          .split(/\n+/)
           .map(part => part.trim())
           .filter(Boolean);
 
@@ -3426,7 +3628,7 @@
         paragraphs
           .map(
             part =>
-              `<p>${escapeHtml(part).replace(/\n/g, '<br>')}</p>`
+              `<p>${escapeHtml(part).replace(/\*([^*]+)\*/g, '<em>$1</em>')}</p>`
           )
           .join('');
 
@@ -3437,6 +3639,209 @@
 
       /* Always start reading from the top */
       modalDescription.scrollTop = 0;
+
+      if (animate) {
+
+        modalDescription.classList.remove('swap');
+
+        // force a reflow so the animation restarts
+        void modalDescription.offsetWidth;
+
+        modalDescription.classList.add('swap');
+
+      }
+
+    }
+
+
+    function selectPerson(index, animate = true) {
+
+      activeName = index;
+
+      modalNames
+        .querySelectorAll('.modal-name[data-index]')
+        .forEach(chip => {
+
+          const on =
+            Number(chip.dataset.index) === index;
+
+          chip.classList.toggle('active', on);
+
+          chip.setAttribute(
+            'aria-selected',
+            String(on)
+          );
+
+          chip.tabIndex = on ? 0 : -1;
+
+        });
+
+      renderBio(
+        activeBios[index],
+        animate
+      );
+
+    }
+
+
+    function renderNameChips(box, activeIndex) {
+
+      const multi = box.names.length > 1;
+
+      modalNames.setAttribute(
+        'role',
+        multi ? 'tablist' : 'group'
+      );
+
+      modalNames.innerHTML =
+        box.names
+          .map((name, i) =>
+
+            multi
+
+              ? `<button
+                    type="button"
+                    role="tab"
+                    class="modal-name${i === activeIndex ? ' active' : ''}"
+                    data-index="${i}"
+                    aria-selected="${i === activeIndex}"
+                    tabindex="${i === activeIndex ? 0 : -1}"
+                  >
+                    ${escapeHtml(name)}
+                  </button>`
+
+              : `<span class="modal-name solo">
+                    ${escapeHtml(name)}
+                  </span>`
+
+          )
+          .join('');
+
+      modalHint.hidden = !multi;
+
+      modalHint.textContent =
+        multi
+          ? ''
+          : '';
+
+    }
+
+
+    /* CLICK A NAME IN THE MODAL */
+
+    modalNames.addEventListener(
+      'click',
+      event => {
+
+        const chip =
+          event.target.closest(
+            '.modal-name[data-index]'
+          );
+
+        if (!chip) return;
+
+        selectPerson(
+          Number(chip.dataset.index)
+        );
+
+      }
+    );
+
+
+    /* ARROW KEYS SWITCH BETWEEN NAMES */
+
+    modalNames.addEventListener(
+      'keydown',
+      event => {
+
+        if (
+          event.key !== 'ArrowRight' &&
+          event.key !== 'ArrowLeft'
+        ) {
+          return;
+        }
+
+        if (
+          !activeBox ||
+          activeBox.names.length < 2
+        ) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const step =
+          event.key === 'ArrowRight' ? 1 : -1;
+
+        const total =
+          activeBox.names.length;
+
+        const next =
+          (activeName + step + total) % total;
+
+        selectPerson(next);
+
+        modalNames
+          .querySelector(
+            `[data-index="${next}"]`
+          )
+          .focus();
+
+      }
+    );
+
+
+    /* -------------------------------------------------------
+       OPEN / CLOSE
+    -------------------------------------------------------- */
+
+    function openProfile(sectionIndex, boxIndex, nameIndex = null) {
+
+      const box =
+        TEAM_SECTIONS[
+          sectionIndex
+        ].boxes[
+          boxIndex
+        ];
+
+      if (!box) return;
+
+      activeBox = box;
+      activeBios = getBios(box);
+
+
+      /* Start on the clicked name, otherwise on the
+         first person who actually has a description */
+
+      const start =
+        nameIndex !== null
+          ? nameIndex
+          : Math.max(
+              0,
+              activeBios.findIndex(Boolean)
+            );
+
+
+      /* ROLE + TITLE */
+
+      modalLabel.textContent =
+        box.title;
+
+      modalTitle.textContent =
+        box.title;
+
+
+      /* NAMES + DESCRIPTION */
+
+      renderNameChips(box, start);
+
+      activeName = start;
+
+      renderBio(
+        activeBios[start],
+        false
+      );
+
       modalCard.scrollTop = 0;
 
 
@@ -3508,7 +3913,9 @@
     }
 
 
-    /* CARD CLICK */
+    /* CARD CLICK
+       Clicking a name on the card opens that person's
+       description; clicking anywhere else opens the box. */
 
     document
       .getElementById('teamContent')
@@ -3523,9 +3930,17 @@
 
           if (!card) return;
 
+          const badge =
+            event.target.closest(
+              '.name-badge'
+            );
+
           openProfile(
             Number(card.dataset.section),
-            Number(card.dataset.box)
+            Number(card.dataset.box),
+            badge
+              ? Number(badge.dataset.name)
+              : null
           );
 
         }
